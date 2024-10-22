@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 class PC {
-    String name;
-    String ip;
-    String subnetMask;
-    String mac;
+    private String name;
+    private String ip;
+    private String subnetMask;
+    private String mac;
 
     public String getName() {
         Scanner in = new Scanner(System.in);
@@ -47,14 +47,15 @@ public class Main {
     public static void main(String[] args) {
         PC pc0 = new PC();
 
-        pc0.getName();
-        pc0.getIpAddress();
-        pc0.getSubnetMask();
-        pc0.getMAC();
+        String pc0Name = pc0.getName();
+        String pc0IP = pc0.getIpAddress();
+        String pc0SubnetMask = pc0.getSubnetMask();
+        String pc0MAC = pc0.getMAC();
 
-        System.out.println("Name for PC: " + pc0.name);
-        System.out.println("IP address for " + pc0.name + ": " + pc0.ip);
-        System.out.println("Subnet mask for PC0: " + pc0.subnetMask);
+        System.out.println("Name for PC: " + pc0Name);
+        System.out.println("IP address for " + pc0Name + ": " + pc0IP);
+        System.out.println("Subnet mask for " + pc0Name + ": " + pc0SubnetMask);
+        System.out.println("MAC address for " + pc0Name + ": " + pc0MAC);
 
         //Scanner in = new Scanner(System.in);
 
