@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+// Questions:
+// 1. Can I have print statements within class methods?
+// 2. Can I wrap all the get functions into a class method?
+// 3. Can I print out all the variables within a class method?
+
 class PC {
     private String name;
     private String ip;
@@ -41,34 +46,27 @@ class PC {
 
         return mac;
     }
+
+    public void getDetails() {
+        name = getName();
+        ip = getIpAddress();
+        subnetMask = getSubnetMask();
+        mac = getMAC();
+    }
+
+    public void printDetails() {
+        System.out.println("Name for PC: " + name);
+        System.out.println("IP address for " + name + ": " + ip);
+        System.out.println("Subnet mask for " + name + ": " + subnetMask);
+        System.out.println("MAC address for " + name + ": " + mac);
+    }
+
 }
 
 public class Main {
     public static void main(String[] args) {
         PC pc0 = new PC();
-
-        String pc0Name = pc0.getName();
-        String pc0IP = pc0.getIpAddress();
-        String pc0SubnetMask = pc0.getSubnetMask();
-        String pc0MAC = pc0.getMAC();
-
-        System.out.println("Name for PC: " + pc0Name);
-        System.out.println("IP address for " + pc0Name + ": " + pc0IP);
-        System.out.println("Subnet mask for " + pc0Name + ": " + pc0SubnetMask);
-        System.out.println("MAC address for " + pc0Name + ": " + pc0MAC);
-
-        //Scanner in = new Scanner(System.in);
-
-        //System.out.println("Enter name for PC: ");
-        //pc0.name  = in.nextLine();
-        //System.out.println("Name for PC: " + pc0.name);
-
-        //System.out.println("Enter IP address for " + pc0.name + ":");
-        //pc0.ip  = in.nextLine();
-        //System.out.println("IP address for PC0: " + pc0.ip);
-
-        //System.out.println("Enter subnet mask for " + pc0.name + ":");
-        //pc0.subnetMask  = in.nextLine();
-        //System.out.println("Subnet mask for " + pc0.subnetMask);
+        pc0.getDetails();
+        pc0.printDetails();
     }
 }
