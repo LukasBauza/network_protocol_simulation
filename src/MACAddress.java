@@ -14,7 +14,7 @@ public class MACAddress {
         }
     }
 
-    public String getMacAddress() {
+    public String getMACAddress() {
         return macAddress;
     }
 

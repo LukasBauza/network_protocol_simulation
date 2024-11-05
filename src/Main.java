@@ -23,19 +23,16 @@ public class Main {
         System.out.print("Please enter the MAC address for " + name1 + ": ");
         String macInput1 = scanner.nextLine();
         MACAddress mac1 = createMAC(macInput1);
-        System.out.print("This is the MAC address for " + name1 + ": " + mac1.getMacAddress());
+        System.out.println("This is the MAC address for " + name1 + ": " + mac1.getMACAddress());
 
         PC pc1 = new PC(name1, ip1, mac1);
 
-        System.out.println("Here is all the details of the PC");
-        System.out.println(pc1.getName());
+        System.out.println("Here is all the details of " + pc1.getName() + ": ");
         System.out.println(pc1.getIpAddress().getIPAddress());
-        System.out.println(pc1.getMacAddress().getMacAddress());
+        System.out.println(pc1.getMacAddress().getMACAddress());
 
     }
 
-    // TODO: can i have the try and catch statements within the class instead, so
-    //      i wont have to do it in main all the time?
     public static IPAddress createIP(String ipAddressString) {
         // tries to create an IPAddress, if it doesn't work then it will catch
         //      the error from within the class and prints it out here.
