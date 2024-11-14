@@ -1,35 +1,77 @@
+import java.util.ArrayList;
 import java.util.Scanner;
-
-// Questions:
-// 1. Can I have print statements within class methods?
-// 2. Can I wrap all the get functions into a class method?
-// 3. Can I print out all the variables within a class method?
-// 4. Should you have data validation for a class within the class or in main?
-// 5. Should I have an array to be the input of the object, or individual values that
-// will be stored in an array?
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // -----------------------------------------
+        // Menu implementation for allowing the user to select what they want to do within the application.
+        //PC[] pcArray = new PC[10];
+        ArrayList<PC> pcList = new ArrayList<>();
 
-        System.out.print("Please enter the name for the PC: ");
-        String name1 = scanner.nextLine();
+        int option;
+        do {
+            System.out.println("Welcome to the PING protocol simulation. Please select and option from below:");
+            System.out.println("1. Create PC");
+            System.out.println("2. Delete PC");
+            System.out.println("3. List PC's");
+            System.out.println("4. PING between two PC's");
+            System.out.println("5. Exit");
+            Scanner scanner = new Scanner(System.in);
+            option = Integer.parseInt(scanner.nextLine());
 
-        System.out.print("Please enter the IP address for " + name1 + ": ");
-        String ipInput1 = scanner.nextLine();
-        IPAddress ip1 = createIP(ipInput1);
-        System.out.println("This is the IP address for " + name1 + ": " + ip1.getIPAddress());
+            switch (option) {
+                case 1:
+                    pcList.add(createPC());
+                    break;
+                case 2:
+                    // This will need to show a list of PC's where the user can select what PC to delete.
+                    System.out.println("Select a PC to delete");
+                    for(int i = 0; i < pcList.size(); i++) {
+                        // Prints the name of the details of the PC
+                        PC pc = pcList.get(i);
+                        System.out.println(i + " " + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
+                    }
+                    int selection = Integer.parseInt(scanner.nextLine());
+                    pcList.remove(selection);
+                    break;
+                case 3:
+                    for(int i = 0; i < pcList.size(); i++) {
+                        // Prints the name of the PC
+                        PC pc = pcList.get(i);
+                        System.out.println(i + " " + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
+                    }
+                    break;
+                case 4:
+                    System.out.println("Not finished");
+                    break;
+                case 5:
+                    System.out.println("Bye");
+                    break;
+            }
+        } while (option != 5);
 
-        System.out.print("Please enter the MAC address for " + name1 + ": ");
-        String macInput1 = scanner.nextLine();
-        MACAddress mac1 = createMAC(macInput1);
-        System.out.println("This is the MAC address for " + name1 + ": " + mac1.getMACAddress());
+        // -----------------------------------------
 
-        PC pc1 = new PC(name1, ip1, mac1);
+        //Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Here is all the details of " + pc1.getName() + ": ");
-        System.out.println(pc1.getIpAddress().getIPAddress());
-        System.out.println(pc1.getMacAddress().getMACAddress());
+        //System.out.print("Please enter the name for the PC: ");
+        //String name1 = scanner.nextLine();
+
+        //System.out.print("Please enter the IP address for " + name1 + ": ");
+        //String ipInput1 = scanner.nextLine();
+        //IPAddress ip1 = createIP(ipInput1);
+        //System.out.println("This is the IP address for " + name1 + ": " + ip1.getIpAddress());
+
+        //System.out.print("Please enter the MAC address for " + name1 + ": ");
+        //String macInput1 = scanner.nextLine();
+        //MACAddress mac1 = createMAC(macInput1);
+        //System.out.println("This is the MAC address for " + name1 + ": " + mac1.getMacAddress());
+
+        //PC pc1 = new PC(name1, ip1, mac1);
+
+        //System.out.println("Here is all the details of " + pc1.getName() + ": ");
+        //System.out.println(pc1.getIpAddress().getIpAddress());
+        //System.out.println(pc1.getMacAddress().getMacAddress());
 
     }
 
@@ -71,5 +113,30 @@ public class Main {
         } while (!valid);
 
         return new MACAddress(macAddressString);
+    }
+
+    public static PC createPC() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Please enter the name for the PC: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Please enter the IP address for " + name + ": ");
+        String ipInput = scanner.nextLine();
+        IPAddress ip = createIP(ipInput);
+        System.out.println("This is the IP address for " + name + ": " + ip.getIpAddress());
+
+        System.out.print("Please enter the MAC address for " + name + ": ");
+        String macInput = scanner.nextLine();
+        MACAddress mac = createMAC(macInput);
+        System.out.println("This is the MAC address for " + name + ": " + mac.getMacAddress());
+
+        PC pc = new PC(name, ip, mac);
+
+        System.out.println("Here is all the details of " + pc.getName() + ": ");
+        System.out.println(pc.getIpAddress().getIpAddress());
+        System.out.println(pc.getMacAddress().getMacAddress());
+
+        return pc;
     }
 }

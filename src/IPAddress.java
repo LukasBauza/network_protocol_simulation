@@ -5,22 +5,22 @@ public class IPAddress {
         // constructor used for checking that each segment is the right type and in the right range.
         //      if a wrong type is entered, it will throw out an error into main, which
         //      can be caught and used for error handling.
-        if (validIPAddress(ipAddress)) {
+        if (validIpAddress(ipAddress)) {
             this.ipAddress = ipAddress;
         } else {
             throw new IllegalArgumentException("Each segment must be between 0 and 255.");
         }
     }
 
-    public String getIPAddress() {
+    public String getIpAddress() {
         return ipAddress;
     }
 
-    public void setIPAddress(String ipAddress) {
+    public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
-    private boolean validIPAddress(String ipAddress) {
+    private boolean validIpAddress(String ipAddress) {
         // used for checking if the entered IP address is in the correct
         // format
 

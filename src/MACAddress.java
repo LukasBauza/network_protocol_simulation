@@ -7,22 +7,22 @@ public class MACAddress {
         // constructor used for checking that each segment is the right type and in the right range.
         //      if a wrong type is entered, it will throw out an error into main, which
         //      can be caught and used for error handling.
-        if (validMACAddress(macAddress)) {
+        if (validMacAddress(macAddress)) {
             this.macAddress = macAddress;
         } else {
             throw new IllegalArgumentException("Each segment must be between 0 and FF.");
         }
     }
 
-    public String getMACAddress() {
+    public String getMacAddress() {
         return macAddress;
     }
 
-    public void setMACAddress(String macAddress) {
+    public void setMacAddress(String macAddress) {
         this.macAddress = macAddress;
     }
 
-    private boolean validMACAddress(String macAddress) {
+    private boolean validMacAddress(String macAddress) {
         // used for checking if the entered MAC address is in the correct
         // format
 
