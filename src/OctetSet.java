@@ -1,3 +1,4 @@
+// TODO: Finish this parent class for IP and MAC classes.
 public abstract class OctetSet {
     // an abstract class cannot have instances, this is because you wouldn't have an instance of an OctetSet within
     // a network simulation.
