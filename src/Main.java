@@ -9,14 +9,10 @@ public class Main {
 
         int option;
         do {
-//            System.out.println("Welcome to the PING protocol simulation. Please select and option from below:");
-//            System.out.println("1. Create PC");
-//            System.out.println("2. Delete PC");
-//            System.out.println("3. Show PC's");
-//            System.out.println("4. PING between two PC's");
-//            System.out.println("5. Exit");
-
-            showMenu(pcList);
+            System.out.print("########################################\n");
+            System.out.print("Welcome to the PING protocol simulation.\n");
+            System.out.print("########################################\n\n");
+            printMenu(pcList);
 
             Scanner scanner = new Scanner(System.in);
             option = Integer.parseInt(scanner.nextLine());
@@ -29,11 +25,6 @@ public class Main {
                 case 2:
                     // This will need to show a list of PC's where the user can select what PC to delete.
                     System.out.println("Select a PC to delete");
-                    for(int i = 0; i < pcList.size(); i++) {
-                        // Prints the name of the details of the PC
-                        PC pc = pcList.get(i);
-                        System.out.println(i + " " + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
-                    }
                     int selection = Integer.parseInt(scanner.nextLine());
                     pcList.remove(selection);
                     break;
@@ -57,6 +48,9 @@ public class Main {
                 default:
                     System.out.println("Invalid option");
             }
+
+            // Print the menu after an action has been taken by the user.
+            //printMenu(pcList);
         } while (option != 5);
 
     }
@@ -126,20 +120,17 @@ public class Main {
         return pc;
     }
 
-    public static void showMenu(ArrayList<PC> pcList) {
+    public static void printMenu(ArrayList<PC> pcList) {
         // Options displayed for the user to choose on what actions they want to take.
         String[] menuOptions = {
-                "1. Create device",
-                "2. Delete device",
-                "3. Select device",
-                "4. Exit Program "
+                "Create device",
+                "Delete device",
+                "Select device",
+                "Exit Program "
         };
 
-        System.out.print("########################################\n");
-        System.out.print("Welcome to the PING protocol simulation.\n");
-        System.out.print("########################################\n\n");
         System.out.print("------------------------------------------------------------------------------------\n");
-        System.out.println("Options     \t\t\t\t| List of PC's");
+        System.out.println("Options     \t\t\t| List of PC's");
         System.out.print("------------------------------------------------------------------------------------\n");
 
         // Picks the largest array/list to iterate through and prints out all of the options from the menu as well as
@@ -148,13 +139,18 @@ public class Main {
 
             if (i < menuOptions.length) {
                 // This is for printing out the menu and the devices.
-                System.out.println(menuOptions[i] + "\t\t\t" + "|");
+                System.out.print(i+1 + " " + menuOptions[i] + "\t\t\t" + "|");
             }
             if (i < pcList.size()) {
                 // This is for printing out the devices only, once all of the options are printed.
                 PC pc = pcList.get(i);
-                System.out.println(pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
+                System.out.print(" " + i+1 + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
             }
+            // Print a new line after every line.
+            System.out.println();
         }
+
+        // Some space for user input and the menu.
+        System.out.println();
     }
 }
