@@ -7,51 +7,100 @@ public class Main {
 
         ArrayList<PC> pcList = new ArrayList<>();
 
-        int option;
+        System.out.print("########################################\n");
+        System.out.print("Welcome to the PING protocol simulation.\n");
+        System.out.print("########################################\n\n");
+
+        String menu = "main";
+        int exit = 0;
+        int option = -1;
+        int pcSelection = -1;
+        Scanner scanner = new Scanner(System.in);
+
         do {
-            System.out.print("########################################\n");
-            System.out.print("Welcome to the PING protocol simulation.\n");
-            System.out.print("########################################\n\n");
-            printMenu(pcList);
+            if (menu.equals("main")) {
+                printMainMenu(pcList);
+                option = scanner.nextInt();
 
-            Scanner scanner = new Scanner(System.in);
-            option = Integer.parseInt(scanner.nextLine());
+                switch (option) {
+                    // Create device
+                    case 1:
+                        pcList.add(createPC());
+                        break;
 
-            switch (option) {
-                case 1:
-                    pcList.add(createPC());
-                    break;
+                    case 2:
+                        // Delete device
+                        // This will need to show a list of PC's where the user can select what PC to delete.
+                        System.out.println("Select a PC to delete");
+                        // -1 becuase it is based on the index of the ArrayList of the PC.
+                        pcSelection = scanner.nextInt() - 1;
+                        pcList.remove(pcSelection);
+                        break;
 
-                case 2:
-                    // This will need to show a list of PC's where the user can select what PC to delete.
-                    System.out.println("Select a PC to delete");
-                    int selection = Integer.parseInt(scanner.nextLine());
-                    pcList.remove(selection);
-                    break;
+                    case 3:
+                        // Select device
+                        System.out.println("Select a PC from the list");
+                        pcSelection = scanner.nextInt() - 1;
+                        menu = "pc";
+                        // Reset the option for the PC menu.
+                        option = -1;
+                        break;
 
-                case 3:
-                    for(int i = 0; i < pcList.size(); i++) {
-                        // Prints the name of the PC
-                        PC pc = pcList.get(i);
-                        System.out.println(i + " " + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
-                    }
-                    break;
+                    case 4:
+                        System.out.println("Bye");
+                        exit = 1;
+                        break;
 
-                case 4:
-                    System.out.println("Not finished");
-                    break;
+                    default:
+                        System.out.println("Invalid option");
+                        break;
+                }
 
-                case 5:
-                    System.out.println("Bye");
-                    break;
+            } else if (menu.equals("pc")) {
+                printPCMenu(pcList);
+                option = scanner.nextInt();
+                // Removes any new line characters that nextInt() didn't use. If not then any nextLine() function used
+                // on the scanner, will automatically have \n as its input.
+                scanner.nextLine();
+                PC pc = pcList.get(pcSelection);
 
-                default:
-                    System.out.println("Invalid option");
+                switch (option) {
+                    // Change name
+                    case 1:
+                        System.out.println("Enter the new name for the PC");
+                        String name = scanner.nextLine();
+                        pc.setName(name);
+                        break;
+
+                    // Change IP address
+                    case 2:
+                        String ipAddressString = scanner.nextLine();
+                        IPAddress ipAddress = createIP(ipAddressString);
+                        pc.setIpAddress(ipAddress);
+                        break;
+
+                    // Change MAC
+                    case 3:
+                        String macAddressString = scanner.nextLine();
+                        MACAddress macAddress = createMAC(macAddressString);
+                        pc.setMacAddress(macAddress);
+                        break;
+
+                    // Set connection with other PC
+                    case 4:
+                        break;
+
+                    case 5:
+                        // Return to the main menu.
+                        menu = "main";
+                        break;
+
+                    default:
+                        System.out.println("Invalid option");
+                        break;
+                }
             }
-
-            // Print the menu after an action has been taken by the user.
-            //printMenu(pcList);
-        } while (option != 5);
+        } while (exit == 0);
 
     }
 
@@ -120,15 +169,7 @@ public class Main {
         return pc;
     }
 
-    public static void printMenu(ArrayList<PC> pcList) {
-        // Options displayed for the user to choose on what actions they want to take.
-        String[] menuOptions = {
-                "Create device",
-                "Delete device",
-                "Select device",
-                "Exit Program "
-        };
-
+    public static void menuTemplate(ArrayList<PC> pcList, String[] menuOptions) {
         System.out.print("------------------------------------------------------------------------------------\n");
         System.out.println("Options     \t\t\t| List of PC's");
         System.out.print("------------------------------------------------------------------------------------\n");
@@ -136,15 +177,16 @@ public class Main {
         // Picks the largest array/list to iterate through and prints out all of the options from the menu as well as
         // the devices to the right of the options.
         for(int i = 0; i < Math.max(pcList.size(), menuOptions.length); i++) {
+            int lineNum = i + 1;
 
             if (i < menuOptions.length) {
                 // This is for printing out the menu and the devices.
-                System.out.print(i+1 + " " + menuOptions[i] + "\t\t\t" + "|");
+                System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
             }
             if (i < pcList.size()) {
                 // This is for printing out the devices only, once all of the options are printed.
                 PC pc = pcList.get(i);
-                System.out.print(" " + i+1 + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
+                System.out.print(" " + lineNum + "." + " " + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
             }
             // Print a new line after every line.
             System.out.println();
@@ -153,4 +195,30 @@ public class Main {
         // Some space for user input and the menu.
         System.out.println();
     }
+
+    public static void printMainMenu(ArrayList<PC> pcList) {
+        // Options displayed for the user to choose on what actions they want to take.
+        String[] mainMenuOptions = {
+                "Create PC    ",
+                "Delete PC    ",
+                "Select PC    ",
+                "Exit Program "
+        };
+
+        menuTemplate(pcList, mainMenuOptions);
+    }
+
+    public static void printPCMenu(ArrayList<PC> pcList) {
+        // Options displayed for the user to choose on what actions they want to take.
+        String[] deviceMenuOptions = {
+                "Change PC name        ",
+                "Change PC IP address  ",
+                "Change PC MAC address ",
+                "Connect to another PC ",
+                "Return to main menu   "
+        };
+
+        menuTemplate(pcList, deviceMenuOptions);
+    }
+
 }
