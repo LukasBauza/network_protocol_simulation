@@ -74,6 +74,7 @@ public class Main {
 
                     // Change IP address
                     case 2:
+                        System.out.println("Enter the new IP for the PC");
                         String ipAddressString = scanner.nextLine();
                         IPAddress ipAddress = createIP(ipAddressString);
                         pc.setIpAddress(ipAddress);
@@ -81,6 +82,7 @@ public class Main {
 
                     // Change MAC
                     case 3:
+                        System.out.println("Enter the new MAC for the PC");
                         String macAddressString = scanner.nextLine();
                         MACAddress macAddress = createMAC(macAddressString);
                         pc.setMacAddress(macAddress);
@@ -101,7 +103,6 @@ public class Main {
                 }
             }
         } while (exit == 0);
-
     }
 
     public static IPAddress createIP(String ipAddressString) {
@@ -220,5 +221,6 @@ public class Main {
 
         menuTemplate(pcList, deviceMenuOptions);
     }
+
 
 }
