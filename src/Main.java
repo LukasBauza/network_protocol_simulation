@@ -77,19 +77,17 @@ public class Main {
                         System.out.println("Enter the new IP for the PC");
                         String ipAddressString = scanner.nextLine();
                         IPAddress ipAddress = createIP(ipAddressString);
-                        pc.setIpAddress(ipAddress);
-                        break;
-
-                    // Change MAC
-                    case 3:
-                        System.out.println("Enter the new MAC for the PC");
-                        String macAddressString = scanner.nextLine();
-                        MACAddress macAddress = createMAC(macAddressString);
-                        pc.setMacAddress(macAddress);
+                        pc.setInterfaceFA00IPAddress(ipAddress);
                         break;
 
                     // Set connection with other PC
+                    case 3:
+                        System.out.println("Select another PC you want to connect to");
+                        break;
+
                     case 4:
+                        // Start the ping process with another device.
+                        System.out.println("Enter the IP address you want to ping to");
                         break;
 
                     case 5:
@@ -125,26 +123,6 @@ public class Main {
         return new IPAddress(ipAddressString);
     }
 
-    public static MACAddress createMAC(String macAddressString) {
-        // tries to create an MACAddress, if it doesn't work then it will catch
-        //      the error from within the class and prints it out here.
-        boolean valid;
-
-        do {
-            try {
-                new MACAddress(macAddressString);
-                valid = true;
-            } catch (IllegalArgumentException e) {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Please enter a valid MAC address: ");
-                macAddressString = scanner.nextLine();
-                valid = false;
-            }
-        } while (!valid);
-
-        return new MACAddress(macAddressString);
-    }
-
     public static PC createPC() {
         Scanner scanner = new Scanner(System.in);
 
@@ -156,16 +134,11 @@ public class Main {
         IPAddress ip = createIP(ipInput);
         System.out.println("This is the IP address for " + name + ": " + ip.getIpAddress());
 
-        System.out.print("Please enter the MAC address for " + name + ": ");
-        String macInput = scanner.nextLine();
-        MACAddress mac = createMAC(macInput);
-        System.out.println("This is the MAC address for " + name + ": " + mac.getMacAddress());
-
-        PC pc = new PC(name, ip, mac);
+        PC pc = new PC(name, ip);
 
         System.out.println("Here is all the details of " + pc.getName() + ": ");
-        System.out.println(pc.getIpAddress().getIpAddress());
-        System.out.println(pc.getMacAddress().getMacAddress());
+        System.out.println(pc.getInterfaceFA00().getIpAddress());
+        System.out.println(pc.getInterfaceFA00().getMacAddress().toString());
 
         return pc;
     }
@@ -187,7 +160,8 @@ public class Main {
             if (i < pcList.size()) {
                 // This is for printing out the devices only, once all of the options are printed.
                 PC pc = pcList.get(i);
-                System.out.print(" " + lineNum + "." + " " + pc.getName() + " " + pc.getIpAddress().getIpAddress() + " " + pc.getMacAddress().getMacAddress());
+                //                                                                Needs to get the IPAddress object and then the IPAddress as a string
+                System.out.print(" " + lineNum + "." + " " + pc.getName() + " " + pc.getInterfaceFA00().getIpAddress().getIpAddress() + " " + pc.getInterfaceFA00().getMacAddress().toString());
             }
             // Print a new line after every line.
             System.out.println();
@@ -214,13 +188,11 @@ public class Main {
         String[] deviceMenuOptions = {
                 "Change PC name        ",
                 "Change PC IP address  ",
-                "Change PC MAC address ",
                 "Connect to another PC ",
                 "Return to main menu   "
         };
 
         menuTemplate(pcList, deviceMenuOptions);
     }
-
 
 }

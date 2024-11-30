@@ -1,54 +1,40 @@
-// TODO: this class can be combined with IPAddress for code reusablity
+// TODO: Need to add subnet for PC.
+
+import java.util.Random;
 
 public class MACAddress {
-    private String macAddress;
+    private final byte[] macAddress;
 
-    public MACAddress(String macAddress) {
-        // constructor used for checking that each segment is the right type and in the right range.
-        //      if a wrong type is entered, it will throw out an error into main, which
-        //      can be caught and used for error handling.
-        if (validMacAddress(macAddress)) {
-            this.macAddress = macAddress;
-        } else {
-            throw new IllegalArgumentException("Each segment must be between 0 and FF.");
-        }
+    public MACAddress() {
+        this.macAddress = generateMacAddress();
     }
 
-    public String getMacAddress() {
+    public byte[] getMacAddress() {
         return macAddress;
     }
 
-    public void setMacAddress(String macAddress) {
-        this.macAddress = macAddress;
+    public String toString() {
+        // Converts all of the bytes into a String, appends to a ":" for separation.
+
+        String byte0 = String.format("%02X", this.macAddress[0]);
+        String byte1 = String.format("%02X", this.macAddress[1]);
+        String byte2 = String.format("%02X", this.macAddress[2]);
+        String byte3 = String.format("%02X", this.macAddress[3]);
+        String byte4 = String.format("%02X", this.macAddress[4]);
+        String byte5 = String.format("%02X", this.macAddress[5]);
+
+        return byte0 + ":" + byte1 + ":" + byte2 + ":" + byte3 + ":" + byte4 + ":" + byte5;
     }
 
-    private boolean validMacAddress(String macAddress) {
-        // used for checking if the entered MAC address is in the correct
-        // format
+    private byte[] generateMacAddress() {
+        Random random = new Random();
+        byte[] macAddress = new byte[6];
 
-        // Regex pattern that will accept 0:0:0:0:0:0 to FF:FF:FF:FF:FF:FF
-        String regex = "[0-9a-fA-F]{1,2}[:][0-9a-fA-F]{1,2}[:][0-9a-f-A-F]{1,2}[:][0-9a-fA-F]{1,2}[:][0-9a-fA-F]{1,2}[:][0-9a-fA-F]{1,2}";
-
-        // This will check if the pattern is at least correct, but won't check
-        // if the numbers within the pattern are below 255
-        if (!macAddress.matches(regex)) {
-            return false;
+        // Iterates through the macAddress array, and generates a random integer between 0 and 255, and casts it to a byte.
+        for (int i = 0; i < macAddress.length; i++) {
+            macAddress[i] = (byte) random.nextInt(0, 255);
         }
 
-        // This will check if the numbers within the macAddress are not too big
-        // Will split the string at hte "." and will have 6 digits
-        String[] arrMACAddress = macAddress.split("[:]", 6);
-
-        // Each digit within the array will be converted from a String to an in
-        // and will be checked if it is not over FF in hex value.
-        for (String digit : arrMACAddress) {
-            int number = Integer.parseInt(digit, 16);   // converts text to hex
-            if (number > 0xFF) {
-                return false;
-            }
-        }
-
-        // if all checks are complete, then the MAC Address format is correct
-        return true;
+        return macAddress;
     }
 }
