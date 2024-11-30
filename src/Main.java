@@ -132,12 +132,12 @@ public class Main {
         System.out.print("Please enter the IP address for " + name + ": ");
         String ipInput = scanner.nextLine();
         IPAddress ip = createIP(ipInput);
-        System.out.println("This is the IP address for " + name + ": " + ip.getIpAddress());
+        System.out.println("This is the IP address for " + name + ": " + ip.toString());
 
         PC pc = new PC(name, ip);
 
         System.out.println("Here is all the details of " + pc.getName() + ": ");
-        System.out.println(pc.getInterfaceFA00().getIpAddress());
+        System.out.println(pc.getInterfaceFA00().getIpAddress().toString());
         System.out.println(pc.getInterfaceFA00().getMacAddress().toString());
 
         return pc;
@@ -161,7 +161,7 @@ public class Main {
                 // This is for printing out the devices only, once all of the options are printed.
                 PC pc = pcList.get(i);
                 //                                                                Needs to get the IPAddress object and then the IPAddress as a string
-                System.out.print(" " + lineNum + "." + " " + pc.getName() + " " + pc.getInterfaceFA00().getIpAddress().getIpAddress() + " " + pc.getInterfaceFA00().getMacAddress().toString());
+                System.out.print(" " + lineNum + "." + " " + pc.getName() + " " + pc.getInterfaceFA00().getIpAddress().toString() + " " + pc.getInterfaceFA00().getMacAddress().toString());
             }
             // Print a new line after every line.
             System.out.println();

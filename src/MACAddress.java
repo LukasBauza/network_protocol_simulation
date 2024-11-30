@@ -16,6 +16,7 @@ public class MACAddress {
     public String toString() {
         // Converts all of the bytes into a String, appends to a ":" for separation.
 
+        // Makes sure that the format of the string is in HEX.
         String byte0 = String.format("%02X", this.macAddress[0]);
         String byte1 = String.format("%02X", this.macAddress[1]);
         String byte2 = String.format("%02X", this.macAddress[2]);

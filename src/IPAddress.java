@@ -1,23 +1,39 @@
 public class IPAddress {
-    private String ipAddress;
+    //private String ipAddress;
+    private byte[] ipAddress ;
 
     public IPAddress(String ipAddress) {
         // constructor used for checking that each segment is the right type and in the right range.
         //      if a wrong type is entered, it will throw out an error into main, which
         //      can be caught and used for error handling.
         if (validIpAddress(ipAddress)) {
-            this.ipAddress = ipAddress;
+            this.ipAddress = ipToByteArray(ipAddress);
         } else {
             throw new IllegalArgumentException("Each segment must be between 0 and 255.");
         }
     }
 
-    public String getIpAddress() {
+    public byte[] getIpAddress() {
         return ipAddress;
     }
 
+    public String toString() {
+        // Needs to be converted to an unsigned int, to not have minus values. As bytes are represented in negatives.
+        String byte0 = Integer.toString(Byte.toUnsignedInt(ipAddress[0]));
+        String byte1 = Integer.toString(Byte.toUnsignedInt(ipAddress[1]));
+        String byte2 = Integer.toString(Byte.toUnsignedInt(ipAddress[2]));
+        String byte3 = Integer.toString(Byte.toUnsignedInt(ipAddress[3]));
+
+        return byte0 + "." + byte1 + "." + byte2 + "." + byte3;
+    }
+
     public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+        //this.ipAddress = ipAddress;
+        if (validIpAddress(ipAddress)) {
+            this.ipAddress = ipToByteArray(ipAddress);
+        } else {
+            throw new IllegalArgumentException("Each segment must be between 0 and 255.");
+        }
     }
 
     private boolean validIpAddress(String ipAddress) {
@@ -48,5 +64,18 @@ public class IPAddress {
 
         // if all checks are complete, then the IP Address format is correct
         return true;
+    }
+
+    private byte[] ipToByteArray(String strIpAddress) {
+
+        byte[] ipAddress = new byte[4];
+        // Splits the ip address string at every ".", of a maximum of 4.
+        String[] strBytes = strIpAddress.split("[.]", 4);
+
+        for (int i = 0; i < strBytes.length; i++) {
+            ipAddress[i] = (byte) Integer.parseInt(strBytes[i]);
+        }
+
+        return ipAddress;
     }
 }

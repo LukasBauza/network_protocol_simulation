@@ -2,6 +2,7 @@ public class Interface {
     // The name of an interface should not be changed once created.
     private final String name;
     private IPAddress ipAddress;
+    private SubNetMask subNetMask;
     private MACAddress macAddress;
 
     public Interface(String name, IPAddress ipAddress) {
