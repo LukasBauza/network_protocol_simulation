@@ -1,8 +1,5 @@
 public class PC {
     private String name;
-    private MACAddress macAddress;
-    // TODO: Set the interface to hold the ipAddress instead of the ipAddress variable.
-    //private IPAddress ipAddress;
     // PC's only have one interface and it is always a fastEthernet0.
     private Interface interfaceFA00 = new Interface("fastEthernet0", null);
 
@@ -20,21 +17,24 @@ public class PC {
         this.name = name;
     }
 
-    public MACAddress getMacAddress() {
-        return macAddress;
-    }
-
-    public void setMacAddress(MACAddress macAddress) {
-        this.macAddress = macAddress;
-    }
-
     public Interface getInterfaceFA00() { return interfaceFA00; }
 
     // You shouldn't be able to change the name of the interface, as they are always predefined. Only the IP can be
     // changed.
     public void setInterfaceFA00IPAddress(IPAddress ipAddress) {
         interfaceFA00.setIpAddress(ipAddress);
+        // Don't need to set MAC as it is randomly gnerated.
     }
 
+//    public int ping() {
+//
+//    }
 
+//    private IPHeader createIPHeader() {
+//        IPHeader ipHeader = new IPHeader();
+//    }
+//
+//    private ICMPHeader createICMPHeader() {
+//
+//    }
 }

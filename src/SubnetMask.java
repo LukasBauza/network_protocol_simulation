@@ -1,5 +1,5 @@
 public class SubnetMask {
-    private byte[] subnetMask;
+    private byte[] subnetMask = new byte[4];
 
     public SubnetMask(String subnetMask) {
         // constructor used for checking that each segment is the right type and in the right range.

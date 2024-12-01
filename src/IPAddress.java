@@ -1,6 +1,6 @@
 public class IPAddress {
     //private String ipAddress;
-    private byte[] ipAddress ;
+    private byte[] ipAddress = new byte[4];
 
     public IPAddress(String ipAddress) {
         // constructor used for checking that each segment is the right type and in the right range.
