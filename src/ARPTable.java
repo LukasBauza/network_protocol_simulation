@@ -6,7 +6,7 @@ public class ARPTable {
     private Vector<Integer> ages;
     private Vector<MACAddress> macAddresses;
     private Vector<String> types;
-    private Vector<Interface> interfaces;
+    private Vector<NetworkInterface> networkInterfaces;
 
     public ARPTable() {
         protocols = new Vector<>();
@@ -14,16 +14,16 @@ public class ARPTable {
         ages = new Vector<>();
         macAddresses = new Vector<>();
         types = new Vector<>();
-        interfaces = new Vector<>();
+        networkInterfaces = new Vector<>();
     }
 
-    public void addEntry(String protocol, IPAddress ipAddress, Integer age, MACAddress macAddress, String type, Interface inter) {
+    public void addEntry(String protocol, IPAddress ipAddress, Integer age, MACAddress macAddress, String type, NetworkInterface inter) {
         this.protocols.add(protocol);
         this.ipAddresses.add(ipAddress);
         this.ages.add(age);
         this.macAddresses.add(macAddress);
         this.types.add(type);
-        this.interfaces.add(inter);
+        this.networkInterfaces.add(inter);
     }
 
     public void removeEntry(int entryIndex) {
@@ -32,7 +32,7 @@ public class ARPTable {
         this.ages.remove(entryIndex);
         this.macAddresses.remove(entryIndex);
         this.types.remove(entryIndex);
-        this.interfaces.remove(entryIndex);
+        this.networkInterfaces.remove(entryIndex);
     }
 
     public String toString() {
@@ -48,7 +48,7 @@ public class ARPTable {
             entries.append("\t");
             entries.append(types.get(i));
             entries.append("\t");
-            entries.append(interfaces.get(i).getName());
+            entries.append(networkInterfaces.get(i).getName());
         }
 
         return entries.toString();
