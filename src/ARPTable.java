@@ -1,56 +1,65 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class ARPTable {
-    private Vector<String> protocols;
-    private Vector<IPAddress> ipAddresses;
-    private Vector<Integer> ages;
-    private Vector<MACAddress> macAddresses;
-    private Vector<String> types;
-    private Vector<NetworkInterface> networkInterfaces;
+    private final String header = "Protocol\tAddress\t\tAge (min)\t Hardware Addr\t Type\t Interface\n";
+    private ArrayList<ARPEntry> entries;
 
     public ARPTable() {
-        protocols = new Vector<>();
-        ipAddresses = new Vector<>();
-        ages = new Vector<>();
-        macAddresses = new Vector<>();
-        types = new Vector<>();
-        networkInterfaces = new Vector<>();
+        ArrayList<ARPEntry> entries;
     }
 
-    public void addEntry(String protocol, IPAddress ipAddress, Integer age, MACAddress macAddress, String type, NetworkInterface inter) {
-        this.protocols.add(protocol);
-        this.ipAddresses.add(ipAddress);
-        this.ages.add(age);
-        this.macAddresses.add(macAddress);
-        this.types.add(type);
-        this.networkInterfaces.add(inter);
+    public void addEntry(String protocol, IPAddress ipAddress, Integer age, MACAddress macAddress, String type, Port port) {
+        ARPEntry entry = new ARPEntry(protocol, ipAddress, age, macAddress, type, port);
+        this.entries.add(entry);
     }
 
     public void removeEntry(int entryIndex) {
-        this.protocols.remove(entryIndex);
-        this.ipAddresses.remove(entryIndex);
-        this.ages.remove(entryIndex);
-        this.macAddresses.remove(entryIndex);
-        this.types.remove(entryIndex);
-        this.networkInterfaces.remove(entryIndex);
+        this.entries.remove(entryIndex);
     }
 
     public String toString() {
-        StringBuilder entries = new StringBuilder("Protocol\tAddress\t\tAge (min)\t Hardware Addr\t Type\t Interface\n");
-        for (int i = 0; i < protocols.size(); i++) {
-            entries.append(protocols.get(i));
-            entries.append("\t");
-            entries.append(ipAddresses.get(i).toString());
-            entries.append("\t\t");
-            entries.append(ages.get(i).toString());
-            entries.append("\t");
-            entries.append(macAddresses.get(i).toString());
-            entries.append("\t");
-            entries.append(types.get(i));
-            entries.append("\t");
-            entries.append(networkInterfaces.get(i).getName());
+        StringBuilder table = new StringBuilder(header);
+        for (ARPEntry entry : entries) {
+            table.append(entry.toString());
         }
 
-        return entries.toString();
+        return table.toString();
+    }
+
+     class ARPEntry {
+        private String protocol;
+        private IPAddress ipAddresse;
+        private Integer age;
+        private MACAddress macAddresse;
+        private String type;
+        private Port port;
+
+        public ARPEntry(String protocol, IPAddress ipAddress, Integer age, MACAddress macAddress, String type, Port port) {
+            this.protocol = protocol;
+            this.ipAddresse = ipAddress;
+            this.age = age;
+            this.macAddresse = macAddress;
+            this.type = type;
+            this.port = port;
+        }
+
+        public String toString() {
+            StringBuilder entry = new StringBuilder();
+
+            entry.append(protocol);
+            entry.append("\t");
+            entry.append(ipAddresse.toString());
+            entry.append("\t\t");
+            entry.append(age.toString());
+            entry.append("\t");
+            entry.append(macAddresse.toString());
+            entry.append("\t");
+            entry.append(type);
+            entry.append("\t");
+            entry.append(port.getName());
+            entry.append("\n");
+
+            return entry.toString();
+        }
     }
 }
