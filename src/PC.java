@@ -3,8 +3,8 @@ public class PC extends Device{
     private NetworkInterface networkInterfaceFA00 = new NetworkInterface("fastEthernet0", null);
 
     PC(String name, IPAddress ipAddress) {
-        super(name, maxInterfaces, arpTable);
-        this.name = name;
+        // Call the parent Device class. With the maximum amount of interfaces set to 1.
+        super(name, 1);
         // Sets the IP address of the interface for the PC.
         networkInterfaceFA00.setIpAddress(ipAddress);
     }

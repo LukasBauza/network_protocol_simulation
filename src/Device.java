@@ -1,13 +1,14 @@
 abstract public class Device {
     private String name;
     private NetworkInterface[] networkInterfaces;
+    private  int maxInterfaces;
     private ARPTable arpTable;
 
-    public Device(String name, int maxInterfaces, ARPTable arpTable) {
+    public Device(String name, int maxInterfaces) {
         this.name = name;
         // Set a maximum amount of interfaces depending on what type of device it is.
-        this.networkInterfaces = new NetworkInterface[maxInterfaces];
-        this.arpTable = arpTable;
+        this.maxInterfaces = maxInterfaces;
+        this.networkInterfaces = new NetworkInterface[this.maxInterfaces];
     }
 
     public String getName() { return name; }
@@ -30,4 +31,5 @@ abstract public class Device {
     }
 
     public ARPTable getARPTable() { return arpTable; }
+
 }
