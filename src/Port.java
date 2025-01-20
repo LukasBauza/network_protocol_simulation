@@ -4,6 +4,8 @@ public class Port {
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
     private final MACAddress macAddress = new MACAddress();
+    // Down = false, Up = true
+    private Boolean state = false;
 
     public Port(String name, IPAddress ipAddress) {
         this.name = name;
@@ -37,4 +39,8 @@ public class Port {
     public void setSubnetMask(SubnetMask subnetMask) {
         this.subNetMask = subnetMask;
     }
+
+    public Boolean getState() { return state; }
+
+    public void setState(Boolean state) { this.state = state; }
 }
