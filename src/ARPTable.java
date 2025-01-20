@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class ARPTable {
-    private final String header = "Protocol\tAddress\t\tAge (min)\t Hardware Addr\t Type\t Interface\n";
     private ArrayList<ARPEntry> entries;
 
     public ARPTable() {
@@ -18,6 +17,7 @@ public class ARPTable {
     }
 
     public String toString() {
+        String header = "Protocol\tAddress\t\tAge (min)\t Hardware Addr\t Type\t Interface\n";
         StringBuilder table = new StringBuilder(header);
         for (ARPEntry entry : entries) {
             table.append(entry.toString());
@@ -26,7 +26,7 @@ public class ARPTable {
         return table.toString();
     }
 
-     class ARPEntry {
+     static class ARPEntry {
         private String protocol;
         private IPAddress ipAddresse;
         private Integer age;

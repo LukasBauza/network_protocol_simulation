@@ -1,11 +1,21 @@
 public class PC extends Device{
-    // PC's only have one interface and it is always a fastEthernet0.
-    private NetworkInterface networkInterfaceFA00 = new NetworkInterface("fastEthernet0", null);
+    // PC's only have one interface, and it is always a fastEthernet0/0.
+    private Port fa00 = new Port("FastEthernet 0/0");
 
-    PC(String name, IPAddress ipAddress) {
-        // Call the parent Device class. With the maximum amount of interfaces set to 1.
-        super(name, 1);
-        // Sets the IP address of the interface for the PC.
-        networkInterfaceFA00.setIpAddress(ipAddress);
+    PC(String name, IPAddress ipaddress) {
+        super(name);
+        fa00.setIpAddress(ipaddress);
     }
+
+    // Overloading the constructor based on the arguments.
+    PC(String name) {
+        // Call the parent Device class. With the maximum amount of interfaces set to 1.
+        super(name);
+    };
+
+    public Port getPortFA00() { return fa00; }
+
+    // You shouldn't be able to change the name of the interface, as they are always predefined. Only the IP can be
+    // changed. MAC generated within the Port class randomly.
+    public void setFA00(IPAddress ipAddress) { this.fa00.setIpAddress(ipAddress); }
 }

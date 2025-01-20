@@ -1,14 +1,17 @@
-public class Interface {
+public class Port {
     // The name of an interface should not be changed once created.
     private final String name;
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
-    private final MACAddress macAddress;
+    private final MACAddress macAddress = new MACAddress();
 
-    public Interface(String name, IPAddress ipAddress) {
+    public Port(String name, IPAddress ipAddress) {
         this.name = name;
         this.ipAddress = ipAddress;
-        this.macAddress = new MACAddress();
+    }
+
+    public Port(String name) {
+        this.name = name;
     }
 
     public String getName() {
