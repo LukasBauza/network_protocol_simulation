@@ -111,7 +111,7 @@ public class Main {
                 }
 
             } else if (menu.equals("pc")) {
-                displayPCMenu(pcList);
+                displayPCMenu(pcList, pcSelection);
                 option = scanner.nextInt();
                 // Removes any new line characters that nextInt() didn't use. If not then any nextLine() function used
                 // on the scanner, will automatically have \n as its input.
@@ -154,7 +154,7 @@ public class Main {
                         break;
                 }
             } else if (menu.equals("router")) {
-                displayRouterMenu(routerList);
+                displayRouterMenu(routerList, routerSelection);
                 option = scanner.nextInt();
                 // Removes any new line characters that nextInt() didn't use. If not then any nextLine() function used
                 // on the scanner, will automatically have \n as its input.
@@ -230,7 +230,7 @@ public class Main {
         System.out.println("Options     \t\t\t| List of Devices");
         System.out.print("------------------------------------------------------------------------------------\n");
 
-        // Picks the largest array/list to iterate through and prints out all of the options from the menu as well as
+        // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
         // the devices to the right of the options.
         int max1 = Math.max(pcList.size(), menuOptions.length);
         int max2 = Math.max(max1, routerList.size());
@@ -260,7 +260,7 @@ public class Main {
         System.out.println();
     }
 
-    public static void displayPCMenu(ArrayList<PC> pcList) {
+    public static void displayPCMenu(ArrayList<PC> pcList, Integer pcIndex) {
         // Options displayed for the user to choose on what actions they want to take.
         String[] menuOptions = {
                 "Change PC name                     ",
@@ -270,23 +270,29 @@ public class Main {
                 "Return to main menu                "
         };
 
+        String[] pcAttributes = {
+                "Name: " + pcList.get(pcIndex).getName(),
+                "FastEthernet 0/0 IP address: " + pcList.get(pcIndex).getPortFA00().getIpAddress(),
+                "FastEthernet 0/0 MAC address: " + pcList.get(pcIndex).getPortFA00().getMacAddress(),
+                "Default gateway: " + pcList.get(pcIndex).getDefaultGateway()
+        };
+
         System.out.print("------------------------------------------------------------------------------------\n");
-        System.out.println("Options     \t\t\t\t\t\t\t\t| List of PC's");
+        System.out.println("Options     \t\t\t\t\t\t\t\t| PC Information");
         System.out.print("------------------------------------------------------------------------------------\n");
 
-        // Picks the largest array/list to iterate through and prints out all of the options from the menu as well as
+        // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
         // the devices to the right of the options.
-        for(int i = 0; i < Math.max(pcList.size(), menuOptions.length); i++) {
+        for(int i = 0; i < Math.max(pcAttributes.length, menuOptions.length); i++) {
             int lineNum = i + 1;
 
             if (i < menuOptions.length) {
                 // This is for printing out the menu and the devices.
                 System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
             }
-            if (i < pcList.size()) {
-                // This is for printing out the devices only, once all the options are printed.
-                PC pc = pcList.get(i);
-                System.out.print(" " + lineNum + "." + " " + pc.getName());
+            if (i < pcAttributes.length) {
+                // Prints out the PC details
+                System.out.print(" " + pcAttributes[i]);
             }
             // Print a new line after every line.
             System.out.println();
@@ -296,7 +302,7 @@ public class Main {
         System.out.println();
     }
 
-    public static void displayRouterMenu(ArrayList<Router> routerList) {
+    public static void displayRouterMenu(ArrayList<Router> routerList, Integer routerIndex) {
         // Options displayed for the user to choose on what actions they want to take.
         String[] menuOptions = {
                 "Change Router name                    ",
@@ -307,11 +313,21 @@ public class Main {
                 "Return to main menu                   "
         };
 
+        String[] routerAttributes = {
+                "Name: " + routerList.get(routerIndex).getName(),
+                "GigabitEthernet 0/0 IP address: " + routerList.get(routerIndex).getPortGig00().getIpAddress(),
+                "GigabitEthernet 0/0 MAC address: " + routerList.get(routerIndex).getPortGig00().getMacAddress(),
+                "GigabitEthernet 0/1 IP address: " + routerList.get(routerIndex).getPortGig01().getIpAddress(),
+                "GigabitEthernet 0/1 MAC address: " + routerList.get(routerIndex).getPortGig01().getMacAddress(),
+                "GigabitEthernet 0/2 IP address: " + routerList.get(routerIndex).getPortGig02().getIpAddress(),
+                "GigabitEthernet 0/2 MAC address: " + routerList.get(routerIndex).getPortGig02().getMacAddress(),
+        };
+
         System.out.print("------------------------------------------------------------------------------------\n");
-        System.out.println("Options    \t\t\t\t\t\t\t\t\t\t| List of Router's");
+        System.out.println("Options    \t\t\t\t\t\t\t\t\t\t| Router Information");
         System.out.print("------------------------------------------------------------------------------------\n");
 
-        // Picks the largest array/list to iterate through and prints out all of the options from the menu as well as
+        // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
         // the devices to the right of the options.
         for(int i = 0; i < Math.max(routerList.size(), menuOptions.length); i++) {
             int lineNum = i + 1;
@@ -320,10 +336,9 @@ public class Main {
                 // This is for printing out the menu and the devices.
                 System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
             }
-            if (i < routerList.size()) {
-                // This is for printing out the devices only, once all the options are printed.
-                Router router = routerList.get(i);
-                System.out.print(" " + lineNum + "." + " " + router.getName());
+            if (i < routerAttributes.length) {
+                // Prints out the Router details
+                System.out.print(" " + routerAttributes[i]);
             }
             // Print a new line after every line.
             System.out.println();
