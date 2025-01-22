@@ -5,8 +5,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        // All the created PCs within the simulation.
         ArrayList<PC> pcList = new ArrayList<>();
+        // All the created Routers within the simulation.
         ArrayList<Router> routerList = new ArrayList<>();
+        // Keeps track of all the default gateways that have been assigned to a PC.
+        ArrayList<PC> assignedDefaultGatewayList = new ArrayList<>();
 
         System.out.print("########################################\n");
         System.out.print("Welcome to the PING protocol simulation.\n");
@@ -87,7 +91,7 @@ public class Main {
                         routerSelection = scanner.nextInt() - 1;
 
                         try {
-                            // Check if the PC exists within the pcList.
+                            // Check if the Router exists within the routerList.
                             routerList.get(routerSelection);
                             menu = "router";
                         } catch (IndexOutOfBoundsException e) {
@@ -131,12 +135,40 @@ public class Main {
                         System.out.println("Enter the new IP for the PC");
                         String ipAddressString = scanner.nextLine();
                         IPAddress ipAddress = createIP(ipAddressString);
-                        pc.setPortFA00(ipAddress);
+
+                        System.out.println("Enter the subnet mask for the PC");
+                        String subnetMaskString = scanner.nextLine();
+                        SubnetMask subnetMask = createSubnetMask(subnetMaskString);
+
+                        pc.setPortFA00(ipAddress, subnetMask);
                         break;
 
-                    // Set connection with other PC
+                    // Set default gateway for the PC
                     case 3:
-                        System.out.println("Select another PC you want to connect to");
+                        System.out.println("Enter the IP and subnet mask for the default gateway");
+                        String defaultGatewayString = scanner.nextLine();
+                        IPAddress defaultGatewayIP = createIP(defaultGatewayString);
+
+                        System.out.println("Enter the subnet mask for the default gateway");
+                        String defaultGatewaySubnetMaskString = scanner.nextLine();
+                        SubnetMask defaultGatewaySubnet = createSubnetMask(defaultGatewaySubnetMaskString);
+
+                        if(!checkDefaultGatewayExists(routerList, defaultGatewayIP, defaultGatewaySubnet)) {
+                            // Checks to see whether the default gateway exists within the network.
+                            System.out.println("The provided default gateway does not exist within the network.");
+                        } else if (checkDefaultGatewayAssigned(assignedDefaultGatewayList, defaultGatewayIP, defaultGatewaySubnet)) {
+                            // Checks if the default gateway is not assigned, to another PC.
+                            System.out.println("The provided default gateway is already assigned to another device.");
+                        } else {
+                            // Sets the default gateway for the PC.
+                            pc.setDefaultGateway(defaultGatewayIP, defaultGatewaySubnet);
+                            // Add the PC to the list of assigned default gateways, only if the PC is not already in the
+                            // list
+                            if(!assignedDefaultGatewayList.contains(pc)) {
+                                assignedDefaultGatewayList.add(pc);
+                            }
+                        }
+
                         break;
 
                     case 4:
@@ -162,7 +194,51 @@ public class Main {
                 Router router = routerList.get(routerSelection);
 
                 switch (option) {
+                    case 1:
+                        System.out.println("Enter the new name for the router");
+                        String name = scanner.nextLine();
+                        router.setName(name);
+                        break;
 
+                        case 2:
+                            System.out.println("Enter IP address for GigabitEthernet 0/0");
+                            String ipAddress00String = scanner.nextLine();
+                            IPAddress ipAddress00 = createIP(ipAddress00String);
+
+                            System.out.println("Enter the subnet mask for GigabitEthernet 0/0");
+                            String subnetMask00String = scanner.nextLine();
+                            SubnetMask subnetMask00 = createSubnetMask(subnetMask00String);
+
+                            router.setPortGig00(ipAddress00, subnetMask00);
+                            break;
+
+                        case 3:
+                            System.out.println("Enter IP address for GigabitEthernet 0/1");
+                            String ipAddress01String = scanner.nextLine();
+                            IPAddress ipAddress01 = createIP(ipAddress01String);
+
+                            System.out.println("Enter the subnet mask for GigabitEthernet 0/1");
+                            String subnetMask01String = scanner.nextLine();
+                            SubnetMask subnetMask01 = createSubnetMask(subnetMask01String);
+
+                            router.setPortGig01(ipAddress01, subnetMask01);
+                            break;
+
+                        case 4:
+                            System.out.println("Enter IP address for GigabitEthernet 0/2");
+                            String ipAddress02String = scanner.nextLine();
+                            IPAddress ipAddress02 = createIP(ipAddress02String);
+
+                            System.out.println("Enter the subnet mask for GigabitEthernet 0/2");
+                            String subnetMask02String = scanner.nextLine();
+                            SubnetMask subnetMask02 = createSubnetMask(subnetMask02String);
+
+                            router.setPortGig02(ipAddress02, subnetMask02);
+                            break;
+
+                            case 5:
+                                menu = "main";
+                                break;
                 }
             }
         } while (exit == 0);
@@ -188,6 +264,26 @@ public class Main {
         return new IPAddress(ipAddressString);
     }
 
+    public static SubnetMask createSubnetMask(String subnetString) {
+        // tries to create an IPAddress, if it doesn't work then it will catch
+        //      the error from within the class and prints it out here.
+        boolean valid;
+
+        do {
+            try {
+                new SubnetMask(subnetString);
+                valid = true;
+            } catch (IllegalArgumentException e) {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Please enter a valid subnet mask: ");
+                subnetString = scanner.nextLine();
+                valid = false;
+            }
+        } while (!valid);
+
+        return new SubnetMask(subnetString);
+    }
+
     public static PC createPC() {
         Scanner scanner = new Scanner(System.in);
 
@@ -198,7 +294,11 @@ public class Main {
         String ipInput = scanner.nextLine();
         IPAddress ip = createIP(ipInput);
 
-        return new PC(name, ip);
+        System.out.println("Enter the subnet mask for the PC");
+        String subnetMaskInput = scanner.nextLine();
+        SubnetMask subnetMask = createSubnetMask(subnetMaskInput);
+
+        return new PC(name, ip, subnetMask);
     }
 
     public static Router createRouter() {
@@ -206,10 +306,6 @@ public class Main {
 
         System.out.print("Please enter the name for the Router: ");
         String name = scanner.nextLine();
-
-        System.out.print("Please enter the IP address for " + name + ": ");
-        String ipInput = scanner.nextLine();
-        IPAddress ip = createIP(ipInput);
 
         return new Router(name);
     }
@@ -227,7 +323,7 @@ public class Main {
         };
 
         System.out.print("------------------------------------------------------------------------------------\n");
-        System.out.println("Options     \t\t\t| List of Devices");
+        System.out.println("Options     \t\t\t| List of Devices (PC on Left, Router on Right)");
         System.out.print("------------------------------------------------------------------------------------\n");
 
         // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
@@ -265,7 +361,7 @@ public class Main {
         String[] menuOptions = {
                 "Change PC name                     ",
                 "Change FastEthernet 0/0 IP address ",
-                "Connect to another device          ",
+                "Change default gateway             ",
                 "Ping another device                ",
                 "Return to main menu                "
         };
@@ -273,8 +369,10 @@ public class Main {
         String[] pcAttributes = {
                 "Name: " + pcList.get(pcIndex).getName(),
                 "FastEthernet 0/0 IP address: " + pcList.get(pcIndex).getPortFA00().getIpAddress(),
+                "FastEthernet 0/0 subnet mask: " + pcList.get(pcIndex).getPortFA00().getSubnetMask(),
                 "FastEthernet 0/0 MAC address: " + pcList.get(pcIndex).getPortFA00().getMacAddress(),
-                "Default gateway: " + pcList.get(pcIndex).getDefaultGateway()
+                "Default gateway IP address: " + pcList.get(pcIndex).getDefaultGatewayIPAddress(),
+                "Default gateway subnet mask: " + pcList.get(pcIndex).getDefaultGatewaySubnetMask()
         };
 
         System.out.print("------------------------------------------------------------------------------------\n");
@@ -289,6 +387,9 @@ public class Main {
             if (i < menuOptions.length) {
                 // This is for printing out the menu and the devices.
                 System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
+            } else {
+                // Prints out the tabs and barrier for the menu within the router information
+                System.out.print("\t\t\t\t\t\t\t\t\t\t\t" + "|");
             }
             if (i < pcAttributes.length) {
                 // Prints out the PC details
@@ -309,17 +410,19 @@ public class Main {
                 "Change GigabitEthernet 0/0 IP address ",
                 "Change GigabitEthernet 0/1 IP address ",
                 "Change GigabitEthernet 0/2 IP address ",
-                "Connect to another device             ",
                 "Return to main menu                   "
         };
 
         String[] routerAttributes = {
                 "Name: " + routerList.get(routerIndex).getName(),
                 "GigabitEthernet 0/0 IP address: " + routerList.get(routerIndex).getPortGig00().getIpAddress(),
+                "GigabitEthernet 0/0 subnet mask: " + routerList.get(routerIndex).getPortGig00().getSubnetMask(),
                 "GigabitEthernet 0/0 MAC address: " + routerList.get(routerIndex).getPortGig00().getMacAddress(),
                 "GigabitEthernet 0/1 IP address: " + routerList.get(routerIndex).getPortGig01().getIpAddress(),
+                "GigabitEthernet 0/1 subnet mask: " + routerList.get(routerIndex).getPortGig01().getSubnetMask(),
                 "GigabitEthernet 0/1 MAC address: " + routerList.get(routerIndex).getPortGig01().getMacAddress(),
                 "GigabitEthernet 0/2 IP address: " + routerList.get(routerIndex).getPortGig02().getIpAddress(),
+                "GigabitEthernet 0/2 subnet mask: " + routerList.get(routerIndex).getPortGig02().getSubnetMask(),
                 "GigabitEthernet 0/2 MAC address: " + routerList.get(routerIndex).getPortGig02().getMacAddress(),
         };
 
@@ -329,12 +432,15 @@ public class Main {
 
         // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
         // the devices to the right of the options.
-        for(int i = 0; i < Math.max(routerList.size(), menuOptions.length); i++) {
+        for(int i = 0; i < Math.max(routerAttributes.length, menuOptions.length); i++) {
             int lineNum = i + 1;
 
             if (i < menuOptions.length) {
                 // This is for printing out the menu and the devices.
                 System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
+            } else {
+                // Prints out the tabs and barrier for the menu within the router information
+                System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t" + "|");
             }
             if (i < routerAttributes.length) {
                 // Prints out the Router details
@@ -346,5 +452,97 @@ public class Main {
 
         // Some space for user input and the menu.
         System.out.println();
+    }
+
+    public static boolean gig00Match(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
+        // Checks if the router has any assigned subnet mask or IP address to its ports.
+        for(Router router : routerList) {
+            if((router.getPortGig00().getSubnetMask() == null) || (router.getPortGig00().getIpAddress() == null)) {
+                // Move to the next router.
+                continue;
+            }
+            // Checks if the subnet mask or the IP address equal to the required subnet mask and IP for the default
+            // gateway.
+            if((router.getPortGig00().getSubnetMask().equals(subnetMask)) && (router.getPortGig00().getIpAddress().equals(defaultGatewayIPAddress))) {
+                System.out.println("Found match!");
+                System.out.println("Router name:" + router.getName());
+                System.out.println("Port name: " + router.getPortGig00().getName());
+                System.out.println("Port IP address:" + router.getPortGig00().getIpAddress());
+                System.out.println("Port Subnet Mask: " + router.getPortGig00().getSubnetMask());
+                return true;
+            }
+
+            System.out.println(router.getPortGig00().getIpAddress() + " " + router.getPortGig00().getSubnetMask());
+            System.out.println(defaultGatewayIPAddress + " " + subnetMask);
+        }
+
+        System.out.println("Gig00 nah mate");
+        return false;
+    }
+
+    public static boolean gig01Match(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
+        // Checks if the router has any assigned subnet mask or IP address to its ports.
+        for(Router router : routerList) {
+            if((router.getPortGig01().getSubnetMask() == null) || (router.getPortGig01().getIpAddress() == null)) {
+                // Move to the next router.
+                continue;
+            }
+            // Checks if the subnet mask or the IP address equal to the required subnet mask and IP for the default
+            // gateway.
+            if((router.getPortGig01().getSubnetMask().equals(subnetMask)) && (router.getPortGig01().getIpAddress().equals(defaultGatewayIPAddress))) {
+                System.out.println("Found match!");
+                System.out.println("Router name: " + router.getName());
+                System.out.println("Port name: " + router.getPortGig01().getName());
+                System.out.println("Port IP address: " + router.getPortGig01().getIpAddress());
+                System.out.println("Port Subnet Mask: " + router.getPortGig01().getSubnetMask());
+                return true;
+            }
+
+            System.out.println(router.getPortGig01().getIpAddress() + " " + router.getPortGig01().getSubnetMask());
+        }
+
+        System.out.println("Gig01 nah mate");
+        return false;
+    }
+
+    public static boolean gig02Match(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
+        // Checks if the router has any assigned subnet mask or IP address to its ports.
+        for(Router router : routerList) {
+            if((router.getPortGig02().getSubnetMask() == null) || (router.getPortGig02().getIpAddress() == null)) {
+                // Move to the next router.
+                continue;
+            }
+            // Checks if the subnet mask or the IP address equal to the required subnet mask and IP for the default
+            // gateway.
+            if((router.getPortGig02().getSubnetMask().equals(subnetMask)) && (router.getPortGig02().getIpAddress().equals(defaultGatewayIPAddress))) {
+                System.out.println("Found match!");
+                System.out.println("Router name:" + router.getName());
+                System.out.println("Port name: " + router.getPortGig02().getName());
+                System.out.println("Port IP address:" + router.getPortGig02().getIpAddress());
+                System.out.println("Port Subnet Mask: " + router.getPortGig02().getSubnetMask());
+                return true;
+            }
+
+            System.out.println(router.getPortGig02().getIpAddress() + " " + router.getPortGig02().getSubnetMask());
+        }
+
+        System.out.println("Gig02 nah mate");
+        return false;
+    }
+
+    public static boolean checkDefaultGatewayExists(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
+        return gig00Match(routerList, defaultGatewayIPAddress, subnetMask) || (gig01Match(routerList, defaultGatewayIPAddress, subnetMask)) ||
+                gig02Match(routerList, defaultGatewayIPAddress, subnetMask);
+    }
+
+    public static boolean checkDefaultGatewayAssigned(ArrayList<PC> assignedDefaultGatewayList, IPAddress ipAddress, SubnetMask subnetMask) {
+
+        for(PC pc : assignedDefaultGatewayList) {
+            if((pc.getDefaultGatewaySubnetMask().equals(subnetMask)) && (pc.getDefaultGatewayIPAddress().equals(ipAddress))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

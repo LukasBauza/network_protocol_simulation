@@ -78,4 +78,23 @@ public class IPAddress {
 
         return ipAddress;
     }
+
+    // Overrides the original equals method, which only compares memory locations matching, instead we also need to compare,
+    // if each instance is the same, while still being in another memory location.
+    public boolean equals(Object object) {
+        // Checks if both references (this and object) point to the same memory location, if so they are the same.
+        if(this == object) return true;
+        // Checks if the object is null or if the objects are of the same class, if so, then they are not equal, so
+        // return false.
+        if(object == null || this.getClass() != object.getClass()) return false;
+        // Cast the object to the SubnetMask object class.
+        IPAddress ipAddress = (IPAddress) object;
+        // Check if all of the subnet mask values match, if not then return false.
+        if(this.ipAddress[0] != ipAddress.getIpAddress()[0]) return false;
+        if(this.ipAddress[1] != ipAddress.getIpAddress()[1]) return false;
+        if(this.ipAddress[2] != ipAddress.getIpAddress()[2]) return false;
+        if(this.ipAddress[3] != ipAddress.getIpAddress()[3]) return false;
+        // Once all conditions are met, then the objects equal.
+        return true;
+    }
 }

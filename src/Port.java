@@ -5,7 +5,7 @@ public class Port {
     private SubnetMask subNetMask;
     private final MACAddress macAddress = new MACAddress();
     // Down = false, Up = true
-    private Boolean state = false;
+    private boolean state = false;
 
     public Port(String name, IPAddress ipAddress) {
         this.name = name;

@@ -8,11 +8,20 @@ public class Router extends Device {
     }
 
     public Port getPortGig00() { return gig00; }
-    public void setPortGig00(Port port) { this.gig00 = port; }
+    public void setPortGig00(IPAddress ipAddress, SubnetMask subnetMask) {
+        this.gig00.setIpAddress(ipAddress);
+        this.gig00.setSubnetMask(subnetMask);
+    }
 
     public Port getPortGig01() { return gig01; }
-    public void setPortGig01(Port port) { this.gig01 = port; }
+    public void setPortGig01(IPAddress ipAddress, SubnetMask subnetMask) {
+        this.gig01.setIpAddress(ipAddress);
+        this.gig01.setSubnetMask(subnetMask);
+    }
 
     public Port getPortGig02() { return gig02; }
-    public void setPortGig02(Port port) { this.gig02 = port; }
+    public void setPortGig02(IPAddress ipAddress, SubnetMask subnetMask) {
+        this.gig02.setIpAddress(ipAddress);
+        this.gig02.setSubnetMask(subnetMask);
+    }
 }
