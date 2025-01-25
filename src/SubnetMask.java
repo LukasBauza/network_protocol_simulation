@@ -34,6 +34,21 @@ public class SubnetMask {
         }
     }
 
+    public void setByte3(byte byte3) {
+        this.subnetMask[3] = byte3;
+    }
+
+    public void setByte2(byte byte2) {
+        this.subnetMask[2] = byte2;
+    }
+
+    public void setByte1(byte byte1) {
+        this.subnetMask[1] = byte1;
+    }
+
+    public void setByte0(byte byte0) {
+        this.subnetMask[0] = byte0;
+    }
 
     private boolean validSubnetMask(String subnetMask) {
         // used for checking if the entered IP address is in the correct

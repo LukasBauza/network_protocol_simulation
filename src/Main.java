@@ -22,6 +22,7 @@ public class Main {
         int pcSelection = -1;
         int routerSelection = -1;
         Scanner scanner = new Scanner(System.in);
+        PingProtocol pingProtocol = new PingProtocol();
 
         do {
             if (menu.equals("main")) {
@@ -174,6 +175,13 @@ public class Main {
                     case 4:
                         // Start the ping process with another device.
                         System.out.println("Enter the IP address you want to ping to");
+                        IPAddress destinationIP = new IPAddress(scanner.nextLine());
+                        int destinationPCIndex = getIndexFromPCListWithIP(destinationIP, pcList);
+                        if(destinationPCIndex != -1) {
+                            pingProtocol.ping(pc, pcList.get(destinationPCIndex), pcList, routerList);
+                        } else {
+                            System.out.println("Destination PC does not exist");
+                        }
                         break;
 
                     case 5:
@@ -476,7 +484,6 @@ public class Main {
             System.out.println(defaultGatewayIPAddress + " " + subnetMask);
         }
 
-        System.out.println("Gig00 nah mate");
         return false;
     }
 
@@ -501,7 +508,6 @@ public class Main {
             System.out.println(router.getPortGig01().getIpAddress() + " " + router.getPortGig01().getSubnetMask());
         }
 
-        System.out.println("Gig01 nah mate");
         return false;
     }
 
@@ -526,7 +532,6 @@ public class Main {
             System.out.println(router.getPortGig02().getIpAddress() + " " + router.getPortGig02().getSubnetMask());
         }
 
-        System.out.println("Gig02 nah mate");
         return false;
     }
 
@@ -544,5 +549,17 @@ public class Main {
         }
 
         return false;
+    }
+
+    public static int getIndexFromPCListWithIP(IPAddress ip, ArrayList<PC> pcList) {
+        // Search through all the PCs in the network and see if there is an available PC.
+        for(int i = 0; i < pcList.size(); i++) {
+            if(pcList.get(i).getNICList().get(0).getIpAddress().equals(ip)) {
+                // return the index from the ArrayList
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

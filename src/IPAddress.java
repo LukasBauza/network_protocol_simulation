@@ -7,10 +7,14 @@ public class IPAddress {
         //      if a wrong type is entered, it will throw out an error into main, which
         //      can be caught and used for error handling.
         if (validIpAddress(ipAddress)) {
-            this.ipAddress = ipToByteArray(ipAddress);
+            this.ipAddress = ipStringToByteArray(ipAddress);
         } else {
             throw new IllegalArgumentException("Each segment must be between 0 and 255.");
         }
+    }
+
+    public IPAddress() {
+        this.ipAddress = new byte[4];
     }
 
     public byte[] getIpAddress() {
@@ -30,10 +34,26 @@ public class IPAddress {
     public void setIpAddress(String ipAddress) {
         //this.ipAddress = ipAddress;
         if (validIpAddress(ipAddress)) {
-            this.ipAddress = ipToByteArray(ipAddress);
+            this.ipAddress = ipStringToByteArray(ipAddress);
         } else {
             throw new IllegalArgumentException("Each segment must be between 0 and 255.");
         }
+    }
+
+    public void setByte3(byte byte3) {
+        this.ipAddress[3] = byte3;
+    }
+
+    public void setByte2(byte byte2) {
+        this.ipAddress[2] = byte2;
+    }
+
+    public void setByte1(byte byte1) {
+        this.ipAddress[1] = byte1;
+    }
+
+    public void setByte0(byte byte0) {
+        this.ipAddress[0] = byte0;
     }
 
     private boolean validIpAddress(String ipAddress) {
@@ -66,7 +86,7 @@ public class IPAddress {
         return true;
     }
 
-    private byte[] ipToByteArray(String strIpAddress) {
+    private byte[] ipStringToByteArray(String strIpAddress) {
 
         byte[] ipAddress = new byte[4];
         // Splits the ip address string at every ".", of a maximum of 4.
