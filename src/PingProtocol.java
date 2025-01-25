@@ -25,7 +25,10 @@ public class PingProtocol {
         if (localNIC(sourceNIC, destinationNIC)) {
             System.out.println("Destination interface is in local network");
             System.out.println("Checking if destination interface is in ARP table");
-            if (ipExists(destinationNIC.getIpAddress(), pcList, routerList)) {
+            if (sourcePC.getARPTable().entryExists(destinationNIC.getMacAddress()) != -1) {
+                System.out.println("Destination interface is in ARP table");
+            }
+            else if (ipExists(destinationNIC.getIpAddress(), pcList, routerList)) {
                 // ARP should be successful only if there is an IP address matching the destination in the simulation.
                 arpProcessSuccessful(sourcePC, destinationPC);
             } else {
@@ -66,33 +69,6 @@ public class PingProtocol {
         System.out.println("Network of destination: " + destinationNetwork);
 
         return sourceNetwork.equals(destinationNetwork);
-    }
-
-    public static IPPacket createIPHeader(NIC sourceNIC, NIC destinationNIC, short ipIdentifier) {
-        return new IPPacket(
-                (byte) 4,
-                (byte) 5,
-                (byte) 0,
-                (short) 128,
-                ipIdentifier,
-                (byte) 0,
-                (short) 0,
-                (byte) 128,
-                (byte) 0x01,                                         // 1 indicates ICMP
-                (short) 0,
-                sourceNIC.getIpAddress(),                            // Source IP
-                destinationNIC.getIpAddress()                        // Destination IP
-        );
-    }
-
-    public static ICMPPacket createICMPHeader(short icmpIdentifier) {
-        return new ICMPPacket(
-                (byte) 0,                          // Echo request
-                (byte) 0,
-                (short) 0,
-                icmpIdentifier,         // Amount of packets made.
-                (short) 1                          // First icmp ping between devices.
-        );
     }
 
     private void delay(int seconds) {

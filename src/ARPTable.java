@@ -58,29 +58,25 @@ public class ARPTable {
         }
     }
 
-    public boolean entryExists(IPAddress ipAddress, MACAddress macAddress) {
+    public int entryExists(MACAddress macAddress) {
         // Iterate through all the ARP entries within the ARP table, and check if there is a match for the
-        // MAC address.
+        // MAC address, return the index of the entry from the ArrayList
 
-        // If there are no entries then not found.
-        if (this.entries.isEmpty()) {
-            return false;
-        }
-
-        for(ARPEntry entry : this.entries) {
-            if(entry.macAddresse.equals(macAddress)) {
-                return true;
+        for(int i = 0; i < entries.size(); i++) {
+            if(entries.get(i).macAddresse.equals(macAddress)) {
+                return i;
             }
         }
 
-        return false;
+        return -1;
     }
 
     public void addEntry(String protocol, IPAddress ipAddress, String age, MACAddress macAddress, String type, String nicName) {
         ARPEntry entry = new ARPEntry(protocol, ipAddress, age, macAddress, type, nicName);
+        int oldEntryIndex = entryExists(macAddress);
         // If the device already exists within the ARP table, just remove it and update it.
-        if (entryExists(ipAddress, macAddress)) {
-            this.entries.remove(entry);
+        if (oldEntryIndex != -1) {
+            this.entries.remove(oldEntryIndex);
         }
         this.entries.add(entry);
     }
