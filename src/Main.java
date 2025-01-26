@@ -27,6 +27,12 @@ public class Main {
         do {
             if (menu.equals("main")) {
                 displayMainMenu(pcList, routerList);
+
+                // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    scanner.next(); // Consume the invalid input
+                }
                 option = scanner.nextInt();
 
                 switch (option) {
@@ -39,6 +45,11 @@ public class Main {
                         // Delete PC
                         // This will need to show a list of PC's where the user can select what PC to delete.
                         System.out.println("Select a PC to delete");
+                        // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
+                        while (!scanner.hasNextInt()) {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            scanner.next(); // Consume the invalid input
+                        }
                         // -1 because it is based on the index of the ArrayList of the PC.
                         pcSelection = scanner.nextInt() - 1;
 
@@ -53,6 +64,11 @@ public class Main {
                     case 3:
                         // Select PC
                         System.out.println("Select a PC from the list");
+                        // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
+                        while (!scanner.hasNextInt()) {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            scanner.next(); // Consume the invalid input
+                        }
                         pcSelection = scanner.nextInt() - 1;
 
                         try {
@@ -76,6 +92,11 @@ public class Main {
                     case 5:
                         // Delete a Router
                         System.out.println("Select a Router to delete");
+                        // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
+                        while (!scanner.hasNextInt()) {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            scanner.next(); // Consume the invalid input
+                        }
                         routerSelection = scanner.nextInt() - 1;
 
                         try {
@@ -89,6 +110,11 @@ public class Main {
                     case 6:
                         // Select a Router
                         System.out.println("Select a Router from the list");
+                        // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
+                        while (!scanner.hasNextInt()) {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            scanner.next(); // Consume the invalid input
+                        }
                         routerSelection = scanner.nextInt() - 1;
 
                         try {
@@ -117,6 +143,11 @@ public class Main {
 
             } else if (menu.equals("pc")) {
                 displayPCMenu(pcList, pcSelection);
+                // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    scanner.next(); // Consume the invalid input
+                }
                 option = scanner.nextInt();
                 // Removes any new line characters that nextInt() didn't use. If not then any nextLine() function used
                 // on the scanner, will automatically have \n as its input.
@@ -195,6 +226,11 @@ public class Main {
                 }
             } else if (menu.equals("router")) {
                 displayRouterMenu(routerList, routerSelection);
+                // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    scanner.next(); // Consume the invalid input
+                }
                 option = scanner.nextInt();
                 // Removes any new line characters that nextInt() didn't use. If not then any nextLine() function used
                 // on the scanner, will automatically have \n as its input.
