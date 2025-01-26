@@ -19,12 +19,6 @@ public class PC extends Device {
         super.setNICList(new ArrayList<>(List.of(fa00)));
     }
 
-    // Overloading the constructor based on the arguments.
-    PC(String name) {
-        // Call the parent Device class. With the maximum amount of interfaces set to 1.
-        super(name);
-    }
-
     public NIC getPortFA00() { return super.getNICList().get(0); }
 
     // You shouldn't be able to change the name of the interface, as they are always predefined. Only the IP can be

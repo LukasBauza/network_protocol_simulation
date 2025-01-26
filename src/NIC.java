@@ -4,13 +4,6 @@ public class NIC {
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
     private final MACAddress macAddress = new MACAddress();
-    // Down = false, Up = true
-    private boolean state = false;
-
-    public NIC(String name, IPAddress ipAddress) {
-        this.name = name;
-        this.ipAddress = ipAddress;
-    }
 
     public NIC(String name) {
         this.name = name;
@@ -39,10 +32,6 @@ public class NIC {
     public void setSubnetMask(SubnetMask subnetMask) {
         this.subNetMask = subnetMask;
     }
-
-    public Boolean getState() { return state; }
-
-    public void setState(Boolean state) { this.state = state; }
 
     public IPAddress getNetwork() {
         IPAddress network = new IPAddress();

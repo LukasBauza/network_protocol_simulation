@@ -76,7 +76,7 @@ public class ARPTable {
         int oldEntryIndex = entryExists(macAddress);
         // If the device already exists within the ARP table, just remove it and update it.
         if (oldEntryIndex != -1) {
-            this.entries.remove(oldEntryIndex);
+            this.removeEntry(oldEntryIndex);
         }
         this.entries.add(entry);
     }
