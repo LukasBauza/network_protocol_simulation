@@ -16,16 +16,19 @@ public class Main {
         System.out.print("Welcome to the PING protocol simulation.\n");
         System.out.print("########################################\n\n");
 
-        String menu = "main";
-        int exit = 0;
-        int option = -1;
-        int pcSelection = -1;
-        int routerSelection = -1;
-        Scanner scanner = new Scanner(System.in);
-        PingProtocol pingProtocol = new PingProtocol();
+        // Variables used for menu navigation and options.
+        String menu = "main";           // Menu (main, pc, or router)
+        int exit = 0;                   // When to exit the program
+        int option = -1;                // User selected menu option
+        int pcSelection = -1;           // pc index for pcList selection
+        int routerSelection = -1;       // router index for routerList selection
+        Scanner scanner = new Scanner(System.in);           // Scanner for user input
+        PingProtocol pingProtocol = new PingProtocol();     // Instance used for simulating ping between devices.
 
+        // Loop until the user decides to exit.
         do {
             if (menu.equals("main")) {
+                // Display the main menu.
                 displayMainMenu(pcList, routerList);
 
                 // Checks whether the scanner had received an int or not, if it doesn't it prnts the below.
@@ -33,8 +36,9 @@ public class Main {
                     System.out.println("Invalid input. Please enter a valid number.");
                     scanner.next(); // Consume the invalid input
                 }
-                option = scanner.nextInt();
+                option = scanner.nextInt();     // Read the user selection
 
+                // Handle user selection for the main menu.
                 switch (option) {
                     case 1:
                         // Create PC and add it to the list of PC's
@@ -53,6 +57,7 @@ public class Main {
                         // -1 because it is based on the index of the ArrayList of the PC.
                         pcSelection = scanner.nextInt() - 1;
 
+                        // Attempt to remove a PC from the pcList, and handle the error if there is one.
                         try {
                             pcList.remove(pcSelection);
                         } catch (IndexOutOfBoundsException e) {
@@ -69,15 +74,15 @@ public class Main {
                             System.out.println("Invalid input. Please enter a valid number.");
                             scanner.next(); // Consume the invalid input
                         }
-                        pcSelection = scanner.nextInt() - 1;
+                        pcSelection = scanner.nextInt() - 1;    // convert input to 0 based index.
 
                         try {
                             // Check if the PC exists within the pcList.
                             pcList.get(pcSelection);
-                            menu = "pc";
+                            menu = "pc";                                // Switch to PC menu
                         } catch (IndexOutOfBoundsException e) {
                             System.out.println("PC does not exist");
-                            menu = "main";
+                            menu = "main";                              // Switch back to main menu if error
                         }
 
                         // Reset the option for the PC menu.
@@ -99,6 +104,7 @@ public class Main {
                         }
                         routerSelection = scanner.nextInt() - 1;
 
+                        // Attempt remove the selected Router.
                         try {
                             routerList.remove(routerSelection);
                         } catch (IndexOutOfBoundsException e) {
@@ -166,22 +172,27 @@ public class Main {
                     case 2:
                         System.out.println("Enter the new IP for the PC");
                         String ipAddressString = scanner.nextLine();
+                        // Create a new instance IPAddress with the inputted ip address String
                         IPAddress ipAddress = createIP(ipAddressString);
 
                         System.out.println("Enter the subnet mask for the PC");
                         String subnetMaskString = scanner.nextLine();
+                        // Create a new instance SubnetMask with the inputted subnet mask String
                         SubnetMask subnetMask = createSubnetMask(subnetMaskString);
 
+                        // Set the port with the ip address and the subnet mask for the pc.
                         pc.setPortFA00(ipAddress, subnetMask);
                         break;
 
                     // Set default gateway for the PC
                     case 3:
-                        System.out.println("Enter the IP and subnet mask for the default gateway");
+                        System.out.println("Enter the IP for the default gateway");
                         String defaultGatewayString = scanner.nextLine();
+                        // Create a default gateway ip address for the pc.
                         IPAddress defaultGatewayIP = createIP(defaultGatewayString);
 
                         System.out.println("Enter the subnet mask for the default gateway");
+                        // Create a default gateway subnet mask for the pc.
                         String defaultGatewaySubnetMaskString = scanner.nextLine();
                         SubnetMask defaultGatewaySubnet = createSubnetMask(defaultGatewaySubnetMaskString);
 
@@ -206,8 +217,11 @@ public class Main {
                     case 4:
                         // Start the ping process with another device.
                         System.out.println("Enter the IP address you want to ping to");
+                        // Creates the destination IP address from the user input.
                         IPAddress destinationIP = new IPAddress(scanner.nextLine());
+                        // retreive the index based on the destination Ip address from the pcList
                         int destinationPCIndex = getIndexFromPCListWithIP(destinationIP, pcList);
+                        // If ther destinationPCIndex is correctly returned, it means it exists.
                         if(destinationPCIndex != -1) {
                             pingProtocol.ping(pc, pcList.get(destinationPCIndex), pcList, routerList);
                         } else {
@@ -244,6 +258,8 @@ public class Main {
                         router.setName(name);
                         break;
 
+                        // cases 2 to case 4 are used for creating the IP address for the ports of the router, as well
+                        // as the subnet mask.
                         case 2:
                             System.out.println("Enter IP address for GigabitEthernet 0/0");
                             String ipAddress00String = scanner.nextLine();
@@ -281,10 +297,12 @@ public class Main {
                             break;
 
                             case 5:
+                                // Go back to the main menu
                                 menu = "main";
                                 break;
                 }
             }
+            // Check if user wants to exit program.
         } while (exit == 0);
     }
 
@@ -329,6 +347,9 @@ public class Main {
     }
 
     public static PC createPC() {
+        // this just prompts the user to enter the needed information for creating a PC. It will ask for the name, IP,
+        // and subnet mask and create the object.
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Please enter the name for the PC: ");
@@ -346,6 +367,8 @@ public class Main {
     }
 
     public static Router createRouter() {
+        // this prompts the user to create the router with the input of its name only. The user can change the other
+        // details of the router through different options.
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Please enter the name for the Router: ");
@@ -572,12 +595,14 @@ public class Main {
     }
 
     public static boolean checkDefaultGatewayExists(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
+        // This is just a holder for the previous gigXXMatch functions, it checks if any of the interfaces matched with the required
+        // subnet mask and ip address.
         return gig00Match(routerList, defaultGatewayIPAddress, subnetMask) || (gig01Match(routerList, defaultGatewayIPAddress, subnetMask)) ||
                 gig02Match(routerList, defaultGatewayIPAddress, subnetMask);
     }
 
     public static boolean checkDefaultGatewayAssigned(ArrayList<PC> assignedDefaultGatewayList, IPAddress ipAddress, SubnetMask subnetMask) {
-
+        // This checks if a default gateway is already assigned to another PC for a given router interface.
         for(PC pc : assignedDefaultGatewayList) {
             if((pc.getDefaultGatewaySubnetMask().equals(subnetMask)) && (pc.getDefaultGatewayIPAddress().equals(ipAddress))) {
                 return true;
