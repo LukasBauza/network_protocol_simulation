@@ -23,17 +23,17 @@ public class ARPTable {
 
      static class ARPEntry {
         private String protocol;
-        private IPAddress ipAddresse;
+        private IPAddress ipAddress;
         private String age;
-        private MACAddress macAddresse;
+        private MACAddress macAddress;
         private String type;
         private String nicName;
 
         public ARPEntry(String protocol, IPAddress ipAddress, String age, MACAddress macAddress, String type, String nicName) {
             this.protocol = protocol;
-            this.ipAddresse = ipAddress;
+            this.ipAddress = ipAddress;
             this.age = age;
-            this.macAddresse = macAddress;
+            this.macAddress = macAddress;
             this.type = type;
             this.nicName = nicName;
         }
@@ -43,11 +43,11 @@ public class ARPTable {
 
             entry.append(protocol);
             entry.append("\t");
-            entry.append(ipAddresse.toString());
+            entry.append(ipAddress.toString());
             entry.append("\t\t");
             entry.append(age.toString());
             entry.append("\t");
-            entry.append(macAddresse.toString());
+            entry.append(macAddress.toString());
             entry.append("\t");
             entry.append(type);
             entry.append("\t");
@@ -63,7 +63,7 @@ public class ARPTable {
         // MAC address, return the index of the entry from the ArrayList
 
         for(int i = 0; i < entries.size(); i++) {
-            if(entries.get(i).macAddresse.equals(macAddress)) {
+            if(entries.get(i).macAddress.equals(macAddress)) {
                 return i;
             }
         }
