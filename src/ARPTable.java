@@ -21,7 +21,30 @@ public class ARPTable {
         return table.toString();
     }
 
-     static class ARPEntry {
+    public int entryExists(MACAddress macAddress) {
+        // Iterate through all the ARP entries within the ARP table, and check if there is a match for the
+        // MAC address, return the index of the entry from the ArrayList
+
+        for(int i = 0; i < entries.size(); i++) {
+            if(entries.get(i).macAddress.equals(macAddress)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public void addEntry(String protocol, IPAddress ipAddress, String age, MACAddress macAddress, String type, String nicName) {
+        ARPEntry entry = new ARPEntry(protocol, ipAddress, age, macAddress, type, nicName);
+        int oldEntryIndex = entryExists(macAddress);
+        // If the device already exists within the ARP table, just remove it and update it.
+        if (oldEntryIndex != -1) {
+            this.removeEntry(oldEntryIndex);
+        }
+        this.entries.add(entry);
+    }
+
+    static class ARPEntry {
         private String protocol;
         private IPAddress ipAddress;
         private String age;
@@ -56,28 +79,5 @@ public class ARPTable {
 
             return entry.toString();
         }
-    }
-
-    public int entryExists(MACAddress macAddress) {
-        // Iterate through all the ARP entries within the ARP table, and check if there is a match for the
-        // MAC address, return the index of the entry from the ArrayList
-
-        for(int i = 0; i < entries.size(); i++) {
-            if(entries.get(i).macAddress.equals(macAddress)) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    public void addEntry(String protocol, IPAddress ipAddress, String age, MACAddress macAddress, String type, String nicName) {
-        ARPEntry entry = new ARPEntry(protocol, ipAddress, age, macAddress, type, nicName);
-        int oldEntryIndex = entryExists(macAddress);
-        // If the device already exists within the ARP table, just remove it and update it.
-        if (oldEntryIndex != -1) {
-            this.removeEntry(oldEntryIndex);
-        }
-        this.entries.add(entry);
     }
 }
