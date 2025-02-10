@@ -14,7 +14,7 @@ public class MACAddress {
     }
 
     public String toString() {
-        // Converts all of the bytes into a String, appends to a ":" for separation.
+        // Converts all the bytes into a String, appends to a ":" for separation.
 
         // Makes sure that the format of the string is in HEX.
         String byte0 = String.format("%02X", this.macAddress[0]);
@@ -49,7 +49,7 @@ public class MACAddress {
         if(object == null || this.getClass() != object.getClass()) return false;
         // Cast the object to the SubnetMask object class.
         MACAddress macAddress = (MACAddress) object;
-        // Check if all of the subnet mask values match, if not then return false.
+        // Check if all the subnet mask values match, if not then return false.
         if(this.macAddress[0] != macAddress.getMacAddress()[0]) return false;
         if(this.macAddress[1] != macAddress.getMacAddress()[1]) return false;
         if(this.macAddress[2] != macAddress.getMacAddress()[2]) return false;
