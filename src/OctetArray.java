@@ -1,21 +1,39 @@
 public abstract class OctetArray {
     private byte[] octetArray;
-    private int octetArraySize;
+    private String separator;
+    private int size;
 
-    public OctetArray(int octetArraySize) {
-        this.octetArraySize = octetArraySize;
+    public byte[] getOctetArray() {
+        return octetArray;
     }
 
-    public byte[] getOctetArray() { return octetArray; }
-
     public String toString() {
-        String[] byteString = new String[octetArraySize];
-        for (int i = 0; i < octetArraySize; i++) {
-            byteString[i] = Integer.toString(Byte.toUnsignedInt(octetArray[i]));
+        String bytesString = "";
+        for (int i = 0; i < size; i++) {
+            if (!(i == size - 1)) {
+                bytesString = bytesString + Integer.toString(Byte.toUnsignedInt(octetArray[i])) + separator;
+            } else {
+                // Octet at the very right doesn't need the separator.
+                bytesString = bytesString + Integer.toString(Byte.toUnsignedInt(octetArray[i]));
+            }
         }
+        return bytesString;
+    }
 
-        System.out.println(String.join(".", byteString));
+    // TODO: Start here next
+    public void setOctetArray(String octetArray) {
 
-        return String.join(".", byteString);
+    }
+
+    public void setSpecificByte(int byteLocation, byte byteVal) {
+
+    }
+
+    public boolean equals(Object object) {
+        return true;
+    }
+
+    public byte[] octetArrayStringToByteArray(String octetArray) {
+        return null;
     }
 }
