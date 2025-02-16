@@ -172,7 +172,7 @@ public class PingProtocol {
 
             // The source PC creates the IP packet to be sent to the destination
             System.out.println("Creating IP packet for ping.");
-            IPPacket ipPacketSource = createIpHeader(sourcePC.getNICList().get(0).getIpAddress(),
+            IPPacket ipPacketSource = createIpPacket(sourcePC.getNICList().get(0).getIpAddress(),
                     destinationPC.getNICList().get(0).getIpAddress(),
                     ipIdentifier);
             // Delays are just for simulating time for processing/sending.
@@ -195,7 +195,7 @@ public class PingProtocol {
 
             // The destination PC creates the IP packet to be sent back to the source
             System.out.println("Creating IP packet for ping.");
-            IPPacket ipPacketDestination = createIpHeader(destinationPC.getNICList().get(0).getIpAddress(),
+            IPPacket ipPacketDestination = createIpPacket(destinationPC.getNICList().get(0).getIpAddress(),
                     sourcePC.getNICList().get(0).getIpAddress(),
                     ipIdentifier);
             delay(1);
@@ -227,7 +227,7 @@ public class PingProtocol {
             // The source PC creates the IP packet to be sent to its default gateway
             System.out.println("Creating IP packet for ping.");
             // The PC will be sending the IP packet to its default gateway first.
-            IPPacket ipPacketSource = createIpHeader(sourcePC.getNICList().get(0).getIpAddress(),
+            IPPacket ipPacketSource = createIpPacket(sourcePC.getNICList().get(0).getIpAddress(),
                     destinationPC.getNICList().get(0).getIpAddress(),
                     ipIdentifier);
             System.out.println("Created the following IP packet for ping to destination PC");
@@ -248,7 +248,7 @@ public class PingProtocol {
 
             // The destination PC creates the IP packet to be sent back to the source
             System.out.println("Creating IP packet for ping.");
-            IPPacket ipPacketDestination = createIpHeader(destinationPC.getNICList().get(0).getIpAddress(),
+            IPPacket ipPacketDestination = createIpPacket(destinationPC.getNICList().get(0).getIpAddress(),
                     sourcePC.getNICList().get(0).getIpAddress(),
                     ipIdentifier);
             System.out.println("Created the following IP packet for ping.");
@@ -262,7 +262,7 @@ public class PingProtocol {
         }
     }
 
-    private IPPacket createIpHeader(IPAddress sourceIP, IPAddress destinationIP, short ipIdentifier) {
+    private IPPacket createIpPacket(IPAddress sourceIP, IPAddress destinationIP, short ipIdentifier) {
         // This just builds the IP Header for the ping.
         IPPacket ipPacket = new IPPacket(
                 (byte) 4,
