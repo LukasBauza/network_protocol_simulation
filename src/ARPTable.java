@@ -4,7 +4,6 @@ public class ARPTable {
     private ArrayList<ARPEntry> entries = new ArrayList<>();
 
     public ARPTable() {
-        ArrayList<ARPEntry> entries;
     }
 
     public void removeEntry(int entryIndex) {
