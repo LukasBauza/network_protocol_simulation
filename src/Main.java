@@ -1,13 +1,55 @@
-import gui.Frame;
+// imports the gui package and the Frame class into this class.
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // delete this comment
 public class Main {
     public static void main(String[] args) {
-        // Set the window.
-        Frame frame = new Frame();
+        JFrame frame = new JFrame();
+
+        frame.setTitle("OSPF Simulation");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
+        frame.setResizable(false);
+        frame.setSize(1000, 800);
+        frame.setLayout(new GridLayout());
+
+        JPanel itemPanel = getJPanel();
+        // rows: 0 is used for allowing as many rows as possible. This fills widgets vertically.
+        itemPanel.setLayout(new GridLayout(0, 1));
+
+        JPanel playgroundPanel = new JPanel();
+
+        frame.add(itemPanel);
+        frame.add(playgroundPanel);
+        frame.setVisible(true);                                 // Make frame visible
+    }
+
+    private static JPanel getJPanel() {
+        JButton routerButton = new JButton("Router");
+        // Function for creating allowing the button to listen for a click, and thus performing the
+        // following function (which is a lambda function).
+        routerButton.addActionListener(e -> {
+            System.out.println("Router button clicked");
+        });
+
+        JButton pcButton = new JButton("PC");
+        pcButton.addActionListener(e -> {
+            System.out.println("PC button clicked");
+        });
+
+        JButton connectButton = new JButton("Connect");
+        connectButton.addActionListener(e -> {
+            System.out.println("Connect button clicked");
+        });
+
+        JPanel itemPanel = new JPanel();
+        itemPanel.add(routerButton);
+        itemPanel.add(pcButton);
+        itemPanel.add(connectButton);
+        return itemPanel;
     }
 
     public static IPAddress createIP(String ipAddressString) {
