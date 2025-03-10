@@ -1,6 +1,6 @@
 public class IPAddress extends OctetArray {
     //private String ipAddress;
-    private byte[] ipAddress = new byte[4];
+    private byte[] ipAddress;
 
     public IPAddress(String ipAddress) {
         // Set up the OctetArray parent class, for its constructor.
