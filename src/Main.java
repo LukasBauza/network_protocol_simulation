@@ -14,19 +14,32 @@ public class Main {
         frame.setTitle("OSPF Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
         frame.setResizable(false);
-        frame.setSize(1000, 300);
-        frame.setLayout(new GridLayout());
+        frame.setSize(600, 300);
+        frame.setLayout(new GridLayout(0, 1));      // rows=0, cols=1. Makes it vertical.
+
+        JLabel welcomeLabel = new JLabel("""
+                <html>
+                Welcome to the OSPF simulation protocol!<br>
+                Please select whether you want to create a custom network or a preconfigured network.
+                </html>""", SwingConstants.CENTER);     // html is used to add line break
+        welcomeLabel.setBackground(Color.lightGray);
+        welcomeLabel.setOpaque(true);
+
 
         JButton customNetworkButton = new JButton("Custom Network");
+        Font networkButtonFont = new Font(customNetworkButton.getFont().getName(), Font.BOLD, 20);
+        customNetworkButton.setFont(networkButtonFont);
         customNetworkButton.addActionListener(e -> {
             System.out.println("Custom network button pressed.");
         });
 
         JButton preconfiguredNetworkButton = new JButton("Preconfigured Network");
+        preconfiguredNetworkButton.setFont(networkButtonFont);
         preconfiguredNetworkButton.addActionListener(e -> {
             System.out.println("Preconfigured network button pressed.");
         });
 
+        frame.add(welcomeLabel);
         frame.add(customNetworkButton);
         frame.add(preconfiguredNetworkButton);
         frame.setVisible(true);                                 // Make frame visible
