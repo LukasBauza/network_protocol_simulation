@@ -17,95 +17,18 @@ public class Main {
         frame.setSize(1000, 300);
         frame.setLayout(new GridLayout());
 
-        Router r1 = new Router("R1");
-        Router r2 = new Router("R2");
-        Router r3 = new Router("R3");
-
-        // Atomic variable is needed for the sake of syncronising across the difference UI elements, as they won't be
-        // updated.
-        AtomicReference<Router> selectedRouter = new AtomicReference<>(r1);
-
-        JButton routerButton = new JButton(r1.getName());
-        // Function for creating allowing the button to listen for a click, and thus performing the
-        // following function (which is a lambda function).
-        routerButton.addActionListener(e -> {
-            System.out.println("Router " + r1.getName() + " clicked");
-            selectedRouter.set(r1);
+        JButton customNetworkButton = new JButton("Custom Network");
+        customNetworkButton.addActionListener(e -> {
+            System.out.println("Custom network button pressed.");
         });
 
-        JButton pcButton = new JButton(r2.getName());
-        pcButton.addActionListener(e -> {
-            System.out.println("Router " + r2.getName() + " clicked");
-            selectedRouter.set(r2);
+        JButton preconfiguredNetworkButton = new JButton("Preconfigured Network");
+        preconfiguredNetworkButton.addActionListener(e -> {
+            System.out.println("Preconfigured network button pressed.");
         });
 
-        JButton connectButton = new JButton(r3.getName());
-        connectButton.addActionListener(e -> {
-            System.out.println("Router " + r3.getName() + " clicked");
-            selectedRouter.set(r3);
-        });
-
-        JPanel itemPanel = new JPanel();
-        itemPanel.add(routerButton);
-        itemPanel.add(pcButton);
-        itemPanel.add(connectButton);
-        // rows: 0 is used for allowing as many rows as possible. This fills widgets vertically.
-        itemPanel.setLayout(new GridLayout(0, 1));
-
-        JPanel descriptionPanel = new JPanel();
-
-        descriptionPanel.setLayout(new GridLayout(8, 2));
-
-        descriptionPanel.add(new JLabel("Name:"));
-        JTextField nameField = new JTextField(selectedRouter.get().getName());
-        descriptionPanel.add(nameField);
-
-        descriptionPanel.add(new JLabel("Gig0/0 IP Address:"));
-        JTextField gig00IP = new JTextField();
-        descriptionPanel.add(gig00IP);
-
-        descriptionPanel.add(new JLabel("Gig0/0 Subnet Mask:"));
-        JTextField gig00Mask = new JTextField();
-        descriptionPanel.add(gig00Mask);
-
-        descriptionPanel.add(new JLabel("Gig0/1 IP Address:"));
-        JTextField gig01IP = new JTextField();
-        descriptionPanel.add(gig01IP);
-
-        descriptionPanel.add(new JLabel("Gig0/1 Subnet Mask:"));
-        JTextField gig01Mask = new JTextField();
-        descriptionPanel.add(gig01Mask);
-
-        descriptionPanel.add(new JLabel("Gig0/2 IP Address:"));
-        JTextField gig02IP = new JTextField();
-        descriptionPanel.add(gig02IP);
-
-        descriptionPanel.add(new JLabel("Gig0/2 Subnet Mask:"));
-        JTextField gig02Mask = new JTextField();
-        descriptionPanel.add(gig02Mask);
-
-        JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(e -> {
-            Router router = selectedRouter.get();
-            router.setPortGig00IPAddress(new IPAddress(gig00IP.getText()));
-            System.out.println(new IPAddress(gig00IP.getText()));
-            router.setPortGig00SubnetMask(new SubnetMask(gig00Mask.getText()));
-            router.setPortGig01IPAddress(new IPAddress(gig01IP.getText()));
-            router.setPortGig01SubnetMask(new SubnetMask(gig01Mask.getText()));
-            router.setPortGig02IPAddress(new IPAddress(gig02IP.getText()));
-            router.setPortGig02SubnetMask(new SubnetMask(gig02Mask.getText()));
-
-            System.out.println("Updated Router: " + router.getName());
-            System.out.println("Gig0/0: " + router.getPortGig00().getIpAddress() + " / " + router.getPortGig00().getSubnetMask());
-            System.out.println("Gig0/1: " + router.getPortGig01().getIpAddress() + " / " + router.getPortGig01().getSubnetMask());
-            System.out.println("Gig0/2: " + router.getPortGig02().getIpAddress() + " / " + router.getPortGig02().getSubnetMask());
-        });
-        descriptionPanel.add(submitButton, BorderLayout.SOUTH);
-
-        frame.add(descriptionPanel, BorderLayout.CENTER);
-
-        frame.add(itemPanel);
-        frame.add(descriptionPanel);
+        frame.add(customNetworkButton);
+        frame.add(preconfiguredNetworkButton);
         frame.setVisible(true);                                 // Make frame visible
     }
 
