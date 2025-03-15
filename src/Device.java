@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 abstract public class Device {
-    // Abstract class for holding data memebers and methods that are common within the Router and PC child classes.
+    // Abstract class for holding data members and methods that are common within the Router and PC child classes.
 
     private String name;                            // Name of the device
     private ARPTable arpTable = new ARPTable();     // ARP table for the device.
