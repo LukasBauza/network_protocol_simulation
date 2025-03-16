@@ -1,10 +1,8 @@
-public class IPAddress extends OctetArray {
+public class IPAddress {
     //private String ipAddress;
-    private byte[] ipAddress;
+    private byte[] ipAddress = new byte[4];
 
     public IPAddress(String ipAddress) {
-        // Set up the OctetArray parent class, for its constructor.
-        super(".", 4);
         // constructor used for checking that each segment is the right type and in the right range.
         //      if a wrong type is entered, it will throw out an error into main, which
         //      can be caught and used for error handling.
@@ -16,8 +14,6 @@ public class IPAddress extends OctetArray {
     }
 
     public IPAddress() {
-        // Set up the OctetArray parent class, for its constructor.
-        super(".", 4);
         this.ipAddress = new byte[4];
     }
 
@@ -25,15 +21,15 @@ public class IPAddress extends OctetArray {
         return ipAddress;
     }
 
-//    public String toString() {
-//        // Needs to be converted to an unsigned int, to not have minus values. As bytes are represented in negatives.
-//        String byte0 = Integer.toString(Byte.toUnsignedInt(ipAddress[0]));
-//        String byte1 = Integer.toString(Byte.toUnsignedInt(ipAddress[1]));
-//        String byte2 = Integer.toString(Byte.toUnsignedInt(ipAddress[2]));
-//        String byte3 = Integer.toString(Byte.toUnsignedInt(ipAddress[3]));
-//
-//        return byte0 + "." + byte1 + "." + byte2 + "." + byte3;
-//    }
+    public String toString() {
+        // Needs to be converted to an unsigned int, to not have minus values. As bytes are represented in negatives.
+        String byte0 = Integer.toString(Byte.toUnsignedInt(ipAddress[0]));
+        String byte1 = Integer.toString(Byte.toUnsignedInt(ipAddress[1]));
+        String byte2 = Integer.toString(Byte.toUnsignedInt(ipAddress[2]));
+        String byte3 = Integer.toString(Byte.toUnsignedInt(ipAddress[3]));
+
+        return byte0 + "." + byte1 + "." + byte2 + "." + byte3;
+    }
 
     public void setIpAddress(String ipAddress) {
         //this.ipAddress = ipAddress;
@@ -113,7 +109,7 @@ public class IPAddress extends OctetArray {
         if(object == null || this.getClass() != object.getClass()) return false;
         // Cast the object to the SubnetMask object class.
         IPAddress ipAddress = (IPAddress) object;
-        // Check if all of the subnet mask values match, if not then return false.
+        // Check if all the subnet mask values match, if not then return false.
         if(this.ipAddress[0] != ipAddress.getIpAddress()[0]) return false;
         if(this.ipAddress[1] != ipAddress.getIpAddress()[1]) return false;
         if(this.ipAddress[2] != ipAddress.getIpAddress()[2]) return false;
