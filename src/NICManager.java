@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class NICManager {
     // Holds the all the NICs that have been created.
-    private ArrayList<NIC> createdNICs;
+    private ArrayList<NIC> createdNICs = new ArrayList<>();
     // This will hold the instance of the class, it is used to ensure that this will be the only instance that can be used.
     // static variable to indicate the value is associated with the class, and not the object, this ensures that the same
     // instance is held throughout the class. new NICManager() calls the private constructor, which can only be accessed
