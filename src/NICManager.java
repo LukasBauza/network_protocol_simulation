@@ -1,13 +1,23 @@
 import java.util.ArrayList;
 
 public class NICManager {
-    ArrayList<NIC> createdNICs;
+    private ArrayList<NIC> createdNICs;
+    // This will hold the instance of the class, it is used to ensure that this will be the only instance that can be used.
+    // static variable to indicate the value is associated with the class, and not the object, this ensures that the same
+    // instance is held throughout the class. new NICManager() calls the private constructor, which can only be accessed
+    // from within itself.
+    private static NICManager instance = new NICManager();
+
+    // private constructor, so no other class can call the constructor, thus not allowing any more instances of the class.
+    private NICManager() {
+
+    }
 
     /**
      * Inserts a NIC within the ArrayList<NIC>
      * @param nic The NIC to be inserted.
      */
-    void addNIC(NIC nic) {
+    public void addNIC(NIC nic) {
         createdNICs.add(nic);
     }
 
@@ -16,7 +26,7 @@ public class NICManager {
      * @param macAddress MACAddress that will be searched for.
      * @return If a MACAddress exists returns true, else false.
      */
-    boolean macExists(MACAddress macAddress) {
+    public boolean macExists(MACAddress macAddress) {
         for (NIC nic : createdNICs) {
             if (nic.getMacAddress().equals(macAddress)) {
                 return true;
@@ -31,7 +41,7 @@ public class NICManager {
      * @param subnetMask Used for checking a matching SubnetMask.
      * @return If both the ipAddress and subnetMask match, then return true, else false.
      */
-    boolean ipAndSubnetExists(IPAddress ipAddress, SubnetMask subnetMask) {
+    public boolean ipAndSubnetExists(IPAddress ipAddress, SubnetMask subnetMask) {
         for (NIC nic : createdNICs) {
             if (nic.getIpAddress().equals(ipAddress) && nic.getSubnetMask().equals(subnetMask)) {
                 return true;
