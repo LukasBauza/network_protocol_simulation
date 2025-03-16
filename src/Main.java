@@ -9,6 +9,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Main {
     public static void main(String[] args) {
 
+        // Retrieve the only instance of the NICManager.
+        NICManager nicManager = NICManager.getInstance();
+
         JFrame frame = new JFrame("OSPF Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
         frame.setResizable(false);
@@ -38,8 +41,8 @@ public class Main {
 
         JLabel prebuiltNetworkLabel = new JLabel("Prebuilt Network");
 
-        JButton[] routerButtons = getRouterJButtons();
-        JButton[] pcButtons = getPCButtons();
+        JButton[] routerButtons = getJButtonArray(7, "R");
+        JButton[] pcButtons = getJButtonArray(3, "PC");
 
         JLabel customNetworkLabel = new JLabel("Custom Network");
 
@@ -51,20 +54,50 @@ public class Main {
             frame.remove(preconfiguredNetworkButton);
 
             frame.setTitle("OSPF Simulation: Prebuilt Network");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
-            frame.setResizable(false);
-            frame.setSize(1000, 600);
+            frame.setSize(1200, 1000);
             frame.setLayout(new GridLayout());       // rows=0, cols=1. Makes it vertical.
 
-            frame.add(prebuiltNetworkLabel);
+            JPanel panel = new JPanel();
+            panel.setLayout(null);                  // No layout, for placing items with x and y coordinates.
+
+            panel.add(pcButtons[0]);
+            pcButtons[0].setBounds(new Rectangle(50, 50, 60, 60));
+
+            panel.add(routerButtons[0]);
+            routerButtons[0].setBounds(new Rectangle(180, 180, 60, 60));
+
+            panel.add(routerButtons[1]);
+            routerButtons[1].setBounds(new Rectangle(310, 310, 60, 60));
+
+            panel.add(routerButtons[2]);
+            routerButtons[2].setBounds(new Rectangle(440, 440, 60, 60));
+
+            panel.add(routerButtons[3]);
+            routerButtons[3].setBounds(new Rectangle(570, 570, 60, 60));
+
+            panel.add(pcButtons[1]);
+            pcButtons[1].setBounds(new Rectangle(700, 700, 60, 60));
+
+            panel.add(routerButtons[4]);
+            routerButtons[4].setBounds(new Rectangle(545, 310, 60, 60));
+
+            panel.add(routerButtons[5]);
+            routerButtons[5].setBounds(new Rectangle(700, 180, 60, 60));
+
+            panel.add(routerButtons[6]);
+            routerButtons[6].setBounds(new Rectangle(850, 310, 60, 60));
+
+            //frame.add(prebuiltNetworkLabel);
 
             for (JButton button : routerButtons) {
-                frame.add(button);
+                panel.add(button);
             }
 
             for (JButton button : pcButtons) {
-                frame.add(button);
+                panel.add(button);
             }
+
+            frame.add(panel);
         });
 
         customNetworkButton.addActionListener(e -> {
@@ -75,8 +108,6 @@ public class Main {
             frame.remove(preconfiguredNetworkButton);
 
             frame.setTitle("OSPF Simulation: Custom Network");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
-            frame.setResizable(false);
             frame.setSize(1000, 600);
             frame.setLayout(new GridLayout());       // rows=0, cols=1. Makes it vertical.
 
@@ -84,35 +115,19 @@ public class Main {
         });
     }
 
-    private static JButton[] getRouterJButtons() {
-        Router[] routers = {
-                new Router("R0"),
-                new Router("R1"),
-                new Router("R2"),
-                new Router("R3"),
-                new Router("R4")
-        };
-        return new JButton[]{
-                new JButton(routers[0].getName()),
-                new JButton(routers[1].getName()),
-                new JButton(routers[2].getName()),
-                new JButton(routers[3].getName()),
-                new JButton(routers[4].getName())
-        };
-    }
+    /**
+     * Method for creating an array of JButton objects, with a name for each object.
+     * @param count
+     * @param name
+     * @return Array of JButton objects, with size count. With the text as: name + (count - 1), for each button.
+     */
+    private static JButton[] getJButtonArray(int count, String name) {
+        JButton[] buttons = new JButton[count];
 
-    private static JButton[] getPCButtons() {
-        PC[] pcs = {
-                new PC("PC0", new IPAddress("192.168.1.1"), new SubnetMask("255.255.255.0")),
-                new PC("PC1", new IPAddress("192.168.2.1"), new SubnetMask("255.255.255.0")),
-                new PC("PC2", new IPAddress("192.168.3.1."), new SubnetMask("255.255.255.0")),
-                new PC("PC3", new IPAddress("192.168.4.1"), new SubnetMask("255.255.255.0")),
-        };
-        return new JButton[]{
-                new JButton("PC0"),
-                new JButton("PC1"),
-                new JButton("PC2"),
-                new JButton("PC3")
-        };
-    };
+        while (count != 0) {
+            buttons[count - 1] = new JButton(name + (count - 1));
+            count--;
+        }
+        return buttons;
+    }
 }

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class NICManager {
+    // Holds the all the NICs that have been created.
     private ArrayList<NIC> createdNICs;
     // This will hold the instance of the class, it is used to ensure that this will be the only instance that can be used.
     // static variable to indicate the value is associated with the class, and not the object, this ensures that the same
@@ -8,9 +9,19 @@ public class NICManager {
     // from within itself.
     private static NICManager instance = new NICManager();
 
-    // private constructor, so no other class can call the constructor, thus not allowing any more instances of the class.
+    /**
+     * Private constructor, so no other class can call the constructor, thus not allowing any more instances of the class.
+     */
     private NICManager() {
 
+    }
+
+    /**
+     * Method for returning the instance of the object, since only one instance can exist.
+     * @return NICManager instance
+     */
+    public static NICManager getInstance() {
+        return instance;
     }
 
     /**
