@@ -4,9 +4,12 @@ public class NIC {
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
     private final MACAddress macAddress = new MACAddress();
+    private NIC connection;
 
-    public NIC(String name) {
+    public NIC(String name, NICManager nicManager) {
         this.name = name;
+        // Add the NIC to the NICManager to keep track of NICs automatically.
+        nicManager.addNIC(this);
     }
 
     public String getName() {
@@ -36,7 +39,7 @@ public class NIC {
     public IPAddress getNetwork() {
         IPAddress network = new IPAddress();
 
-        // AND the IP address bits with the subnet mask bits and it should return the network bits for each byte.
+        // AND the IP address bits with the subnet mask bits, and it should return the network bits for each byte.
         byte byte3 = (byte) (this.ipAddress.getIpAddress()[3] & this.subNetMask.getSubnetMask()[3]);
         byte byte2 = (byte) (this.ipAddress.getIpAddress()[2] & this.subNetMask.getSubnetMask()[2]);
         byte byte1 = (byte) (this.ipAddress.getIpAddress()[1] & this.subNetMask.getSubnetMask()[1]);
@@ -49,5 +52,21 @@ public class NIC {
         network.setByte0(byte0);
 
         return network;
+    }
+
+    /**
+     * Sets up a connection to another NIC.
+     * @param otherNIC This is the other NIC that this instance will connect to.
+     */
+    public void setConnection(NIC otherNIC) {
+        this.connection = otherNIC;
+    }
+
+    /**
+     * Checks whether this NIC is connected to another NIC.
+     * @return True if there is a connection, false if not.
+     */
+    public boolean isConnected() {
+        return this.connection != null;
     }
 }

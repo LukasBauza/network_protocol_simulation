@@ -3,15 +3,15 @@ import java.util.List;
 
 public class Router extends Device {
 
-    public Router(String name) {
+    public Router(String name, NICManager nicManager) {
         // Use the parent class constructor to add the name variable within the Device class.
         super(name);
 
         // Set up the NIC for the Router, which is Gig 0/0, Gig 0/1, Gig 0/2. There is only a name for them set, as the
         // user should be able to set the IP and subnet mask at a later time.
-        NIC gig00 = new NIC("GigabitEthernet 0/0");
-        NIC gig01 = new NIC("GigabitEthernet 0/1");
-        NIC gig02 = new NIC("GigabitEthernet 0/2");
+        NIC gig00 = new NIC("GigabitEthernet 0/0", nicManager);
+        NIC gig01 = new NIC("GigabitEthernet 0/1", nicManager);
+        NIC gig02 = new NIC("GigabitEthernet 0/2", nicManager);
 
         // Add the NICs to the ArrayList of the nic list within the parent class.
         super.setNICList(new ArrayList<>(List.of(gig00, gig01, gig02)));

@@ -6,12 +6,12 @@ public class PC extends Device {
     private IPAddress defaultGatewayIPAddress;
     private SubnetMask defaultGatewaySubnetMask;
 
-    PC(String name, IPAddress ipaddress, SubnetMask subnetMask) {
+    PC(String name, IPAddress ipaddress, SubnetMask subnetMask, NICManager nicManager) {
         // Use the parent class constructor to add the name variable within the Device class.
         super(name);
 
         // Set up the NIC for the PC, which only has the FastEthernet 0/0
-        NIC fa00 = new NIC("FastEthernet 0/0");
+        NIC fa00 = new NIC("FastEthernet 0/0", nicManager);
         fa00.setIpAddress(ipaddress);
         fa00.setSubnetMask(subnetMask);
         // Add the fa00 NIC to the ArrayList of nicList.
