@@ -1,5 +1,3 @@
-// TODO: Need to add subnet for PC.
-
 import java.util.Random;
 
 public class MACAddress {
