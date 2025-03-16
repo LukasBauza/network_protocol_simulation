@@ -3,7 +3,7 @@ public class NIC {
     private final String name;
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
-    private final MACAddress macAddress = new MACAddress();
+    private MACAddress macAddress;
     private NIC connection;
     private NICManager nicManager = NICManager.getInstance();
 
@@ -11,6 +11,17 @@ public class NIC {
         this.name = name;
         // Add the NIC to the NICManager to keep track of NICs automatically.
         nicManager.addNIC(this);
+        setMacAddress();
+    }
+
+    private void setMacAddress() {
+        int count = 10;
+        // create a MACAddress for the NIC, if it already exists, then keep creating one until it is unique, or if looped
+        // 10 times. 10 times to make sure it won't infinitely loop, the likelihood of generated 10 of the same MACAddresses
+        // is almost zero.
+        do {
+            macAddress = new MACAddress();
+        } while (nicManager.macExists(macAddress) && count-- > 0);
     }
 
     public String getName() {
