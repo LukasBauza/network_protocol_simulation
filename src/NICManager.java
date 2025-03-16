@@ -54,10 +54,16 @@ public class NICManager {
      */
     public boolean ipAndSubnetExists(IPAddress ipAddress, SubnetMask subnetMask) {
         for (NIC nic : createdNICs) {
+            // Check if the IP Address or the Subnet Mask is not equal to null, if so go to the next iteration
+            if (nic.getIpAddress() == null || nic.getSubnetMask() == null) {
+                continue;
+            }
+            // If the ipAddres and the subnetMask match with the subnetMask and ipAddress of the NIC, then return true.
             if (nic.getIpAddress().equals(ipAddress) && nic.getSubnetMask().equals(subnetMask)) {
                 return true;
             }
         }
+        // When no matches are mad then return false.
         return false;
     }
 }
