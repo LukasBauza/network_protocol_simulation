@@ -5,8 +5,9 @@ public class NIC {
     private SubnetMask subNetMask;
     private final MACAddress macAddress = new MACAddress();
     private NIC connection;
+    private NICManager nicManager = NICManager.getInstance();
 
-    public NIC(String name, NICManager nicManager) {
+    public NIC(String name) {
         this.name = name;
         // Add the NIC to the NICManager to keep track of NICs automatically.
         nicManager.addNIC(this);
@@ -21,7 +22,14 @@ public class NIC {
     }
 
     public void setIpAddress(IPAddress ipAddress) {
-        this.ipAddress = ipAddress;
+        // Check if the combination of ip address and subnet mask is already set up for another NIC
+        if (subNetMask != null && nicManager.ipAndSubnetExists(ipAddress, subNetMask)) {
+            System.err.println("This combination of IP Address and Subnet Mask already exists");
+            // Reset the subnet mask also
+            this.subNetMask = null;
+        } else {
+            this.ipAddress = ipAddress;
+        }
     }
 
     public MACAddress getMacAddress() {
@@ -33,7 +41,13 @@ public class NIC {
     }
 
     public void setSubnetMask(SubnetMask subnetMask) {
-        this.subNetMask = subnetMask;
+        if (ipAddress != null && nicManager.ipAndSubnetExists(ipAddress, subnetMask)) {
+            System.err.println("This combination of IP Address and Subnet Mask already exists");
+            // Reset the ip address also.
+            this.ipAddress = null;
+        } else {
+            this.subNetMask = subnetMask;
+        }
     }
 
     public IPAddress getNetwork() {
@@ -69,4 +83,6 @@ public class NIC {
     public boolean isConnected() {
         return this.connection != null;
     }
+
+
 }
