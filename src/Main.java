@@ -57,7 +57,29 @@ public class Main {
             frame.setSize(1200, 1000);
             frame.setLayout(new GridLayout());       // rows=0, cols=1. Makes it vertical.
 
-            JPanel panel = new JPanel();
+            Line[] wires = {
+                    new Line(60, 60, 180, 180, Color.BLACK),        // PC0 to R0
+                    new Line(180, 180, 310, 310, Color.BLACK),      // R0 to R1
+                    new Line(310, 310, 440, 440, Color.BLACK),      // R1 to R2
+                    new Line(440, 440, 570, 570, Color.BLACK),      // R2 to R3
+                    new Line(570, 570, 700, 700, Color.BLACK),      // R3 to PC1
+                    new Line(240, 210, 730, 210, Color.BLACK),      // R0 to R5
+                    new Line(320, 340, 545, 340, Color.BLACK),      // R1 to R4
+                    new Line(545, 340, 850, 340, Color.BLACK),      // R4 to R6
+                    new Line(760, 240, 850, 310, Color.BLACK),      // R5 to R6
+                    new Line(480, 470, 570, 340, Color.BLACK),      // R2 to R4
+            };
+
+            JPanel panel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    for (Line line : wires) {
+                        line.draw(g); // Draw stored lines
+                    }
+                }
+            };
+
             panel.setLayout(null);                  // No layout, for placing items with x and y coordinates.
 
             panel.add(pcButtons[0]);
@@ -86,8 +108,6 @@ public class Main {
 
             panel.add(routerButtons[6]);
             routerButtons[6].setBounds(new Rectangle(850, 310, 60, 60));
-
-            //frame.add(prebuiltNetworkLabel);
 
             for (JButton button : routerButtons) {
                 panel.add(button);
