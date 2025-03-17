@@ -6,7 +6,7 @@ public class PC extends Device {
     private IPAddress defaultGatewayIPAddress;
     private SubnetMask defaultGatewaySubnetMask;
 
-    PC(String name, IPAddress ipaddress, SubnetMask subnetMask, NICManager nicManager) {
+    PC(String name, IPAddress ipaddress, SubnetMask subnetMask) {
         // Use the parent class constructor to add the name variable within the Device class.
         super(name);
 
