@@ -4,369 +4,171 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 
-// delete this comment
 public class Main {
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
 
-        frame.setTitle("OSPF Simulation");
+        PCButton[] pcButtons = getPCButtonArray(3, "PC");
+        RouterButton[] routerButtons = getRouterButtonArray(7, "R");
+
+        JFrame frame = new JFrame("OSPF Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
         frame.setResizable(false);
-        frame.setSize(1000, 800);
-        frame.setLayout(new GridLayout());
+        frame.setSize(600, 300);
+        frame.setLayout(new GridLayout(0, 1));       // rows=0, cols=1. Makes it vertical.
 
-        JPanel itemPanel = getJPanel();
-        // rows: 0 is used for allowing as many rows as possible. This fills widgets vertically.
-        itemPanel.setLayout(new GridLayout(0, 1));
+        JLabel welcomeLabel = new JLabel("""
+                <html>
+                Welcome to the OSPF simulation protocol!<br>
+                Please select whether you want to create a custom network or a preconfigured network.
+                </html>""", SwingConstants.CENTER);     // html is used to add line break
+        welcomeLabel.setBackground(Color.lightGray);
+        welcomeLabel.setOpaque(true);
 
-        JPanel playgroundPanel = new JPanel();
 
-        frame.add(itemPanel);
-        frame.add(playgroundPanel);
-        frame.setVisible(true);                                 // Make frame visible
-    }
+        JButton customNetworkButton = new JButton("Custom Network");
+        Font networkButtonFont = new Font(customNetworkButton.getFont().getName(), Font.BOLD, 20);
+        customNetworkButton.setFont(networkButtonFont);
 
-    private static JPanel getJPanel() {
-        JButton routerButton = new JButton("Router");
-        // Function for creating allowing the button to listen for a click, and thus performing the
-        // following function (which is a lambda function).
-        routerButton.addActionListener(e -> {
-            System.out.println("Router button clicked");
+        JButton preconfiguredNetworkButton = new JButton("Preconfigured Network");
+        preconfiguredNetworkButton.setFont(networkButtonFont);
+
+        frame.add(welcomeLabel);
+        frame.add(customNetworkButton);
+        frame.add(preconfiguredNetworkButton);
+        frame.setVisible(true);                                 // Make start_menu_frame visible
+
+        JLabel prebuiltNetworkLabel = new JLabel("Prebuilt Network");
+
+        JLabel customNetworkLabel = new JLabel("Custom Network");
+
+        preconfiguredNetworkButton.addActionListener(e -> {
+            System.out.println("Preconfigured network button pressed.");
+
+            frame.remove(welcomeLabel);
+            frame.remove(customNetworkButton);
+            frame.remove(preconfiguredNetworkButton);
+
+            frame.setTitle("OSPF Simulation: Prebuilt Network");
+            frame.setSize(1200, 1000);
+            frame.setLayout(new GridLayout());       // rows=0, cols=1. Makes it vertical.
+
+            Line[] wires = {
+                    new Line(60, 60, 180, 180, Color.BLACK),        // PC0 to R0
+                    new Line(180, 180, 310, 310, Color.BLACK),      // R0 to R1
+                    new Line(310, 310, 440, 440, Color.BLACK),      // R1 to R2
+                    new Line(440, 440, 570, 570, Color.BLACK),      // R2 to R3
+                    new Line(570, 570, 700, 700, Color.BLACK),      // R3 to PC1
+                    new Line(240, 210, 730, 210, Color.BLACK),      // R0 to R5
+                    new Line(320, 340, 545, 340, Color.BLACK),      // R1 to R4
+                    new Line(545, 340, 850, 340, Color.BLACK),      // R4 to R6
+                    new Line(760, 240, 850, 310, Color.BLACK),      // R5 to R6
+                    new Line(480, 470, 570, 340, Color.BLACK),      // R2 to R4
+                    new Line(880, 340, 1030, 210, Color.BLACK),      // R6 to PC3
+            };
+
+            JPanel panel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    for (Line line : wires) {
+                        line.draw(g); // Draw stored lines
+                    }
+                }
+            };
+
+            panel.setLayout(null);                  // No layout, for placing items with x and y coordinates.
+
+            panel.add(pcButtons[0]);
+            pcButtons[0].setBounds(new Rectangle(50, 50, 60, 60));
+
+            panel.add(routerButtons[0]);
+            routerButtons[0].setBounds(new Rectangle(180, 180, 60, 60));
+
+            panel.add(routerButtons[1]);
+            routerButtons[1].setBounds(new Rectangle(310, 310, 60, 60));
+
+            panel.add(routerButtons[2]);
+            routerButtons[2].setBounds(new Rectangle(440, 440, 60, 60));
+
+            panel.add(routerButtons[3]);
+            routerButtons[3].setBounds(new Rectangle(570, 570, 60, 60));
+
+            panel.add(pcButtons[1]);
+            pcButtons[1].setBounds(new Rectangle(700, 700, 60, 60));
+
+            panel.add(routerButtons[4]);
+            routerButtons[4].setBounds(new Rectangle(545, 310, 60, 60));
+
+            panel.add(routerButtons[5]);
+            routerButtons[5].setBounds(new Rectangle(700, 180, 60, 60));
+
+            panel.add(routerButtons[6]);
+            routerButtons[6].setBounds(new Rectangle(850, 310, 60, 60));
+
+            panel.add(pcButtons[2]);
+            pcButtons[2].setBounds(new Rectangle(1000, 180, 60, 60));
+
+            for (JButton button : routerButtons) {
+                panel.add(button);
+            }
+
+            for (JButton button : pcButtons) {
+                panel.add(button);
+            }
+
+            frame.add(panel);
         });
 
-        JButton pcButton = new JButton("PC");
-        pcButton.addActionListener(e -> {
-            System.out.println("PC button clicked");
+        customNetworkButton.addActionListener(e -> {
+            System.out.println("Custom network button pressed.");
+
+            frame.remove(welcomeLabel);
+            frame.remove(customNetworkButton);
+            frame.remove(preconfiguredNetworkButton);
+
+            frame.setTitle("OSPF Simulation: Custom Network");
+            frame.setSize(1000, 600);
+            frame.setLayout(new GridLayout());       // rows=0, cols=1. Makes it vertical.
+
+            frame.add(customNetworkLabel);
         });
-
-        JButton connectButton = new JButton("Connect");
-        connectButton.addActionListener(e -> {
-            System.out.println("Connect button clicked");
-        });
-
-        JPanel itemPanel = new JPanel();
-        itemPanel.add(routerButton);
-        itemPanel.add(pcButton);
-        itemPanel.add(connectButton);
-        return itemPanel;
     }
 
-    public static IPAddress createIP(String ipAddressString) {
-        // tries to create an IPAddress, if it doesn't work then it will catch
-        //      the error from within the class and prints it out here.
-        boolean valid;
+    /**
+     * Method for creating an array of JButton objects, with a name for each object.
+     * @param count The amount of Button objects in the array.
+     * @param name The text for the buttons + i, where is the current button being created.
+     * @return Array of JButton objects, with size count. With the text as: name + (count - 1), for each button.
+     */
+    private static JButton[] getJButtonArray(int count, String name) {
+        JButton[] buttons = new JButton[count];
 
-        do {
-            try {
-                new IPAddress(ipAddressString);
-                valid = true;
-            } catch (IllegalArgumentException e) {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Please enter a valid IP address: ");
-                ipAddressString = scanner.nextLine();
-                valid = false;
-            }
-        } while (!valid);
-
-        return new IPAddress(ipAddressString);
-    }
-
-    public static SubnetMask createSubnetMask(String subnetString) {
-        // tries to create an IPAddress, if it doesn't work then it will catch
-        //      the error from within the class and prints it out here.
-        boolean valid;
-
-        do {
-            try {
-                new SubnetMask(subnetString);
-                valid = true;
-            } catch (IllegalArgumentException e) {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Please enter a valid subnet mask: ");
-                subnetString = scanner.nextLine();
-                valid = false;
-            }
-        } while (!valid);
-
-        return new SubnetMask(subnetString);
-    }
-
-    public static PC createPC() {
-        // this just prompts the user to enter the needed information for creating a PC. It will ask for the name, IP,
-        // and subnet mask and create the object.
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Please enter the name for the PC: ");
-        String name = scanner.nextLine();
-
-        System.out.print("Please enter the IP address for " + name + ": ");
-        String ipInput = scanner.nextLine();
-        IPAddress ip = createIP(ipInput);
-
-        System.out.println("Enter the subnet mask for the PC");
-        String subnetMaskInput = scanner.nextLine();
-        SubnetMask subnetMask = createSubnetMask(subnetMaskInput);
-
-        return new PC(name, ip, subnetMask);
-    }
-
-    public static Router createRouter() {
-        // this prompts the user to create the router with the input of its name only. The user can change the other
-        // details of the router through different options.
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Please enter the name for the Router: ");
-        String name = scanner.nextLine();
-
-        return new Router(name);
-    }
-
-    public static void displayMainMenu(ArrayList<PC> pcList, ArrayList<Router> routerList) {
-        // Options displayed for the user to choose on what actions they want to take.
-        String[] menuOptions = {
-                "Create PC    ",
-                "Delete PC    ",
-                "Select PC    ",
-                "Create Router",
-                "Delete Router",
-                "Select Router",
-                "Exit Program "
-        };
-
-        System.out.print("------------------------------------------------------------------------------------\n");
-        System.out.println("Options     \t\t\t| List of Devices (PC on Left, Router on Right)");
-        System.out.print("------------------------------------------------------------------------------------\n");
-
-        // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
-        // the devices to the right of the options.
-        int max1 = Math.max(pcList.size(), menuOptions.length);
-        int max2 = Math.max(max1, routerList.size());
-        // Iterate through the largest array and print out the menu.
-        for(int i = 0; i < max2; i++) {
-            int lineNum = i + 1;
-
-            if (i < menuOptions.length) {
-                // This is for printing out the menu and the devices.
-                System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
-            }
-            if (i < pcList.size()) {
-                // This is for printing out the pc's only, once all the options are printed.
-                PC pc = pcList.get(i);
-                System.out.print(" " + lineNum + "." + " " + pc.getName());
-            }
-            if (i < routerList.size()) {
-                // This is for printing out the router's only.
-                Router router = routerList.get(i);
-                System.out.print(" " + lineNum + "." + " " + router.getName());
-            }
-            // Print a new line after every line.
-            System.out.println();
+        // count-- is post decrement, meaning the current count variable is used, then it is decremented.
+        while (count-- > 0) {
+            buttons[count] = new JButton(name + (count));
         }
-
-        // Some space for user input and the menu.
-        System.out.println();
+        return buttons;
     }
 
-    public static void displayPCMenu(ArrayList<PC> pcList, Integer pcIndex) {
-        // Options displayed for the user to choose on what actions they want to take.
-        String[] menuOptions = {
-                "Change PC name                     ",
-                "Change FastEthernet 0/0 IP address ",
-                "Change default gateway             ",
-                "Ping another device                ",
-                "Return to main menu                "
-        };
+    private static RouterButton[] getRouterButtonArray(int count, String name) {
+        RouterButton[] routers = new RouterButton[count];
 
-        String[] pcAttributes = {
-                "Name: " + pcList.get(pcIndex).getName(),
-                "FastEthernet 0/0 IP address: " + pcList.get(pcIndex).getPortFA00().getIpAddress(),
-                "FastEthernet 0/0 subnet mask: " + pcList.get(pcIndex).getPortFA00().getSubnetMask(),
-                "FastEthernet 0/0 MAC address: " + pcList.get(pcIndex).getPortFA00().getMacAddress(),
-                "Default gateway IP address: " + pcList.get(pcIndex).getDefaultGatewayIPAddress(),
-                "Default gateway subnet mask: " + pcList.get(pcIndex).getDefaultGatewaySubnetMask()
-        };
-
-        System.out.print("------------------------------------------------------------------------------------\n");
-        System.out.println("Options     \t\t\t\t\t\t\t\t| PC Information");
-        System.out.print("------------------------------------------------------------------------------------\n");
-
-        // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
-        // the devices to the right of the options.
-        for(int i = 0; i < Math.max(pcAttributes.length, menuOptions.length); i++) {
-            int lineNum = i + 1;
-
-            if (i < menuOptions.length) {
-                // This is for printing out the menu and the devices.
-                System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
-            } else {
-                // Prints out the tabs and barrier for the menu within the router information
-                System.out.print("\t\t\t\t\t\t\t\t\t\t\t" + "|");
-            }
-            if (i < pcAttributes.length) {
-                // Prints out the PC details
-                System.out.print(" " + pcAttributes[i]);
-            }
-            // Print a new line after every line.
-            System.out.println();
+        // count-- is post decrement, meaning the current count variable is used, then it is decremented.
+        while (count-- > 0) {
+            routers[count] = new RouterButton(name + (count));
         }
-
-        // Some space for user input and the menu.
-        System.out.println();
+        return routers;
     }
 
-    public static void displayRouterMenu(ArrayList<Router> routerList, Integer routerIndex) {
-        // Options displayed for the user to choose on what actions they want to take.
-        String[] menuOptions = {
-                "Change Router name                    ",
-                "Change GigabitEthernet 0/0 IP address ",
-                "Change GigabitEthernet 0/1 IP address ",
-                "Change GigabitEthernet 0/2 IP address ",
-                "Return to main menu                   "
-        };
+    private static PCButton[] getPCButtonArray(int count, String name) {
+        PCButton[] pcButtons = new PCButton[count];
 
-        String[] routerAttributes = {
-                "Name: " + routerList.get(routerIndex).getName(),
-                "GigabitEthernet 0/0 IP address: " + routerList.get(routerIndex).getPortGig00().getIpAddress(),
-                "GigabitEthernet 0/0 subnet mask: " + routerList.get(routerIndex).getPortGig00().getSubnetMask(),
-                "GigabitEthernet 0/0 MAC address: " + routerList.get(routerIndex).getPortGig00().getMacAddress(),
-                "GigabitEthernet 0/1 IP address: " + routerList.get(routerIndex).getPortGig01().getIpAddress(),
-                "GigabitEthernet 0/1 subnet mask: " + routerList.get(routerIndex).getPortGig01().getSubnetMask(),
-                "GigabitEthernet 0/1 MAC address: " + routerList.get(routerIndex).getPortGig01().getMacAddress(),
-                "GigabitEthernet 0/2 IP address: " + routerList.get(routerIndex).getPortGig02().getIpAddress(),
-                "GigabitEthernet 0/2 subnet mask: " + routerList.get(routerIndex).getPortGig02().getSubnetMask(),
-                "GigabitEthernet 0/2 MAC address: " + routerList.get(routerIndex).getPortGig02().getMacAddress(),
-        };
-
-        System.out.print("------------------------------------------------------------------------------------\n");
-        System.out.println("Options    \t\t\t\t\t\t\t\t\t\t| Router Information");
-        System.out.print("------------------------------------------------------------------------------------\n");
-
-        // Picks the largest array/list to iterate through and prints out all the options from the menu as well as
-        // the devices to the right of the options.
-        for(int i = 0; i < Math.max(routerAttributes.length, menuOptions.length); i++) {
-            int lineNum = i + 1;
-
-            if (i < menuOptions.length) {
-                // This is for printing out the menu and the devices.
-                System.out.print(lineNum + "." + " " + menuOptions[i] + "\t\t" + "|");
-            } else {
-                // Prints out the tabs and barrier for the menu within the router information
-                System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t" + "|");
-            }
-            if (i < routerAttributes.length) {
-                // Prints out the Router details
-                System.out.print(" " + routerAttributes[i]);
-            }
-            // Print a new line after every line.
-            System.out.println();
+        // count-- is post decrement, meaning the current count variable is used, then it is decremented.
+        while (count-- > 0) {
+            pcButtons[count] = new PCButton(name + (count));
         }
-
-        // Some space for user input and the menu.
-        System.out.println();
-    }
-
-    public static boolean gig00Match(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
-        // Checks if the router has any assigned subnet mask or IP address to its ports.
-        for(Router router : routerList) {
-            if((router.getPortGig00().getSubnetMask() == null) || (router.getPortGig00().getIpAddress() == null)) {
-                // Move to the next router.
-                continue;
-            }
-            // Checks if the subnet mask or the IP address equal to the required subnet mask and IP for the default
-            // gateway.
-            if((router.getPortGig00().getSubnetMask().equals(subnetMask)) && (router.getPortGig00().getIpAddress().equals(defaultGatewayIPAddress))) {
-                System.out.println("Found match!");
-                System.out.println("Router name:" + router.getName());
-                System.out.println("Port name: " + router.getPortGig00().getName());
-                System.out.println("Port IP address:" + router.getPortGig00().getIpAddress());
-                System.out.println("Port Subnet Mask: " + router.getPortGig00().getSubnetMask());
-                return true;
-            }
-
-            System.out.println(router.getPortGig00().getIpAddress() + " " + router.getPortGig00().getSubnetMask());
-            System.out.println(defaultGatewayIPAddress + " " + subnetMask);
-        }
-
-        return false;
-    }
-
-    public static boolean gig01Match(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
-        // Checks if the router has any assigned subnet mask or IP address to its ports.
-        for(Router router : routerList) {
-            if((router.getPortGig01().getSubnetMask() == null) || (router.getPortGig01().getIpAddress() == null)) {
-                // Move to the next router.
-                continue;
-            }
-            // Checks if the subnet mask or the IP address equal to the required subnet mask and IP for the default
-            // gateway.
-            if((router.getPortGig01().getSubnetMask().equals(subnetMask)) && (router.getPortGig01().getIpAddress().equals(defaultGatewayIPAddress))) {
-                System.out.println("Found match!");
-                System.out.println("Router name: " + router.getName());
-                System.out.println("Port name: " + router.getPortGig01().getName());
-                System.out.println("Port IP address: " + router.getPortGig01().getIpAddress());
-                System.out.println("Port Subnet Mask: " + router.getPortGig01().getSubnetMask());
-                return true;
-            }
-
-            System.out.println(router.getPortGig01().getIpAddress() + " " + router.getPortGig01().getSubnetMask());
-        }
-
-        return false;
-    }
-
-    public static boolean gig02Match(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
-        // Checks if the router has any assigned subnet mask or IP address to its ports.
-        for(Router router : routerList) {
-            if((router.getPortGig02().getSubnetMask() == null) || (router.getPortGig02().getIpAddress() == null)) {
-                // Move to the next router.
-                continue;
-            }
-            // Checks if the subnet mask or the IP address equal to the required subnet mask and IP for the default
-            // gateway.
-            if((router.getPortGig02().getSubnetMask().equals(subnetMask)) && (router.getPortGig02().getIpAddress().equals(defaultGatewayIPAddress))) {
-                System.out.println("Found match!");
-                System.out.println("Router name:" + router.getName());
-                System.out.println("Port name: " + router.getPortGig02().getName());
-                System.out.println("Port IP address:" + router.getPortGig02().getIpAddress());
-                System.out.println("Port Subnet Mask: " + router.getPortGig02().getSubnetMask());
-                return true;
-            }
-
-            System.out.println(router.getPortGig02().getIpAddress() + " " + router.getPortGig02().getSubnetMask());
-        }
-
-        return false;
-    }
-
-    public static boolean checkDefaultGatewayExists(ArrayList<Router> routerList, IPAddress defaultGatewayIPAddress, SubnetMask subnetMask) {
-        // This is just a holder for the previous gigXXMatch functions, it checks if any of the interfaces matched with the required
-        // subnet mask and ip address.
-        return gig00Match(routerList, defaultGatewayIPAddress, subnetMask) || (gig01Match(routerList, defaultGatewayIPAddress, subnetMask)) ||
-                gig02Match(routerList, defaultGatewayIPAddress, subnetMask);
-    }
-
-    public static boolean checkDefaultGatewayAssigned(ArrayList<PC> assignedDefaultGatewayList, IPAddress ipAddress, SubnetMask subnetMask) {
-        // This checks if a default gateway is already assigned to another PC for a given router interface.
-        for(PC pc : assignedDefaultGatewayList) {
-            if((pc.getDefaultGatewaySubnetMask().equals(subnetMask)) && (pc.getDefaultGatewayIPAddress().equals(ipAddress))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static int getIndexFromPCListWithIP(IPAddress ip, ArrayList<PC> pcList) {
-        // Search through all the PCs in the network and see if there is an available PC.
-        for(int i = 0; i < pcList.size(); i++) {
-            if(pcList.get(i).getNICList().get(0).getIpAddress().equals(ip)) {
-                // return the index from the ArrayList
-                return i;
-            }
-        }
-
-        return -1;
+        return pcButtons;
     }
 }

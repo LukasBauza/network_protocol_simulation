@@ -19,20 +19,31 @@ public class Router extends Device {
 
     public NIC getPortGig00() { return super.getNICList().get(0); }
 
-    public void setPortGig00(IPAddress ipAddress, SubnetMask subnetMask) {
+    public void setPortGig00IPAddress(IPAddress ipAddress) {
         super.getNICList().get(0).setIpAddress(ipAddress);
+    }
+
+    public void setPortGig00SubnetMask(SubnetMask subnetMask) {
         super.getNICList().get(0).setSubnetMask(subnetMask);
     }
 
     public NIC getPortGig01() { return super.getNICList().get(1); }
-    public void setPortGig01(IPAddress ipAddress, SubnetMask subnetMask) {
+
+    public void setPortGig01IPAddress(IPAddress ipAddress) {
         super.getNICList().get(1).setIpAddress(ipAddress);
+    }
+
+    public void setPortGig01SubnetMask(SubnetMask subnetMask) {
         super.getNICList().get(1).setSubnetMask(subnetMask);
     }
 
     public NIC getPortGig02() { return super.getNICList().get(2); }
-    public void setPortGig02(IPAddress ipAddress, SubnetMask subnetMask) {
+
+    public void setPortGig02IPAddress(IPAddress ipAddress) {
         super.getNICList().get(2).setIpAddress(ipAddress);
+    }
+
+    public void setPortGig02SubnetMask(SubnetMask subnetMask) {
         super.getNICList().get(2).setSubnetMask(subnetMask);
     }
 }

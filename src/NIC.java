@@ -3,10 +3,25 @@ public class NIC {
     private final String name;
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
-    private final MACAddress macAddress = new MACAddress();
+    private MACAddress macAddress;
+    private NIC connection;
+    private NICManager nicManager = NICManager.getInstance();
 
     public NIC(String name) {
         this.name = name;
+        // Add the NIC to the NICManager to keep track of NICs automatically.
+        nicManager.addNIC(this);
+        setMacAddress();
+    }
+
+    private void setMacAddress() {
+        int count = 10;
+        // create a MACAddress for the NIC, if it already exists, then keep creating one until it is unique, or if looped
+        // 10 times. 10 times to make sure it won't infinitely loop, the likelihood of generated 10 of the same MACAddresses
+        // is almost zero.
+        do {
+            macAddress = new MACAddress();
+        } while (nicManager.macExists(macAddress) && count-- > 0);
     }
 
     public String getName() {
@@ -18,7 +33,14 @@ public class NIC {
     }
 
     public void setIpAddress(IPAddress ipAddress) {
-        this.ipAddress = ipAddress;
+        // Check if the combination of ip address and subnet mask is already set up for another NIC
+        if (subNetMask != null && nicManager.ipAndSubnetExists(ipAddress, subNetMask)) {
+            System.err.println("This combination of IP Address and Subnet Mask already exists");
+            // Reset the subnet mask also
+            this.subNetMask = null;
+        } else {
+            this.ipAddress = ipAddress;
+        }
     }
 
     public MACAddress getMacAddress() {
@@ -30,13 +52,19 @@ public class NIC {
     }
 
     public void setSubnetMask(SubnetMask subnetMask) {
-        this.subNetMask = subnetMask;
+        if (ipAddress != null && nicManager.ipAndSubnetExists(ipAddress, subnetMask)) {
+            System.err.println("This combination of IP Address and Subnet Mask already exists");
+            // Reset the ip address also.
+            this.ipAddress = null;
+        } else {
+            this.subNetMask = subnetMask;
+        }
     }
 
     public IPAddress getNetwork() {
         IPAddress network = new IPAddress();
 
-        // AND the IP address bits with the subnet mask bits and it should return the network bits for each byte.
+        // AND the IP address bits with the subnet mask bits, and it should return the network bits for each byte.
         byte byte3 = (byte) (this.ipAddress.getIpAddress()[3] & this.subNetMask.getSubnetMask()[3]);
         byte byte2 = (byte) (this.ipAddress.getIpAddress()[2] & this.subNetMask.getSubnetMask()[2]);
         byte byte1 = (byte) (this.ipAddress.getIpAddress()[1] & this.subNetMask.getSubnetMask()[1]);
@@ -50,4 +78,22 @@ public class NIC {
 
         return network;
     }
+
+    /**
+     * Sets up a connection to another NIC.
+     * @param otherNIC This is the other NIC that this instance will connect to.
+     */
+    public void setConnection(NIC otherNIC) {
+        this.connection = otherNIC;
+    }
+
+    /**
+     * Checks whether this NIC is connected to another NIC.
+     * @return True if there is a connection, false if not.
+     */
+    public boolean isConnected() {
+        return this.connection != null;
+    }
+
+
 }

@@ -19,6 +19,14 @@ public class PC extends Device {
         super.setNICList(new ArrayList<>(List.of(fa00)));
     }
 
+    /**
+     * Overloaded constructor with only the name as a parameter.
+     * @param name The name for the PC.
+     */
+    PC(String name) {
+        super(name);
+    }
+
     public NIC getPortFA00() { return super.getNICList().get(0); }
 
     // You shouldn't be able to change the name of the interface, as they are always predefined. Only the IP can be
