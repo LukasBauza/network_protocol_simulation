@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Main {
     public static void main(String[] args) {
 
-        // Retrieve the only instance of the NICManager.
-        NICManager nicManager = NICManager.getInstance();
+        PCButton[] pcButtons = getPCButtonArray(3, "PC");
+        RouterButton[] routerButtons = getRouterButtonArray(7, "R");
 
         JFrame frame = new JFrame("OSPF Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
@@ -41,9 +41,6 @@ public class Main {
 
         JLabel prebuiltNetworkLabel = new JLabel("Prebuilt Network");
 
-        JButton[] routerButtons = getJButtonArray(7, "R");
-        JButton[] pcButtons = getJButtonArray(3, "PC");
-
         JLabel customNetworkLabel = new JLabel("Custom Network");
 
         preconfiguredNetworkButton.addActionListener(e -> {
@@ -68,6 +65,7 @@ public class Main {
                     new Line(545, 340, 850, 340, Color.BLACK),      // R4 to R6
                     new Line(760, 240, 850, 310, Color.BLACK),      // R5 to R6
                     new Line(480, 470, 570, 340, Color.BLACK),      // R2 to R4
+                    new Line(880, 340, 1030, 210, Color.BLACK),      // R6 to PC3
             };
 
             JPanel panel = new JPanel() {
@@ -109,6 +107,9 @@ public class Main {
             panel.add(routerButtons[6]);
             routerButtons[6].setBounds(new Rectangle(850, 310, 60, 60));
 
+            panel.add(pcButtons[2]);
+            pcButtons[2].setBounds(new Rectangle(1000, 180, 60, 60));
+
             for (JButton button : routerButtons) {
                 panel.add(button);
             }
@@ -137,17 +138,37 @@ public class Main {
 
     /**
      * Method for creating an array of JButton objects, with a name for each object.
-     * @param count
-     * @param name
+     * @param count The amount of Button objects in the array.
+     * @param name The text for the buttons + i, where is the current button being created.
      * @return Array of JButton objects, with size count. With the text as: name + (count - 1), for each button.
      */
     private static JButton[] getJButtonArray(int count, String name) {
         JButton[] buttons = new JButton[count];
 
-        while (count != 0) {
-            buttons[count - 1] = new JButton(name + (count - 1));
-            count--;
+        // count-- is post decrement, meaning the current count variable is used, then it is decremented.
+        while (count-- > 0) {
+            buttons[count] = new JButton(name + (count));
         }
         return buttons;
+    }
+
+    private static RouterButton[] getRouterButtonArray(int count, String name) {
+        RouterButton[] routers = new RouterButton[count];
+
+        // count-- is post decrement, meaning the current count variable is used, then it is decremented.
+        while (count-- > 0) {
+            routers[count] = new RouterButton(name + (count));
+        }
+        return routers;
+    }
+
+    private static PCButton[] getPCButtonArray(int count, String name) {
+        PCButton[] pcButtons = new PCButton[count];
+
+        // count-- is post decrement, meaning the current count variable is used, then it is decremented.
+        while (count-- > 0) {
+            pcButtons[count] = new PCButton(name + (count));
+        }
+        return pcButtons;
     }
 }
