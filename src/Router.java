@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Router extends Device {
 
-    public Router(String name, NICManager nicManager) {
+    public Router(String name) {
         // Use the parent class constructor to add the name variable within the Device class.
         super(name);
 
