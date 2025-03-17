@@ -17,6 +17,8 @@ public class Router extends Device {
         super.setNICList(new ArrayList<>(List.of(gig00, gig01, gig02)));
     }
 
+    public ArrayList<NIC> getNICList() { return super.getNICList(); }
+
     public NIC getPortGig00() { return super.getNICList().get(0); }
 
     public void setPortGig00IPAddress(IPAddress ipAddress) {
