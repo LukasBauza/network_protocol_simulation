@@ -13,7 +13,7 @@ public class Main {
         RouterButton[] routerButtons = getRouterButtonArray(7, "R");
 
         JFrame frame = new JFrame("OSPF Simulation");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X (all frames close)
         frame.setResizable(false);
         frame.setSize(600, 300);
         frame.setLayout(new GridLayout(0, 1));       // rows=0, cols=1. Makes it vertical.
@@ -116,6 +116,20 @@ public class Main {
 
             for (JButton button : pcButtons) {
                 panel.add(button);
+            }
+
+            for (PCButton pcButton : pcButtons) {
+                pcButton.addActionListener(ePC -> {
+                    JFrame pcFrame = pcButton.getInfoFrame();
+                    pcFrame.setVisible(true);
+                });
+            }
+
+            for (RouterButton routerButton : routerButtons) {
+                routerButton.addActionListener(eR -> {
+                    JFrame routerFrame = routerButton.getInfoFrame();
+                    routerFrame.setVisible(true);
+                });
             }
 
             frame.add(panel);
