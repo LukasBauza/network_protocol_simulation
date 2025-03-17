@@ -15,8 +15,9 @@ public class PCButton extends JButton {
     public JFrame getInfoFrame() {
         JFrame frame = new JFrame();
 
-        frame.setSize(800, 600);
+        frame.setSize(	600, 400);
         frame.setLocationRelativeTo(null);
+        frame.setTitle(pc.getName());
         // DISPOSE_ON_CLOSE will ensure that the windows won't all close.
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         return frame;
