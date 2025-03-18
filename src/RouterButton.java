@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class RouterButton extends JButton {
     Router router;
@@ -48,7 +50,7 @@ public class RouterButton extends JButton {
         }
         routerInfoPanel.add(routerLeftInfoPanel);
 
-        JTextField[] routerLeftTextFields = {
+        JTextField[] routerRightTextFields = {
                 new JTextField(router.getName()),
                 router.getPortGig00().getIpAddress() == null ? new JTextField() : new JTextField(router.getPortGig00().getIpAddress().toString()),
                 router.getPortGig00().getSubnetMask() == null ? new JTextField() : new JTextField(router.getPortGig00().getSubnetMask().toString()),
@@ -62,17 +64,30 @@ public class RouterButton extends JButton {
         };
 
         // Make sure the user cannot change the MAC Address.
-        routerLeftTextFields[3].setEditable(false);
-        routerLeftTextFields[6].setEditable(false);
-        routerLeftTextFields[9].setEditable(false);
-
-        routerLeftTextFields[0] = new JTextField(router.getName());
+        routerRightTextFields[3].setEditable(false);
+        routerRightTextFields[6].setEditable(false);
+        routerRightTextFields[9].setEditable(false);
 
         JPanel routerRightInfoPanel = new JPanel(new GridLayout(0, 1));
-        for (JTextField textField : routerLeftTextFields) {
+        for (JTextField textField : routerRightTextFields) {
             routerRightInfoPanel.add(textField);
         }
         routerInfoPanel.add(routerRightInfoPanel);
+
+        JButton saveButton = new JButton("Save Changes");
+        routerInfoPanel.add(saveButton);
+        saveButton.addActionListener(e -> {
+            System.out.println("Saving changes");
+            for (int i = 0; i < routerRightTextFields.length; i++) {
+                if (i != 3 && i != 6 && i != 9) {
+                    routerRightTextFields[i].setText(routerRightTextFields[i].getText());
+                    System.out.println(routerRightTextFields[i].getText());
+                }
+            }
+            router.setName(routerRightTextFields[0].getText());
+            // Makes sure that the RouterButton is updated also.
+            this.setText(router.getName());
+        });
 
         JPanel routerOSPInfoPanel = new JPanel();
 
