@@ -25,6 +25,9 @@ public class PC extends Device {
      */
     PC(String name) {
         super(name);
+
+        NIC fa00 = new NIC("FastEthernet 0/0");
+        super.setNICList(new ArrayList<>(List.of(fa00)));
     }
 
     public NIC getPortFA00() { return super.getNICList().get(0); }
@@ -42,5 +45,13 @@ public class PC extends Device {
     public void setDefaultGateway(IPAddress ipaddress, SubnetMask subnetMask) {
         this.defaultGatewayIPAddress = ipaddress;
         this.defaultGatewaySubnetMask = subnetMask;
+    }
+
+    public void setPortFA00IPAddress(IPAddress ipAddress) {
+        super.getNICList().get(0).setIpAddress(ipAddress);
+    }
+
+    public void setPortFA00SubnetMask(SubnetMask subnetMask) {
+        super.getNICList().get(0).setSubnetMask(subnetMask);
     }
 }

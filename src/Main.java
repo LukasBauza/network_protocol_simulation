@@ -118,13 +118,6 @@ public class Main {
                 panel.add(button);
             }
 
-            for (PCButton pcButton : pcButtons) {
-                pcButton.addActionListener(ePC -> {
-                    JFrame pcFrame = pcButton.getInfoFrame();
-                    pcFrame.setVisible(true);
-                });
-            }
-
             frame.add(panel);
         });
 

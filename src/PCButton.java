@@ -7,6 +7,32 @@ public class PCButton extends JButton {
     public PCButton(String name) {
         super(name);
         this.pc = new PC(name);
+
+        super.addActionListener(e -> {
+            String[] labels = {
+                    "Name",
+                    "Fa 0/0 IP Address",
+                    "Fa 0/0 Subnet Mask"
+            };
+
+            String[] fields = {
+                    pc.getName(),
+                    pc.getPortFA00().getIpAddress() == null ? "" : pc.getPortFA00().getIpAddress().toString(),
+                    pc.getPortFA00().getSubnetMask() == null ? "" : pc.getPortFA00().getSubnetMask().toString(),
+            };
+
+            PCInfoFrame pcInfoFrame = new PCInfoFrame(
+                    pc.getName(),
+                    labels,
+                    fields,
+                    pc,
+                    this
+            );
+
+            pcInfoFrame.setEditable("Fa 0/0 MAC Address", false);
+
+            pcInfoFrame.setVisible(true);
+        });
     }
 
     public PC getPC() {
