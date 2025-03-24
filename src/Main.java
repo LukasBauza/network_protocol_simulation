@@ -125,13 +125,6 @@ public class Main {
                 });
             }
 
-            for (RouterButton routerButton : routerButtons) {
-                routerButton.addActionListener(eR -> {
-                    JFrame routerFrame = routerButton.getInfoFrame();
-                    routerFrame.setVisible(true);
-                });
-            }
-
             frame.add(panel);
         });
 

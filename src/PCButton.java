@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class PCButton extends JButton {
     PC pc;
@@ -16,10 +17,16 @@ public class PCButton extends JButton {
         JFrame frame = new JFrame();
 
         frame.setSize(	600, 400);
-        frame.setLocationRelativeTo(null);
         frame.setTitle(pc.getName());
+        frame.setLocationRelativeTo(null);
         // DISPOSE_ON_CLOSE will ensure that the windows won't all close.
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JTabbedPane tabs = new JTabbedPane();
+
+        JPanel pcInfoPanel = new JPanel();
+        pcInfoPanel.setLayout(new GridLayout(0, 2));
+
         return frame;
     }
 }
