@@ -3,7 +3,6 @@ import java.util.ArrayList;
 abstract public class Device {
     // Abstract class for holding data members and methods that are common within the Router and PC child classes.
 
-    // TODO: Need a device manager to keep track of device? Or maybe a device ID?
     private String name;                            // Name of the device
     private ARPTable arpTable = new ARPTable();     // ARP table for the device.
     private ArrayList<NIC> nicList;                 // Interfaces for the device
@@ -24,5 +23,4 @@ abstract public class Device {
     public void setNICList(ArrayList<NIC> nicList) { this.nicList = nicList; }
 
     public ArrayList<NIC> getNICList() { return this.nicList; }
-
 }
