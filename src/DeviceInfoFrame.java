@@ -18,16 +18,19 @@ public class DeviceInfoFrame extends JFrame {
         super.setLocationRelativeTo(null);                          // Make it center.
         super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);    // DISPOSE_ON_CLOSE Make sure the whole app doesn't shut down.
         super.setResizable(false);
-        super.setLayout(new GridLayout(0, 1));
 
         JTabbedPane tabs = new JTabbedPane();
-        //setDeviceInfoTab();
+        JPanel generalInformationPanel = new JPanel();
+        generalInformationPanel.setLayout(new GridLayout(0, 1));
 
         for (int i = 0; i < labels.length; i++) {
             infoFields.add(new InfoField(labels[i], fields[i]));
             // Add the JLabel and JTextField to the JFrame.
-            super.add(infoFields.get(i));
+            generalInformationPanel.add(infoFields.get(i));
         }
+        //setDeviceInfoTab(tabs);
+        tabs.addTab("General", generalInformationPanel);
+        super.add(tabs);
 
         this.saveButton.addActionListener(e -> {
             System.out.println("Saving ");
@@ -72,7 +75,7 @@ public class DeviceInfoFrame extends JFrame {
             }
         });
 
-        super.add(saveButton);
+        generalInformationPanel.add(saveButton);
     }
 
     public void setEditable(String fieldLabel, boolean editable) {
@@ -83,11 +86,11 @@ public class DeviceInfoFrame extends JFrame {
         }
     }
 
-    private void setDeviceInfoTab() {
-        super.setLayout(new GridLayout(0, 1));
+    private void setDeviceInfoTab(JTabbedPane tabs) {
+        tabs.setLayout(new GridLayout(0, 1));
 
         for (InfoField infoField : infoFields) {
-            super.add(infoField);
+            tabs.add(infoField);
         }
     }
 }
