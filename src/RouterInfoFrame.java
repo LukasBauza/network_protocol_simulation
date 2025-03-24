@@ -2,13 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class DeviceInfoFrame extends JFrame {
+public class RouterInfoFrame extends JFrame {
     private ArrayList<InfoField> infoFields  = new ArrayList<>();
     private JButton saveButton = new JButton("Save");
-    private Router router;
-    private RouterButton routerButton;
 
-    public DeviceInfoFrame(String title, String[] labels, String[] fields, Router router, RouterButton routerButton) {
+    public RouterInfoFrame(String title, String[] labels, String[] fields, Router router, RouterButton routerButton) {
         if (labels.length != fields.length) {
             throw new IllegalArgumentException("Number of labels and fields do not match");
         }
@@ -83,14 +81,6 @@ public class DeviceInfoFrame extends JFrame {
             if (infoField.getLabel().getText().equals(fieldLabel)) {
                 infoField.setEditable(editable);
             }
-        }
-    }
-
-    private void setDeviceInfoTab(JTabbedPane tabs) {
-        tabs.setLayout(new GridLayout(0, 1));
-
-        for (InfoField infoField : infoFields) {
-            tabs.add(infoField);
         }
     }
 }

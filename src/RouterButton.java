@@ -34,7 +34,7 @@ public class RouterButton extends JButton {
                     router.getPortGig02().getMacAddress() == null ? ""  : router.getPortGig02().getMacAddress().toString(),
             };
 
-            DeviceInfoFrame deviceInfoFrame = new DeviceInfoFrame(
+            RouterInfoFrame routerInfoFrame = new RouterInfoFrame(
                     router.getName(),
                     labels,
                     fields,
@@ -42,11 +42,11 @@ public class RouterButton extends JButton {
                     this
             );
 
-            deviceInfoFrame.setEditable("Gig 0/0 MAC Address", false);
-            deviceInfoFrame.setEditable("Gig 0/1 MAC Address", false);
-            deviceInfoFrame.setEditable("Gig 0/2 MAC Address", false);
+            routerInfoFrame.setEditable("Gig 0/0 MAC Address", false);
+            routerInfoFrame.setEditable("Gig 0/1 MAC Address", false);
+            routerInfoFrame.setEditable("Gig 0/2 MAC Address", false);
 
-            deviceInfoFrame.setVisible(true);
+            routerInfoFrame.setVisible(true);
         });
     }
 
