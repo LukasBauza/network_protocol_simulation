@@ -39,8 +39,6 @@ public class Main {
         frame.add(preconfiguredNetworkButton);
         frame.setVisible(true);                                 // Make start_menu_frame visible
 
-        JLabel prebuiltNetworkLabel = new JLabel("Prebuilt Network");
-
         JLabel customNetworkLabel = new JLabel("Custom Network");
 
         preconfiguredNetworkButton.addActionListener(e -> {
@@ -54,71 +52,9 @@ public class Main {
             frame.setSize(1200, 1000);
             frame.setLayout(new GridLayout());       // rows=0, cols=1. Makes it vertical.
 
-            Line[] wires = {
-                    new Line(60, 60, 180, 180, Color.BLACK),        // PC0 to R0
-                    new Line(180, 180, 310, 310, Color.BLACK),      // R0 to R1
-                    new Line(310, 310, 440, 440, Color.BLACK),      // R1 to R2
-                    new Line(440, 440, 570, 570, Color.BLACK),      // R2 to R3
-                    new Line(570, 570, 700, 700, Color.BLACK),      // R3 to PC1
-                    new Line(240, 210, 730, 210, Color.BLACK),      // R0 to R5
-                    new Line(320, 340, 545, 340, Color.BLACK),      // R1 to R4
-                    new Line(545, 340, 850, 340, Color.BLACK),      // R4 to R6
-                    new Line(760, 240, 850, 310, Color.BLACK),      // R5 to R6
-                    new Line(480, 470, 570, 340, Color.BLACK),      // R2 to R4
-                    new Line(880, 340, 1030, 210, Color.BLACK),      // R6 to PC3
-            };
-
-            JPanel panel = new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    for (Line line : wires) {
-                        line.draw(g); // Draw stored lines
-                    }
-                }
-            };
-
-            panel.setLayout(null);                  // No layout, for placing items with x and y coordinates.
-
-            panel.add(pcButtons[0]);
-            pcButtons[0].setBounds(new Rectangle(50, 50, 60, 60));
-
-            panel.add(routerButtons[0]);
-            routerButtons[0].setBounds(new Rectangle(180, 180, 60, 60));
-
-            panel.add(routerButtons[1]);
-            routerButtons[1].setBounds(new Rectangle(310, 310, 60, 60));
-
-            panel.add(routerButtons[2]);
-            routerButtons[2].setBounds(new Rectangle(440, 440, 60, 60));
-
-            panel.add(routerButtons[3]);
-            routerButtons[3].setBounds(new Rectangle(570, 570, 60, 60));
-
-            panel.add(pcButtons[1]);
-            pcButtons[1].setBounds(new Rectangle(700, 700, 60, 60));
-
-            panel.add(routerButtons[4]);
-            routerButtons[4].setBounds(new Rectangle(545, 310, 60, 60));
-
-            panel.add(routerButtons[5]);
-            routerButtons[5].setBounds(new Rectangle(700, 180, 60, 60));
-
-            panel.add(routerButtons[6]);
-            routerButtons[6].setBounds(new Rectangle(850, 310, 60, 60));
-
-            panel.add(pcButtons[2]);
-            pcButtons[2].setBounds(new Rectangle(1000, 180, 60, 60));
-
-            for (JButton button : routerButtons) {
-                panel.add(button);
-            }
-
-            for (JButton button : pcButtons) {
-                panel.add(button);
-            }
-
-            frame.add(panel);
+            PreconfiguredNetworkPanel preconfiguredNetworkPanel = new PreconfiguredNetworkPanel();
+            frame.add(preconfiguredNetworkPanel);
+            preconfiguredNetworkPanel.setVisible(true);
         });
 
         customNetworkButton.addActionListener(e -> {
