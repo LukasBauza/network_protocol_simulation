@@ -31,6 +31,10 @@ public class PreconfiguredNetworkPanel extends JPanel {
         setupPCPorts();
         setupRouterPorts();
         connectPCToRouter();
+        createPCFa00Labels();
+        createRouterAllLabels();
+        placePCFa00Labels();
+        placeRouterAllLabels();
     }
 
     @Override
@@ -39,19 +43,6 @@ public class PreconfiguredNetworkPanel extends JPanel {
         for (Line line : wires) {
             line.draw(g); // Draw stored lines
         }
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 800);
-        frame.setLocationRelativeTo(null);
-        frame.setLayout(new BorderLayout());
-
-        PreconfiguredNetworkPanel panel = new PreconfiguredNetworkPanel();
-
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setVisible(true);
     }
 
     private static RouterButton[] getRouterButtonArray(int count, String name) {
@@ -105,34 +96,24 @@ public class PreconfiguredNetworkPanel extends JPanel {
 
     private void addRouterAndPCButtons() {
 
-        this.add(pcButtons[0]);
         pcButtons[0].setBounds(new Rectangle(50, 50, 60, 60));
 
-        this.add(routerButtons[0]);
         routerButtons[0].setBounds(new Rectangle(180, 180, 60, 60));
 
-        this.add(routerButtons[1]);
         routerButtons[1].setBounds(new Rectangle(310, 310, 60, 60));
 
-        this.add(routerButtons[2]);
         routerButtons[2].setBounds(new Rectangle(440, 440, 60, 60));
 
-        this.add(routerButtons[3]);
         routerButtons[3].setBounds(new Rectangle(570, 570, 60, 60));
 
-        this.add(pcButtons[1]);
         pcButtons[1].setBounds(new Rectangle(700, 700, 60, 60));
 
-        this.add(routerButtons[4]);
         routerButtons[4].setBounds(new Rectangle(545, 310, 60, 60));
 
-        this.add(routerButtons[5]);
         routerButtons[5].setBounds(new Rectangle(700, 180, 60, 60));
 
-        this.add(routerButtons[6]);
         routerButtons[6].setBounds(new Rectangle(850, 310, 60, 60));
 
-        this.add(pcButtons[2]);
         pcButtons[2].setBounds(new Rectangle(1000, 180, 60, 60));
 
         for (JButton button : routerButtons) {
@@ -152,15 +133,69 @@ public class PreconfiguredNetworkPanel extends JPanel {
     }
 
     private void createRouterAllLabels() {
-        // Set the name for all the Router labels
         for (int i = 0; i < routerButtons.length; i++) {
-            if (i % 3 == 0) {
-                routerGig00Lables[i] = new JLabel("Gig 0/0");
-            } else if (i % 3 == 1) {
-                routerGig01Lables[i] = new JLabel("Gig 0/1");
-            } else {
-                routerGig02Lables[i] = new JLabel("Gig 0/2");
-            }
+            routerGig00Lables[i] = new JLabel("Gig 0/0");
+        }
+
+        for (int i = 0; i < routerButtons.length; i++) {
+            routerGig01Lables[i] = new JLabel("Gig 0/1");
+        }
+
+        for (int i = 0; i < routerButtons.length; i++) {
+            routerGig02Lables[i] = new JLabel("Gig 0/2");
+        }
+    }
+
+    private void placePCFa00Labels() {
+        pcFa00Lables[0].setBounds(70, 90, 60, 60);
+
+        pcFa00Lables[1].setBounds(700, 660, 60, 60);
+
+        pcFa00Lables[2].setBounds(1000, 220, 60, 60);
+
+        for (JLabel label : pcFa00Lables) {
+            this.add(label);
+        }
+    }
+
+    private void placeRouterAllLabels() {
+        // R0
+        routerGig00Lables[0].setBounds(130, 150, 60, 60);
+        routerGig01Lables[0].setBounds(200, 220, 60, 60);
+        routerGig02Lables[0].setBounds(240, 160, 60, 60);
+        // R1
+        routerGig00Lables[1].setBounds(260, 280, 60, 60);
+        routerGig01Lables[1].setBounds(330, 350, 60, 60);
+        routerGig02Lables[1].setBounds(370, 290, 60, 60);
+        // R2
+        routerGig00Lables[2].setBounds(390, 410, 60, 60);
+        routerGig01Lables[2].setBounds(460, 480, 60, 60);
+        routerGig02Lables[2].setBounds(500, 420, 60, 60);
+        // R3
+        routerGig00Lables[3].setBounds(520, 540, 60, 60);
+        routerGig01Lables[3].setBounds(590, 610, 60, 60);
+        // R4
+        routerGig00Lables[4].setBounds(500, 290, 60, 60);
+        routerGig01Lables[4].setBounds(550, 350, 60, 60);
+        routerGig02Lables[4].setBounds(610, 290, 60, 60);
+        // R5
+        routerGig00Lables[5].setBounds(650, 160, 60, 60);
+        routerGig01Lables[5].setBounds(720, 220, 60, 60);
+        // R6
+        routerGig00Lables[6].setBounds(800, 280, 60, 60);
+        routerGig01Lables[6].setBounds(800, 320, 60, 60);
+        routerGig02Lables[6].setBounds(910, 290, 60, 60);
+
+        for (JLabel label : routerGig00Lables) {
+            this.add(label);
+        }
+
+        for (JLabel label : routerGig01Lables) {
+            this.add(label);
+        }
+
+        for (JLabel label : routerGig02Lables) {
+            this.add(label);
         }
     }
 }
