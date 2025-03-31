@@ -30,7 +30,7 @@ public class PreconfiguredNetworkPanel extends JPanel {
         addRouterAndPCButtons();
         setupPCPorts();
         setupRouterPorts();
-        connectPCToRouter();
+        setupConnections();
         createPCFa00Labels();
         createRouterAllLabels();
         placePCFa00Labels();
@@ -81,17 +81,42 @@ public class PreconfiguredNetworkPanel extends JPanel {
         }
     }
 
-    private void connectPCToRouter() {
+    private void setupConnections() {
         // Connect the router NIC to the PC NIC.
-        // PC0 connection to R0 Gig00
+        // PC0 to R0 Gig00
         routerButtons[0].getRouter().getPortGig00().setConnection(pcButtons[0].getPC().getPortFA00());
         pcButtons[0].getPC().getPortFA00().setConnection(routerButtons[0].getRouter().getPortGig00());
-        // PC1 connection to R3 Gig00
+        // PC1 to R3 Gig00
         routerButtons[3].getRouter().getPortGig00().setConnection(pcButtons[1].getPC().getPortFA00());
         pcButtons[1].getPC().getPortFA00().setConnection(routerButtons[3].getRouter().getPortGig00());
-        // PC2 connection to R6 Gig00
+        // PC2 to R6 Gig00
         routerButtons[6].getRouter().getPortGig00().setConnection(pcButtons[2].getPC().getPortFA00());
         pcButtons[2].getPC().getPortFA00().setConnection(routerButtons[6].getRouter().getPortGig00());
+        // Connect Router NIC  ot the other Router NIC.
+        // R0 Gig01 to R1 Gig00
+        routerButtons[0].getRouter().getPortGig01().setConnection(routerButtons[1].getRouter().getPortGig00());
+        routerButtons[1].getRouter().getPortGig00().setConnection(routerButtons[0].getRouter().getPortGig01());
+        // R0 Gig02 to R5 Gig00
+        routerButtons[0].getRouter().getPortGig02().setConnection(routerButtons[5].getRouter().getPortGig00());
+        routerButtons[5].getRouter().getPortGig00().setConnection(routerButtons[0].getRouter().getPortGig02());
+        // R1 Gig01 to R2 Gig00
+        routerButtons[1].getRouter().getPortGig01().setConnection(routerButtons[2].getRouter().getPortGig00());
+        routerButtons[2].getRouter().getPortGig00().setConnection(routerButtons[1].getRouter().getPortGig01());
+        // R1 Gig02 to R4 Gig00
+        routerButtons[1].getRouter().getPortGig02().setConnection(routerButtons[4].getRouter().getPortGig00());
+        routerButtons[4].getRouter().getPortGig00().setConnection(routerButtons[1].getRouter().getPortGig02());
+        // R2 Gig01 to R4 Gig01
+        routerButtons[2].getRouter().getPortGig01().setConnection(routerButtons[4].getRouter().getPortGig01());
+        routerButtons[4].getRouter().getPortGig01().setConnection(routerButtons[2].getRouter().getPortGig01());
+        // R2 Gig01 to R3 Gig00
+        routerButtons[2].getRouter().getPortGig01().setConnection(routerButtons[3].getRouter().getPortGig00());
+        routerButtons[3].getRouter().getPortGig00().setConnection(routerButtons[2].getRouter().getPortGig01());
+        // R5 Gig01 to R6 Gig00
+        routerButtons[5].getRouter().getPortGig01().setConnection(routerButtons[6].getRouter().getPortGig00());
+        routerButtons[6].getRouter().getPortGig00().setConnection(routerButtons[5].getRouter().getPortGig01());
+        // R4 Gig02 to R6 Gig01
+        routerButtons[4].getRouter().getPortGig02().setConnection(routerButtons[6].getRouter().getPortGig01());
+        routerButtons[6].getRouter().getPortGig01().setConnection(routerButtons[4].getRouter().getPortGig02());
     }
 
     private void addRouterAndPCButtons() {
