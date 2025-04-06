@@ -1,11 +1,25 @@
 public class NIC {
-    // The name of an interface should not be changed once created.
-    private final String name;
+    private String name;
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
     private MACAddress macAddress;
     private NIC connection;
     private NICManager nicManager = NICManager.getInstance();
+    // Default is always 0 for OSPF
+    private int priority = 0;
+    // Assuming that OSPF is always configured.
+    // States:
+    //          1. Down
+    //          2. Init
+    //          3. Two-way
+    //          4. ExStart
+    //          5. Exchange
+    //          6. Loading
+    //          7. Full
+    private String state = "Full";
+    // TODO: Placeholder, can change it to values between 20 and 40 seconds everytime the user
+    // looks at the value
+    private String deadTime = "00:00:31";
 
     public NIC(String name) {
         this.name = name;
@@ -33,12 +47,18 @@ public class NIC {
     }
 
     public void setIpAddress(IPAddress ipAddress) {
-        // Check if the combination of ip address and subnet mask is already set up for another NIC
-        if (subNetMask != null && nicManager.ipAndSubnetExists(ipAddress, subNetMask)) {
+        if (ipAddress == null) {
+            System.out.println("IP Address entered is empty");
+        } else if (ipAddress.equals(this.ipAddress)) {
+            System.out.println("IP Address is the same");
+        } else if (subNetMask != null && nicManager.ipAndSubnetExists(ipAddress, subNetMask)) {
+            System.err.println("setIpAddress() method called");
+            // Check if the combination of ip address and subnet mask is already set up for another NIC
             System.err.println("This combination of IP Address and Subnet Mask already exists");
             // Reset the subnet mask also
             this.subNetMask = null;
         } else {
+            System.out.println("IP Address set to: " + ipAddress);
             this.ipAddress = ipAddress;
         }
     }
@@ -52,7 +72,12 @@ public class NIC {
     }
 
     public void setSubnetMask(SubnetMask subnetMask) {
-        if (ipAddress != null && nicManager.ipAndSubnetExists(ipAddress, subnetMask)) {
+        if (subnetMask == null) {
+            System.out.println("Subnet Mask entered is empty");
+        } else if (subnetMask.equals(this.subNetMask)) {
+            System.out.println("Subnet Mask already set");
+        } else if (ipAddress != null && nicManager.ipAndSubnetExists(ipAddress, subnetMask)) {
+            System.err.println("setSubnetMask() method called");
             System.err.println("This combination of IP Address and Subnet Mask already exists");
             // Reset the ip address also.
             this.ipAddress = null;
@@ -95,5 +120,27 @@ public class NIC {
         return this.connection != null;
     }
 
+    public NIC getConnectedNIC() {
+        return this.connection;
+    }
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public String getDeadTime() {
+        return this.deadTime;
+    }
+
+    public void setDeadTime(String deadTime) {
+        this.deadTime = deadTime;
+    }
+
+    public String getState() {
+        return state;
+    }
 }
