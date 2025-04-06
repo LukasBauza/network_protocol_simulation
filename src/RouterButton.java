@@ -18,7 +18,8 @@ public class RouterButton extends JButton {
                     "Gig 0/1 MAC Address",
                     "Gig 0/2 IP Address",
                     "Gig 0/2 Subnet Mask",
-                    "Gig 0/2 MAC Address"
+                    "Gig 0/2 MAC Address",
+                    "RID",
             };
 
             String[] fields = {
@@ -32,6 +33,7 @@ public class RouterButton extends JButton {
                     router.getPortGig02().getIpAddress() == null ? "" : router.getPortGig02().getIpAddress().toString(),
                     router.getPortGig02().getSubnetMask() == null ? ""  : router.getPortGig02().getSubnetMask().toString(),
                     router.getPortGig02().getMacAddress() == null ? ""  : router.getPortGig02().getMacAddress().toString(),
+                    router.getRid() == null ? "" : router.getRid(),
             };
 
             RouterInfoFrame routerInfoFrame = new RouterInfoFrame(
