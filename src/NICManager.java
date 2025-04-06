@@ -58,7 +58,7 @@ public class NICManager {
             if (nic.getIpAddress() == null || nic.getSubnetMask() == null) {
                 continue;
             }
-            // If the ipAddres and the subnetMask match with the subnetMask and ipAddress of the NIC, then return true.
+            // If the ipAddress and the subnetMask match with the subnetMask and ipAddress of the NIC, then return true.
             if (nic.getIpAddress().equals(ipAddress) && nic.getSubnetMask().equals(subnetMask)) {
                 return true;
             }
