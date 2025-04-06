@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Router extends Device {
+    RID rid;
 
     public Router(String name) {
         // Use the parent class constructor to add the name variable within the Device class.
@@ -62,5 +63,16 @@ public class Router extends Device {
 
     public void setPortGig02SubnetMask(SubnetMask subnetMask) {
         super.getNICList().get(2).setSubnetMask(subnetMask);
+    }
+
+    public void setRid(RID rid) {
+        this.rid = rid;
+    }
+
+    public String getRid() {
+        if (this.rid == null) {
+            return "";
+        }
+        return rid.toString();
     }
 }
