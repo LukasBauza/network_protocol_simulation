@@ -12,7 +12,7 @@ public class RouterInfoFrame extends JFrame {
         }
 
         super.setTitle(title);
-        super.setSize(300, 300);
+        super.setSize(500, 300);
         super.setLocationRelativeTo(null);                          // Make it center.
         super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);    // DISPOSE_ON_CLOSE Make sure the whole app doesn't shut down.
         super.setResizable(false);
@@ -28,6 +28,10 @@ public class RouterInfoFrame extends JFrame {
         }
         //setDeviceInfoTab(tabs);
         tabs.addTab("General", generalInformationPanel);
+
+        OSPFNeighboursScrollPane ospfNeighboursScrollPane = new OSPFNeighboursScrollPane(router);
+        tabs.addTab("OSPF Neighbours", ospfNeighboursScrollPane);
+
         super.add(tabs);
 
         this.saveButton.addActionListener(e -> {
@@ -70,6 +74,13 @@ public class RouterInfoFrame extends JFrame {
                 router.setPortGig02SubnetMask(subnetGig02);
             } catch (IllegalArgumentException exception) {
                 System.out.println("Invalid subnet mask for Gig0/2");
+            }
+            try {
+                RID rid = new RID(infoFields.get(9).getTextField().getText());
+                router.setRid(rid);
+                System.out.println(router.getRid());
+            } catch (IllegalArgumentException exceptions) {
+                System.out.println("Invalid RID");
             }
         });
 
