@@ -125,7 +125,8 @@ public class PrePathCalculation {
     }
 
     private int getPortCost(String name) {
-        if (name.equals("Fastethernet 0/0") || name.equals("Fastethernet 0/1") || name.equals("Fastethernet 0/2")) {
+        // TODO: Temporary, need to change so it will only be Fastethernet
+        if (name.equals("Fastethernet 0/0") || name.equals("Fastethernet 0/1") || name.equals("Fastethernet 0/2") || name.equals("FastEthernet")) {
             return 10;
         } else {
             return 1;
@@ -133,8 +134,8 @@ public class PrePathCalculation {
     }
 
     private int getSectionCost(Router firstRouter, int firstRouterPort, Router secondRouter, int secondRouterPort) {
-        String firstRouterPortName = firstRouter.getNICList().get(firstRouterPort).getName();
-        String secondRouterPortName = secondRouter.getNICList().get(secondRouterPort).getName();
+        String firstRouterPortName = firstRouter.getNICList().get(firstRouterPort).getType();
+        String secondRouterPortName = secondRouter.getNICList().get(secondRouterPort).getType();
 
         if (getPortCost(firstRouterPortName) == 10 || getPortCost(secondRouterPortName) == 10) {
             return 10;

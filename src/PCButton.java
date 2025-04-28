@@ -6,9 +6,19 @@ public class PCButton extends JButton {
     private PreconfiguredNetworkPanel networkPanel;
 
     public PCButton(String name, PreconfiguredNetworkPanel networkPanel) {
-        super(name);
+        super();
         this.pc = new PC(name);
         this.networkPanel = networkPanel;
+
+        // Set the pc icon
+        ImageIcon icon = new ImageIcon("images/icons8-pc-50.png");
+        Image scaledImage = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        setIcon(new ImageIcon(scaledImage));
+
+        // Remove the border around the button.
+        setBorderPainted(false);
+        // Match the same colour as the background.
+        setBackground(new Color(240, 240, 240));
 
         super.addActionListener(e -> {
             String[] labels = {

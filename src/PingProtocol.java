@@ -87,7 +87,7 @@ public class PingProtocol {
 
     private void displayNICList(ArrayList<NIC> nicList) {
         for (int i = 0; i < nicList.size(); i++) {
-            System.out.println(i + 1 + " " + nicList.get(i).getName());
+            System.out.println(i + 1 + " " + nicList.get(i).getType());
         }
     }
 
@@ -108,7 +108,7 @@ public class PingProtocol {
                 "-",                           // Placeholder for now, not really needed in my protocol, just in case for future.
                 destinationNIC.getMacAddress(),
                 "ARPA",                        // Placeholder for now, not really needed in my protocol, just in case for future.
-                destinationNIC.getName());
+                destinationNIC.getType());
         // Adding to the destination Device ARP table, with the necessary details.
         destinationDevice.getARPTable().addEntry(
                 "Internet",                 // Placeholder for now, not really needed in my protocol, just in case for future.
@@ -116,7 +116,7 @@ public class PingProtocol {
                 "-",                           // Placeholder for now, not really needed in my protocol, just in case for future.
                 sourceNIC.getMacAddress(),
                 "ARPA",                        // Placeholder for now, not really needed in my protocol, just in case for future.
-                sourceNIC.getName());
+                sourceNIC.getType());
 
         System.out.println("--------- " + sourceDevice.getName() + " ARP Table ---------");
         System.out.println(sourceDevice.getARPTable());

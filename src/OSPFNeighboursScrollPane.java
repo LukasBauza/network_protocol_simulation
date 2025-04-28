@@ -40,7 +40,7 @@ public class OSPFNeighboursScrollPane extends JScrollPane {
                 rows[i][4] = currentNic.getIpAddress().toString();
             }
             // Interface
-            rows[i][5] = currentNic.getName();
+            rows[i][5] = currentNic.getType();
         }
         return rows;
     }

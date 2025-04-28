@@ -1,6 +1,6 @@
 public class NIC {
     private Device assignedDevice;
-    private String name;
+    private String type;
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
     private MACAddress macAddress;
@@ -22,8 +22,8 @@ public class NIC {
     // looks at the value
     private String deadTime = "00:00:31";
 
-    public NIC(String name, Device assignedDevice) {
-        this.name = name;
+    public NIC(String type, Device assignedDevice) {
+        this.type = type;
         this.assignedDevice = assignedDevice;
         // Add the NIC to the NICManager to keep track of NICs automatically.
         nicManager.addNIC(this);
@@ -40,8 +40,16 @@ public class NIC {
         } while (nicManager.macExists(macAddress) && count-- > 0);
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        if (type.equalsIgnoreCase("GigabitEthernet") || type.equalsIgnoreCase("FastEthernet")) {
+            this.type = type;
+        } else {
+            System.out.println("Invalid port type");
+        }
     }
 
     public IPAddress getIpAddress() {

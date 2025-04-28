@@ -9,13 +9,17 @@ public class PacketAnimation extends JPanel {
     private float progress = 0f; // Progress of the animation (0.0 - 1.0)
     private int currentCorner = 0; // Current corner we're animating towards
     private boolean animating = false; // Flag to check if the animation is ongoing
+    private Image letterImage; // The letter icon image
 
     private static final int TIMER_DELAY = 20; // Timer delay in ms for smoother animation
     private static final float PROGRESS_INCREMENT = 0.02f; // How much progress increases per frame
-    private static final int CIRCLE_SIZE = 10; // Size of the animated circle
 
     public PacketAnimation(List<Point> pointList) {
         this.pointList = pointList;
+        
+        // Load the letter icon
+        ImageIcon icon = new ImageIcon("images/icons8-letter-50.png");
+        letterImage = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 
         // Timer to update position every 10 ms for smooth transition
         Timer timer = new Timer(TIMER_DELAY, e -> updatePosition());
@@ -63,8 +67,8 @@ public class PacketAnimation extends JPanel {
             int x = (int) (startX + progress * (endX - startX));
             int y = (int) (startY + progress * (endY - startY));
 
-            g.setColor(Color.RED); // Set the circle color
-            g.fillOval(x - 20, y - 20, 40, 40); // Draw the circle (diameter = 40px)
+            // Draw the letter icon
+            g.drawImage(letterImage, x - 20, y - 20, null);
         }
     }
 
