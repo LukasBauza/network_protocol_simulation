@@ -20,6 +20,9 @@ public class PCButton extends JButton {
         // Match the same colour as the background.
         setBackground(new Color(240, 240, 240));
 
+        // Set tooltip to show the pc name
+        setToolTipText(name);
+
         super.addActionListener(e -> {
             String[] labels = {
                     "Name",
