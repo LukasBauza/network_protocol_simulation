@@ -38,6 +38,8 @@ public class PreconfiguredNetworkPanel extends JPanel {
     private static final int R6_X = 850;
     private static final int R6_Y = 310;
 
+    private PrePathCalculation prePathCalculation;
+
     Line[] wires = {
             new Line(60, 60, 180, 180, Color.BLACK),        // PC0 to R0
             new Line(180, 180, 310, 310, Color.BLACK),      // R0 to R1
@@ -51,7 +53,7 @@ public class PreconfiguredNetworkPanel extends JPanel {
             new Line(480, 470, 570, 340, Color.BLACK),      // R2 to R4
             new Line(880, 340, 1030, 210, Color.BLACK),      // R6 to PC3
     };
-
+    
     PCButton[] pcButtons = getPCButtonArray(3, "PC");
     RouterButton[] routerButtons = getRouterButtonArray(7, "R");
 
@@ -71,6 +73,7 @@ public class PreconfiguredNetworkPanel extends JPanel {
         createRouterAllLabels();
         placePCFa00Labels();
         placeRouterAllLabels();
+        placeCostLabels();
     }
 
     @Override
@@ -255,6 +258,43 @@ public class PreconfiguredNetworkPanel extends JPanel {
         }
 
         for (JLabel label : routerGig02Lables) {
+            this.add(label);
+        }
+    }
+
+    private void placeCostLabels() {
+        prePathCalculation = new PrePathCalculation(getRouters());
+
+        int R0_R1_COST = prePathCalculation.getR0R1Cost();
+        int R0_R5_COST = prePathCalculation.getR0R5Cost();
+        int R1_R2_COST = prePathCalculation.getR1R2Cost();
+        int R1_R4_COST = prePathCalculation.getR1R4Cost();
+        int R2_R3_COST = prePathCalculation.getR2R3Cost();
+        int R2_R4_COST = prePathCalculation.getR2R4Cost();
+        int R4_R6_COST = prePathCalculation.getR4R6Cost();
+        int R5_R6_COST = prePathCalculation.getR5R6Cost();
+
+        JLabel[] costLabels = {
+                new JLabel("R0 to R1: " + R0_R1_COST),
+                new JLabel("R0 to R5: " + R0_R5_COST),
+                new JLabel("R1 to R2: " + R1_R2_COST),
+                new JLabel("R1 to R4: " + R1_R4_COST),
+                new JLabel("R2 to R3: " + R2_R3_COST),
+                new JLabel("R2 to R4: " + R2_R4_COST),
+                new JLabel("R4 to R6: " + R4_R6_COST),
+                new JLabel("R5 to R6: " + R5_R6_COST)
+        };
+
+        costLabels[0].setBounds(((R0_X + R1_X) / 2) - 50, ((R0_Y + R1_Y) / 2) + 20, 120, 60);
+        costLabels[1].setBounds(((R0_X + R5_X) / 2), ((R0_Y + R5_Y) / 2) + 20, 120, 60);
+        costLabels[2].setBounds(((R1_X + R2_X) / 2) - 50, ((R1_Y + R2_Y) / 2) + 20, 120, 60);
+        costLabels[3].setBounds(((R1_X + R4_X) / 2), ((R1_Y + R4_Y) / 2) + 20, 120, 60);
+        costLabels[4].setBounds(((R2_X + R3_X) / 2) - 50, ((R2_Y + R3_Y) / 2) + 20, 120, 60);
+        costLabels[5].setBounds(((R2_X + R4_X) / 2) + 50, ((R2_Y + R4_Y) / 2) + 20, 120, 60);
+        costLabels[6].setBounds(((R4_X + R6_X) / 2), ((R4_Y + R6_Y) / 2) + 20, 120, 60);
+        costLabels[7].setBounds(((R5_X + R6_X) / 2) - 50, ((R5_Y + R6_Y) / 2) + 20, 120, 60);
+
+        for (JLabel label : costLabels) {
             this.add(label);
         }
     }

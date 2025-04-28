@@ -143,35 +143,35 @@ public class PrePathCalculation {
         }
     }
 
-    private int getR0R5Cost() {
+    public int getR0R5Cost() {
         return getSectionCost(routers[0], 2, routers[5], 0);
     }
 
-    private int getR0R1Cost() {
+    public int getR0R1Cost() {
         return getSectionCost(routers[0], 1, routers[1], 0);
     }
 
-    private int getR5R6Cost() {
+    public int getR5R6Cost() {
         return getSectionCost(routers[5], 1, routers[6], 0);
     }
 
-    private int getR4R6Cost() {
+    public int getR4R6Cost() {
         return getSectionCost(routers[4], 2, routers[6], 1);
     }
 
-    private int getR1R4Cost() {
+    public int getR1R4Cost() {
         return getSectionCost(routers[1], 2, routers[4], 0);
     }
 
-    private int getR1R2Cost() {
+    public int getR1R2Cost() {
         return getSectionCost(routers[1], 1, routers[2], 0);
     }
 
-    private int getR2R4Cost() {
+    public int getR2R4Cost() {
         return getSectionCost(routers[2], 2, routers[4], 1);
     }
 
-    private int getR2R3Cost() {
+    public int getR2R3Cost() {
         return getSectionCost(routers[2], 1, routers[3], 0);
     }
 }
