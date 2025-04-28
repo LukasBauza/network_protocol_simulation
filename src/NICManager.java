@@ -66,4 +66,18 @@ public class NICManager {
         // When no matches are mad then return false.
         return false;
     }
+
+    public Device getDevice(IPAddress ipAddress, SubnetMask subnetMask) {
+        for (NIC nic : createdNICs) {
+            if (nic.getIpAddress() == null || nic.getSubnetMask() == null) {
+                continue;
+            }
+            if (nic.getIpAddress().equals(ipAddress) && nic.getSubnetMask().equals(subnetMask)) {
+                return nic.getAssignedDevice();
+            }
+        }
+
+        System.out.println("No device found for IP " + ipAddress + " and subnet " + subnetMask);
+        return null;
+    }
 }

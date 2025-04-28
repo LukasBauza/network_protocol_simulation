@@ -1,4 +1,5 @@
 public class NIC {
+    private Device assignedDevice;
     private String name;
     private IPAddress ipAddress;
     private SubnetMask subNetMask;
@@ -21,8 +22,9 @@ public class NIC {
     // looks at the value
     private String deadTime = "00:00:31";
 
-    public NIC(String name) {
+    public NIC(String name, Device assignedDevice) {
         this.name = name;
+        this.assignedDevice = assignedDevice;
         // Add the NIC to the NICManager to keep track of NICs automatically.
         nicManager.addNIC(this);
         setMacAddress();
@@ -143,4 +145,9 @@ public class NIC {
     public String getState() {
         return state;
     }
+
+    public Device getAssignedDevice() {
+        return assignedDevice;
+    }
+
 }

@@ -17,6 +17,15 @@ public class InfoField extends JPanel {
         super.add(textField);
     }
 
+    InfoField(String labelTest) {
+        super.setLayout(new GridLayout(1, 2));
+        super.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+
+        this.label = new JLabel(labelTest);
+        this.label.setHorizontalAlignment(SwingConstants.LEFT);
+        super.add(label);
+    }
+
     public void setLabelText(String labelText) {
         this.label.setText(labelText);
         updateComponents();

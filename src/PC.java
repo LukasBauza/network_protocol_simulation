@@ -11,7 +11,7 @@ public class PC extends Device {
         super(name);
 
         // Set up the NIC for the PC, which only has the FastEthernet 0/0
-        NIC fa00 = new NIC("FastEthernet 0/0");
+        NIC fa00 = new NIC("FastEthernet 0/0", this);
         fa00.setIpAddress(ipaddress);
         fa00.setSubnetMask(subnetMask);
         // Add the fa00 NIC to the ArrayList of nicList.
@@ -26,7 +26,7 @@ public class PC extends Device {
     PC(String name) {
         super(name);
 
-        NIC fa00 = new NIC("FastEthernet 0/0");
+        NIC fa00 = new NIC("FastEthernet 0/0", this);
         super.setNICList(new ArrayList<>(List.of(fa00)));
     }
 

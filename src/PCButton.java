@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PCButton extends JButton {
-    PC pc;
+    private PC pc;
+    private PreconfiguredNetworkPanel networkPanel;
 
-    public PCButton(String name) {
+    public PCButton(String name, PreconfiguredNetworkPanel networkPanel) {
         super(name);
         this.pc = new PC(name);
+        this.networkPanel = networkPanel;
 
         super.addActionListener(e -> {
             String[] labels = {
@@ -26,7 +28,8 @@ public class PCButton extends JButton {
                     labels,
                     fields,
                     pc,
-                    this
+                    this,
+                    networkPanel
             );
 
             pcInfoFrame.setEditable("Fa 0/0 MAC Address", false);
@@ -47,8 +50,6 @@ public class PCButton extends JButton {
         frame.setLocationRelativeTo(null);
         // DISPOSE_ON_CLOSE will ensure that the windows won't all close.
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JTabbedPane tabs = new JTabbedPane();
 
         JPanel pcInfoPanel = new JPanel();
         pcInfoPanel.setLayout(new GridLayout(0, 2));

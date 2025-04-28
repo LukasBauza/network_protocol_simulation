@@ -2,6 +2,42 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PreconfiguredNetworkPanel extends JPanel {
+    // Button size constants
+    private static final int BUTTON_WIDTH = 60;
+    private static final int BUTTON_HEIGHT = 60;
+
+    // PC Button positions
+    private static final int PC0_X = 50;
+    private static final int PC0_Y = 50;
+    
+    private static final int PC1_X = 700;
+    private static final int PC1_Y = 700;
+    
+    private static final int PC2_X = 1000;
+    private static final int PC2_Y = 180;
+
+    // Router Button positions
+    private static final int R0_X = 180;
+    private static final int R0_Y = 180;
+    
+    private static final int R1_X = 310;
+    private static final int R1_Y = 310;
+    
+    private static final int R2_X = 440;
+    private static final int R2_Y = 440;
+    
+    private static final int R3_X = 570;
+    private static final int R3_Y = 570;
+    
+    private static final int R4_X = 545;
+    private static final int R4_Y = 310;
+    
+    private static final int R5_X = 700;
+    private static final int R5_Y = 180;
+    
+    private static final int R6_X = 850;
+    private static final int R6_Y = 310;
+
     Line[] wires = {
             new Line(60, 60, 180, 180, Color.BLACK),        // PC0 to R0
             new Line(180, 180, 310, 310, Color.BLACK),      // R0 to R1
@@ -55,12 +91,12 @@ public class PreconfiguredNetworkPanel extends JPanel {
         return routers;
     }
 
-    private static PCButton[] getPCButtonArray(int count, String name) {
+    private PCButton[] getPCButtonArray(int count, String name) {
         PCButton[] pcButtons = new PCButton[count];
 
         // count-- is post decrement, meaning the current count variable is used, then it is decremented.
         while (count-- > 0) {
-            pcButtons[count] = new PCButton(name + (count));
+            pcButtons[count] = new PCButton(name + (count), this);
         }
         return pcButtons;
     }
@@ -120,26 +156,25 @@ public class PreconfiguredNetworkPanel extends JPanel {
     }
 
     private void addRouterAndPCButtons() {
+        pcButtons[0].setBounds(new Rectangle(PC0_X, PC0_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        pcButtons[0].setBounds(new Rectangle(50, 50, 60, 60));
+        routerButtons[0].setBounds(new Rectangle(R0_X, R0_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        routerButtons[0].setBounds(new Rectangle(180, 180, 60, 60));
+        routerButtons[1].setBounds(new Rectangle(R1_X, R1_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        routerButtons[1].setBounds(new Rectangle(310, 310, 60, 60));
+        routerButtons[2].setBounds(new Rectangle(R2_X, R2_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        routerButtons[2].setBounds(new Rectangle(440, 440, 60, 60));
+        routerButtons[3].setBounds(new Rectangle(R3_X, R3_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        routerButtons[3].setBounds(new Rectangle(570, 570, 60, 60));
+        pcButtons[1].setBounds(new Rectangle(PC1_X, PC1_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        pcButtons[1].setBounds(new Rectangle(700, 700, 60, 60));
+        routerButtons[4].setBounds(new Rectangle(R4_X, R4_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        routerButtons[4].setBounds(new Rectangle(545, 310, 60, 60));
+        routerButtons[5].setBounds(new Rectangle(R5_X, R5_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        routerButtons[5].setBounds(new Rectangle(700, 180, 60, 60));
+        routerButtons[6].setBounds(new Rectangle(R6_X, R6_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
-        routerButtons[6].setBounds(new Rectangle(850, 310, 60, 60));
-
-        pcButtons[2].setBounds(new Rectangle(1000, 180, 60, 60));
+        pcButtons[2].setBounds(new Rectangle(PC2_X, PC2_Y, BUTTON_WIDTH, BUTTON_HEIGHT));
 
         for (JButton button : routerButtons) {
             this.add(button);
@@ -222,5 +257,54 @@ public class PreconfiguredNetworkPanel extends JPanel {
         for (JLabel label : routerGig02Lables) {
             this.add(label);
         }
+    }
+
+    public Router[] getRouters() {
+        Router[] routers = new Router[routerButtons.length];
+        for (int i = 0; i < routerButtons.length; i++) {
+            routers[i] = routerButtons[i].getRouter();
+        }
+        return routers;
+    }
+
+    public PC[] getPCs() {
+        PC[] pcs = new PC[pcButtons.length];
+        for (int i = 0; i < pcButtons.length; i++) {
+            pcs[i] = pcButtons[i].getPC();
+        }
+        return pcs;
+    }
+
+    // Coordinate getter methods for devices.
+    public Point getDeviceCoordinates(String deviceName) {
+        switch (deviceName) {
+            case "R0":
+                return new Point(R0_X, R0_Y);
+            case "R1":
+                return new Point(R1_X, R1_Y);
+            case "R2":
+                return new Point(R2_X, R2_Y);
+            case "R3":
+                return new Point(R3_X, R3_Y);
+            case "R4":
+                return new Point(R4_X, R4_Y);
+            case "R5":
+                return new Point(R5_X, R5_Y);
+            case "R6":
+                return new Point(R6_X, R6_Y);
+            case "PC0":
+                return new Point(PC0_X, PC0_Y);
+            case "PC1":
+                return new Point(PC1_X, PC1_Y);
+            case "PC2":
+                return new Point(PC2_X, PC2_Y);
+            default:
+                return null;
+        }
+    }
+
+    // Get button dimensions
+    public Dimension getButtonDimension() {
+        return new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 }

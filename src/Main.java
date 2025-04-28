@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Main {
     public static void main(String[] args) {
 
-        PCButton[] pcButtons = getPCButtonArray(3, "PC");
-        RouterButton[] routerButtons = getRouterButtonArray(7, "R");
+        //PCButton[] pcButtons = getPCButtonArray(3, "PC");
+        //RouterButton[] routerButtons = getRouterButtonArray(7, "R");
 
         JFrame frame = new JFrame("OSPF Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X (all frames close)
@@ -98,12 +98,12 @@ public class Main {
         return routers;
     }
 
-    private static PCButton[] getPCButtonArray(int count, String name) {
+    private static PCButton[] getPCButtonArray(int count, String name, PreconfiguredNetworkPanel preconfiguredNetworkPanel) {
         PCButton[] pcButtons = new PCButton[count];
 
         // count-- is post decrement, meaning the current count variable is used, then it is decremented.
         while (count-- > 0) {
-            pcButtons[count] = new PCButton(name + (count));
+            pcButtons[count] = new PCButton(name + (count), preconfiguredNetworkPanel);
         }
         return pcButtons;
     }
