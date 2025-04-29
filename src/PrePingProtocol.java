@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class PrePingProtocol {
     private Device sourceDevice;
@@ -83,88 +86,114 @@ public class PrePingProtocol {
         System.out.println(path);
         PacketAnimation anim;
         List<Point> pointList;
+        List<Point> part1;
+        List<Point> part2;
 
+        // NOTE: Tried to use a for loop for these, but the animations just get canceled
+        // once the next one starts.
         switch (path) {
             // PC0 to PC1 paths
             case "PC0--R0--R1--R2--R3--PC1":
+                part1 = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                //part2 = part1.reversed();
+                part2 = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
                 if (startingPoint.equals("PC0")) {
-                    pointList = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
+                //pointList = Stream.concat(pointList.stream(), pointList.stream()).toList();
                 break;
 
             case "PC0--R0--R1--R4--R2--R3--PC1":
+                part1 = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R4_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                part2 = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R4_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
                 if (startingPoint.equals("PC0")) {
-                    pointList = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R4_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R4_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             case "PC0--R0--R5--R6--R4--R2--R3--PC1":
+                part1 = List.of(PC0_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, R4_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                part2 = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R4_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
                 if (startingPoint.equals("PC0")) {
-                    pointList = List.of(PC0_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, R4_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R4_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             case "PC0--R0--R5--R6--R4--R1--R2--R3--PC1":
+                part1 = List.of(PC0_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, R4_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                part2 = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R4_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
                 if (startingPoint.equals("PC0")) {
-                    pointList = List.of(PC0_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, R4_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R4_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             // PC0 to PC2 paths
             case "PC0--R0--R5--R6--PC2":
+                part1 = List.of(PC0_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                part2 = List.of(PC2_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
                 if (startingPoint.equals("PC0")) {
-                    pointList = List.of(PC0_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC2_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             case "PC0--R0--R1--R4--R6--PC2":
+                part1 = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                part2 = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
                 if (startingPoint.equals("PC0")) {
-                    pointList = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             case "PC0--R0--R1--R2--R4--R6--PC2":
+                part1 = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R2_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                part2 = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R2_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
                 if (startingPoint.equals("PC0")) {
-                    pointList = List.of(PC0_COORDINATES, R0_COORDINATES, R1_COORDINATES, R2_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R2_COORDINATES, R1_COORDINATES, R0_COORDINATES, PC0_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             // PC1 to PC2 paths
             case "PC1--R3--R2--R4--R6--PC2":
+                part1 = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                part2 = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
                 if (startingPoint.equals("PC1")) {
-                    pointList = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             case "PC1--R3--R2--R1--R4--R6--PC2":
+                part1 = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                part2 = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
                 if (startingPoint.equals("PC1")) {
-                    pointList = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R4_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC2_COORDINATES, R6_COORDINATES, R4_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
             case "PC1--R3--R2--R1--R0--R5--R6--PC2":
+                part1 = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                part2 = List.of(PC2_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
                 if (startingPoint.equals("PC1")) {
-                    pointList = List.of(PC1_COORDINATES, R3_COORDINATES, R2_COORDINATES, R1_COORDINATES, R0_COORDINATES, R5_COORDINATES, R6_COORDINATES, PC2_COORDINATES);
+                    pointList = Stream.concat(part1.stream(), part2.stream()).toList();
                 } else {
-                    pointList = List.of(PC2_COORDINATES, R6_COORDINATES, R5_COORDINATES, R0_COORDINATES, R1_COORDINATES, R2_COORDINATES, R3_COORDINATES, PC1_COORDINATES);
+                    pointList = Stream.concat(part2.stream(), part1.stream()).toList();
                 }
                 break;
 
@@ -173,10 +202,11 @@ public class PrePingProtocol {
                 return;
         }
 
+        pointList = Stream.concat(pointList.stream(), pointList.stream()).toList();
         // Create and setup the animation
         anim = new PacketAnimation(pointList);
-        anim.setPreferredSize(networkPanel.getSize());
-        anim.setSize(networkPanel.getSize());
+        //anim.setPreferredSize(networkPanel.getSize());
+        //anim.setSize(networkPanel.getSize());
         anim.setOpaque(false);
         anim.setBounds(0, 0, networkPanel.getWidth(), networkPanel.getHeight());
         
