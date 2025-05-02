@@ -9,9 +9,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Main {
     public static void main(String[] args) {
 
-        //PCButton[] pcButtons = getPCButtonArray(3, "PC");
-        //RouterButton[] routerButtons = getRouterButtonArray(7, "R");
-
         JFrame frame = new JFrame("OSPF Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // Close the application, when pressing X (all frames close)
         frame.setResizable(false);
